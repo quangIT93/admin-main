@@ -1,0 +1,421 @@
+import { useState, useEffect, useCallback } from "react";
+import { Link, useParams } from "react-router-dom";
+import {
+    Box,
+    Button,
+    Typography,
+    Stack,
+    Skeleton,
+    IconButton,
+    Tooltip,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { toast } from "react-toastify";
+
+import { axios } from "configs";
+import {
+    ConfirmDialog,
+    Table,
+    PostBasicInformation,
+    PostCategories,
+    ImageList,
+} from "components";
+import { applicationsOfPostColumns } from "configs/table";
+import { ArrowLeft } from "components/Icons";
+import updatePostValidation from "validations/post/update";
+import { usePermission } from "hooks";
+
+const PostDetail = () => {
+    usePermission();
+    const theme = useTheme();
+    const params = useParams();
+    const id = +params.id;
+    const role = sessionStorage.getItem("role");
+
+    const [postData, setPostData] = useState();
+    const [basicInformations, setBasicInformations] = useState();
+    const [postCategories, setPostCategories] = useState([]);
+    const [enabledImages, setEnabledImages] = useState([]);
+    const [disabledImages, setDisabledImages] = useState([]);
+    const [applications, setApplications] = useState([]);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showConfirmApprovalModal, setShowConfirmApprovalModal] =
+        useState(false);
+    const [postStatusApproved, setPostStatusApproved] = useState(1);
+
+    // GET POST DATA
+    const fetchPostData = async (id) => {
+        const res = await axios.get(`/posts/by-admin/${id}`);
+        if (res.success) {
+            setPostData(res.data);
+            const { categories, images, ...otherData } = res.data;
+
+            // SET BASIC INFORMATION
+            setBasicInformations(otherData);
+
+            // SET CATEGORIES
+            setPostCategories(res.data.categories);
+
+            // SET ENABLED IMAGE URLS
+            setEnabledImages(
+                res.data.images.filter((image) => image.status === 1)
+            );
+
+            // SET DISABLED IMAGE URLS
+            setDisabledImages(
+                res.data.images.filter((image) => image.status === 0)
+            );
+        }
+    };
+
+    // GET APPLICATIONS
+    const fetchApplicationsOfPostData = async (id) => {
+        const res = await axios.get(`/history/recruiter/${id}/applications`);
+        if (res.success) {
+            setApplications(res.data.applications);
+        }
+    };
+
+    // USE EFFECT
+    // GET POST DATA, APPLICATIONS
+    useEffect(() => {
+        if (id) {
+            fetchPostData(id);
+            fetchApplicationsOfPostData(id);
+        }
+    }, [id]);
+
+    // HANDLE DISABLE PHOTO
+    const handleDisableImage = useCallback((image) => {
+        setEnabledImages((prevState) =>
+            prevState.filter(
+                (prevStateImage) => prevStateImage.image !== image.image
+            )
+        );
+        setDisabledImages((prevState) => [
+            { ...image, status: 0 },
+            ...prevState,
+        ]);
+    }, []);
+
+    // HANDLE ENABLE PHOTO
+    const handleEnableImage = useCallback((image) => {
+        setDisabledImages((prevState) =>
+            prevState.filter(
+                (prevStateImage) => prevStateImage.image !== image.image
+            )
+        );
+        setEnabledImages((prevState) => [
+            { ...image, status: 1 },
+            ...prevState,
+        ]);
+    }, []);
+
+    // HANDLE SUBMIT
+    const handleSubmitPostData = async () => {
+        // HIDE MODAL
+        setShowConfirmModal(false);
+
+        const data = {
+            id: id,
+            title: basicInformations.title.trim(),
+            companyName: basicInformations.company_name.trim(),
+            wardId: basicInformations.ward_id,
+            address: basicInformations.address.trim(),
+            phoneContact: basicInformations.phone_contact,
+            isDatePeriod: basicInformations.is_date_period,
+            isWorkingWeekend: basicInformations.is_working_weekend,
+            isRemotely: basicInformations.is_remotely,
+            startDate: basicInformations.start_date,
+            endDate: basicInformations.end_date,
+            startTime: basicInformations.start_time,
+            endTime: basicInformations.end_time,
+            salaryMin: basicInformations.salary_min,
+            salaryMax: basicInformations.salary_max,
+            salaryType: basicInformations.salary_type_id,
+            moneyType: basicInformations.money_type,
+            description: basicInformations.description.trim(),
+            categoryIds: postCategories.map(
+                (category) => category.child_category_id
+            ),
+            enabledImageIds: enabledImages.map((image) => image.id),
+            disabledImageIds: disabledImages.map((image) => image.id),
+        };
+
+        // VALIDATION
+        const validationRes = updatePostValidation(data);
+        if (validationRes.isError) {
+            return toast.warn(validationRes.message);
+        }
+
+        // GET RESPONSE
+        try {
+            await axios.put("/posts/inf/by-ad", data);
+            return toast.success("Cập nhật bài đăng thành công");
+        } catch (error) {
+            return toast.error("Cập nhật bài đăng thất bại");
+        }
+    };
+
+    // HANDLE APPROVE POST
+    const handleApprovePost = async () => {
+        setShowConfirmApprovalModal(false);
+
+        if (
+            !Number.isInteger(postStatusApproved) ||
+            (postStatusApproved !== 1 && postStatusApproved !== 2)
+        ) {
+            return toast.warn("Trạng thái phê duyệt của bài đăng không hợp lệ");
+        }
+
+        // UPDATE POST STATUS
+        const res = await axios.put(`/posts/sta/`, {
+            id,
+            status: postStatusApproved,
+        });
+        if (res && res.success) {
+            setBasicInformations((prevState) => ({
+                ...prevState,
+                status: postStatusApproved,
+            }));
+            return toast.success("Phê duyệt bài đăng thành công");
+        } else {
+            return toast.error("Có lỗi xảy ra, vui lòng thử lại");
+        }
+    };
+
+    return (
+        <Box sx={{ padding: "1rem" }}>
+            {role === "2" && (
+                <Tooltip title="Quay trở lại danh sách">
+                    <Link to="/admin/posts?own=true">
+                        <IconButton>
+                            <ArrowLeft />
+                        </IconButton>
+                    </Link>
+                </Tooltip>
+            )}
+
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}
+            >
+                <Typography variant="h2" color={theme.palette.color.main}>
+                    Chi tiết bài đăng
+                </Typography>
+
+                <Link to="/admin/posts/create">
+                    <Button variant="outlined">Tạo bài đăng</Button>
+                </Link>
+            </Box>
+            {postData ? (
+                <Box>
+                    {basicInformations.status === 0 && role === "1" && (
+                        <Box>
+                            <Typography
+                                sx={{ color: "#eee", marginBottom: "1rem" }}
+                            >
+                                Bài viết này chưa được phê duyệt
+                            </Typography>
+                            <Button
+                                variant="outlined"
+                                sx={{ marginRight: "2rem" }}
+                                onClick={() => {
+                                    setPostStatusApproved(1);
+                                    setShowConfirmApprovalModal(true);
+                                }}
+                            >
+                                Phê duyệt
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                onClick={() => {
+                                    setPostStatusApproved(2);
+                                    setShowConfirmApprovalModal(true);
+                                }}
+                            >
+                                Không phê duyệt
+                            </Button>
+                        </Box>
+                    )}
+
+                    {role === "1" && basicInformations.status === 1 && (
+                        <Button
+                            variant="outlined"
+                            sx={{ marginTop: "1rem" }}
+                            onClick={() => {
+                                setPostStatusApproved(2);
+                                setShowConfirmApprovalModal(true);
+                            }}
+                        >
+                            Bỏ bài đăng
+                        </Button>
+                    )}
+
+                    {role === "1" && basicInformations.status === 2 && (
+                        <Button
+                            variant="outlined"
+                            sx={{ marginTop: "1rem" }}
+                            onClick={() => {
+                                setPostStatusApproved(1);
+                                setShowConfirmApprovalModal(true);
+                            }}
+                        >
+                            Phục hồi bài đăng
+                        </Button>
+                    )}
+
+                    {/* BASIC INFORMATION */}
+                    <Box sx={{ flexGrow: 1, padding: "2rem 0" }}>
+                        <Typography
+                            mb="2rem"
+                            variant="h3"
+                            color={theme.palette.color.main}
+                        >
+                            Thông tin bài viết
+                        </Typography>
+                        <PostBasicInformation
+                            basicInformations={basicInformations}
+                            setBasicInformations={setBasicInformations}
+                        />
+                    </Box>
+
+                    {/*  CATEGORIES */}
+                    <Box p="2rem 0">
+                        <Typography
+                            mb="1rem"
+                            variant="h3"
+                            color={theme.palette.color.main}
+                        >
+                            Danh mục nghành nghề
+                        </Typography>
+                        <PostCategories
+                            categories={postCategories}
+                            setCategories={setPostCategories}
+                        />
+                    </Box>
+
+                    {/* APPLICATIONS */}
+                    <Box width="100%" p="2rem 0" sx={{ color: "#eeeeee" }}>
+                        <Typography
+                            mb="2rem"
+                            variant="h3"
+                            color={theme.palette.color.main}
+                        >
+                            Đơn ứng tuyển
+                        </Typography>
+                        <Box height="400px">
+                            <Table
+                                rows={applications}
+                                columns={applicationsOfPostColumns}
+                                showCheckbox={false}
+                            />
+                        </Box>
+                    </Box>
+
+                    {/* Images */}
+                    {role === "1" && (
+                        <>
+                            {/* ENABLED PHOTOS */}
+                            <Box p="2rem 0">
+                                <Typography
+                                    mb="2rem"
+                                    variant="h3"
+                                    color={theme.palette.color.main}
+                                >
+                                    Hình ảnh hợp lệ
+                                </Typography>
+                                <ImageList
+                                    images={enabledImages}
+                                    handleOnClick={handleDisableImage}
+                                />
+                            </Box>
+
+                            {/* DISABLED PHOTOS */}
+                            <Box p="2rem 0">
+                                <Typography
+                                    mb="2rem"
+                                    variant="h3"
+                                    color={theme.palette.color.main}
+                                >
+                                    Hình ảnh không hợp lệ
+                                </Typography>
+                                <ImageList
+                                    images={disabledImages}
+                                    handleOnClick={handleEnableImage}
+                                />
+                            </Box>
+                        </>
+                    )}
+
+                    {role === "2" && (
+                        <Box p="2rem 0">
+                            <Typography
+                                mb="2rem"
+                                variant="h3"
+                                color={theme.palette.color.main}
+                            >
+                                Images
+                            </Typography>
+                            <ImageList
+                                images={enabledImages}
+                                handleOnClick={handleDisableImage}
+                            />
+                        </Box>
+                    )}
+
+                    {/* SUBMIT BUTTON */}
+                    {role === "1" && (
+                        <Button
+                            sx={{ marginTop: "1rem" }}
+                            variant="outlined"
+                            onClick={() => setShowConfirmModal(true)}
+                        >
+                            Lưu
+                        </Button>
+                    )}
+
+                    {/* Confirm update post dialog */}
+                    <ConfirmDialog
+                        isOpen={showConfirmModal}
+                        onClose={() => setShowConfirmModal(false)}
+                        onClickConfirm={handleSubmitPostData}
+                        title="Cập nhật thông tin bài đăng"
+                        text="Bạn đã chắc chắn với thông tin đã chỉnh sửa?"
+                    />
+
+                    {/* Confirm update post status dialog */}
+                    <ConfirmDialog
+                        isOpen={showConfirmApprovalModal}
+                        onClose={() => setShowConfirmApprovalModal(false)}
+                        onClickConfirm={handleApprovePost}
+                        title="Phê duyệt bài đăng"
+                        text={
+                            postStatusApproved === 1
+                                ? "Bài đăng này sẽ được phê duyệt, bạn chắc chắn chứ?"
+                                : "Bài đăng này sẽ không được phê duyệt, bạn chắc chắn chứ?"
+                        }
+                    />
+                </Box>
+            ) : (
+                <Stack spacing={1}>
+                    {/* For variant="text", adjust the height via font-size */}
+                    <Skeleton
+                        variant="text"
+                        sx={{ fontSize: "1rem" }}
+                        animation="wave"
+                    />
+                    {/* For other variants, adjust the size with `width` and `height` */}
+                    <Skeleton variant="circular" width={40} height={40} />
+                    <Skeleton variant="rectangular" width={210} height={60} />
+                    <Skeleton variant="rounded" width={210} height={60} />
+                </Stack>
+            )}
+        </Box>
+    );
+};
+
+export default PostDetail;
