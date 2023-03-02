@@ -113,6 +113,12 @@ const createPostValidation = (post) => {
             message: "Số điện thoại không hợp lệ",
             field: "phoneNumber",
         };
+    } else if (post.phoneNumber === "") {
+        return {
+            isError: true,
+            message: "So dien thoai cua ban khong duoc de trong",
+            field: "phoneNumber",
+        }
     }
     if (!post.description.trim()) {
         return {
