@@ -297,9 +297,9 @@ import { usePermission } from "hooks";
 // };
 
 const ChatPage = () => {
-    usePermission();
+  usePermission();
 
-    return <></>;
+  return <></>;
 };
 
 export default ChatPage;

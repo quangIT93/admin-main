@@ -4,25 +4,25 @@ import { Routes, Route } from "react-router-dom";
 import { superAdminRoutes, normalAdminRoutes, publicRoutes } from "routes";
 
 const RoutesDefined = () => {
-    const navigate = useNavigate();
-    const [role, setRole] = useState();
+  const navigate = useNavigate();
+  const [role, setRole] = useState();
 
-    // CHECK ROLE
-    // useEffect(() => {
-    //     const sessionRole = sessionStorage.getItem("role");
-    //     if (
-    //         !sessionRole ||
-    //         Number(sessionRole) < 0 ||
-    //         Number(sessionRole) > 1
-    //     ) {
-    //         navigate("/auth");
-    //     }
-    //     setRole(Number(sessionRole));
-    // }, []);
+  // CHECK ROLE
+  // useEffect(() => {
+  //     const sessionRole = sessionStorage.getItem("role");
+  //     if (
+  //         !sessionRole ||
+  //         Number(sessionRole) < 0 ||
+  //         Number(sessionRole) > 1
+  //     ) {
+  //         navigate("/auth");
+  //     }
+  //     setRole(Number(sessionRole));
+  // }, []);
 
-    return (
-        <Routes>
-            {/* {role === 0 &&
+  return (
+    <Routes>
+      {/* {role === 0 &&
                 normalAdminRoutes.map((route) => (
                     <Route
                         key={route.path}
@@ -46,8 +46,8 @@ const RoutesDefined = () => {
                         }
                     />
                 ))} */}
-        </Routes>
-    );
+    </Routes>
+  );
 };
 
 export default RoutesDefined;

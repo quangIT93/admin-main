@@ -6,58 +6,54 @@ import { postListColumns } from "configs/table";
 import { Table, SelectThemePostsDialog } from "components";
 
 const ThemePosts = ({ posts = [], themeId, setPosts }) => {
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const [showSelectPostsOfThemeDialog, setShowSelectPostsOfThemeDialog] =
-        useState(false);
-    const [allPosts, setAllPosts] = useState([]);
+  const [showSelectPostsOfThemeDialog, setShowSelectPostsOfThemeDialog] =
+    useState(false);
+  const [allPosts, setAllPosts] = useState([]);
 
-    useEffect(() => {
-        const fetchAllPosts = async () => {
-            const res = await axios.get(`/posts/by-admin`);
-            if (res && res.success) {
-                setAllPosts(res.data);
-            }
-        };
-        fetchAllPosts();
-    }, []);
+  useEffect(() => {
+    const fetchAllPosts = async () => {
+      const res = await axios.get(`/posts/by-admin`);
+      if (res && res.success) {
+        setAllPosts(res.data);
+      }
+    };
+    fetchAllPosts();
+  }, []);
 
-    return (
-        <Box
-            sx={{
-                width: "100%",
-                height: `calc(100vh - ${theme.height.navbar} - 8rem)`,
-            }}
-        >
-            <Typography
-                variant="h2"
-                sx={{
-                    color: theme.palette.color.main,
-                    paddingBottom: "1rem",
-                }}
-            >
-                POSTS OF THEME
-            </Typography>
-            <Button onClick={() => setShowSelectPostsOfThemeDialog(true)}>
-                Add/Remove posts
-            </Button>
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: `calc(100vh - ${theme.height.navbar} - 8rem)`,
+      }}
+    >
+      <Typography
+        variant="h2"
+        sx={{
+          color: theme.palette.color.main,
+          paddingBottom: "1rem",
+        }}
+      >
+        POSTS OF THEME
+      </Typography>
+      <Button onClick={() => setShowSelectPostsOfThemeDialog(true)}>
+        Add/Remove posts
+      </Button>
 
-            <Table
-                rows={posts}
-                columns={postListColumns}
-                showCheckbox={false}
-            />
+      <Table rows={posts} columns={postListColumns} showCheckbox={false} />
 
-            <SelectThemePostsDialog
-                themeId={themeId}
-                open={showSelectPostsOfThemeDialog}
-                setOpen={setShowSelectPostsOfThemeDialog}
-                allPosts={allPosts}
-                postsOfTheme={posts}
-                setPostsOfTheme={setPosts}
-            />
-        </Box>
-    );
+      <SelectThemePostsDialog
+        themeId={themeId}
+        open={showSelectPostsOfThemeDialog}
+        setOpen={setShowSelectPostsOfThemeDialog}
+        allPosts={allPosts}
+        postsOfTheme={posts}
+        setPostsOfTheme={setPosts}
+      />
+    </Box>
+  );
 };
 
 export default ThemePosts;

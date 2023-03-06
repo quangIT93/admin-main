@@ -3,215 +3,187 @@ import { Stack, Skeleton, Typography, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { axios } from "configs";
 import {
-    AccountPersonalInformation,
-    AccountContactInformation,
-    AccountCategories,
-    AccountLocations,
-    AccountEducations,
-    AccountExperiences,
+  AccountPersonalInformation,
+  AccountContactInformation,
+  AccountCategories,
+  AccountLocations,
+  AccountEducations,
+  AccountExperiences,
 } from "components";
 
 export const AccountContext = createContext();
 
 const UserDetail = ({ accountId }) => {
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const [accountData, setAccountData] = useState(null);
+  const [accountData, setAccountData] = useState(null);
 
-    const [basicInformations, setBasicInformations] = useState(null);
-    const [contactInformations, setContactInformations] = useState(null);
-    const [locations, setLocations] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [educations, setEducations] = useState([]);
-    const [experiences, setExperiences] = useState([]);
+  const [basicInformations, setBasicInformations] = useState(null);
+  const [contactInformations, setContactInformations] = useState(null);
+  const [locations, setLocations] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [educations, setEducations] = useState([]);
+  const [experiences, setExperiences] = useState([]);
 
-    // GET ACCOUNT DATA
-    useEffect(() => {
-        // ACCOUNT DATA
-        const getAccountDataFromApi = async (accountId) => {
-            if (accountId) {
-                const res = await axios.get(`/profiles/s?id=${accountId}`);
-                if (res.success) {
-                    console.log(res.data);
-                    setAccountData(res.data);
-                    const {
-                        id,
-                        name,
-                        birthday,
-                        address,
-                        gender,
-                        introduction,
-                        phone,
-                        email,
-                        avatar,
-                        facebook,
-                        linkedin,
-                        categories,
-                        locations,
-                        educations,
-                        experiences,
-                    } = res.data;
+  // GET ACCOUNT DATA
+  useEffect(() => {
+    // ACCOUNT DATA
+    const getAccountDataFromApi = async (accountId) => {
+      if (accountId) {
+        const res = await axios.get(`/profiles/s?id=${accountId}`);
+        if (res.success) {
+          console.log(res.data);
+          setAccountData(res.data);
+          const {
+            id,
+            name,
+            birthday,
+            address,
+            gender,
+            introduction,
+            phone,
+            email,
+            avatar,
+            facebook,
+            linkedin,
+            categories,
+            locations,
+            educations,
+            experiences,
+          } = res.data;
 
-                    // SET BASIC INFORMATIONS
-                    setBasicInformations({
-                        id,
-                        name,
-                        birthday,
-                        gender,
-                        address,
-                        introduction,
-                        avatar,
-                    });
+          // SET BASIC INFORMATIONS
+          setBasicInformations({
+            id,
+            name,
+            birthday,
+            gender,
+            address,
+            introduction,
+            avatar,
+          });
 
-                    // SET CONTACT INFORMATION
-                    setContactInformations({
-                        email,
-                        phone,
-                        facebook,
-                        linkedin,
-                    });
+          // SET CONTACT INFORMATION
+          setContactInformations({
+            email,
+            phone,
+            facebook,
+            linkedin,
+          });
 
-                    // SET CATEGORIES
-                    setCategories(categories);
+          // SET CATEGORIES
+          setCategories(categories);
 
-                    // SET LOCATIONS
-                    setLocations(locations);
+          // SET LOCATIONS
+          setLocations(locations);
 
-                    // SET EDUCATIONS
-                    setEducations(educations);
+          // SET EDUCATIONS
+          setEducations(educations);
 
-                    // SET EXPERIENCES
-                    setExperiences(experiences);
-                }
-            }
-        };
-
-        //
-        if (accountId) {
-            getAccountDataFromApi(accountId);
+          // SET EXPERIENCES
+          setExperiences(experiences);
         }
-    }, [accountId]);
-
-    const ContextValues = {
-        basicInformations,
-        setBasicInformations,
-        contactInformations,
-        setContactInformations,
-        locations,
-        categories,
-        educations,
-        experiences,
+      }
     };
 
-    return (
-        <AccountContext.Provider value={ContextValues}>
-            {accountData ? (
-                <>
-                    {/* PERSONAL INFORMATION */}
-                    <Box p="2rem 0">
-                        <Typography
-                            mb="2rem"
-                            variant="h3"
-                            color={theme.palette.color.main}
-                        >
-                            Personal informations
-                        </Typography>
-                        <AccountPersonalInformation />
-                    </Box>
+    //
+    if (accountId) {
+      getAccountDataFromApi(accountId);
+    }
+  }, [accountId]);
 
-                    {/* CONTACT INFORMATION */}
-                    <Box p="2rem 0">
-                        <Typography
-                            mb="2rem"
-                            variant="h3"
-                            color={theme.palette.color.main}
-                        >
-                            Contact informations
-                        </Typography>
+  const ContextValues = {
+    basicInformations,
+    setBasicInformations,
+    contactInformations,
+    setContactInformations,
+    locations,
+    categories,
+    educations,
+    experiences,
+  };
 
-                        <AccountContactInformation />
-                    </Box>
+  return (
+    <AccountContext.Provider value={ContextValues}>
+      {accountData ? (
+        <>
+          {/* PERSONAL INFORMATION */}
+          <Box p="2rem 0">
+            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+              Personal informations
+            </Typography>
+            <AccountPersonalInformation />
+          </Box>
 
-                    {/* CATEGORIES */}
-                    <Box p="2rem 0">
-                        <Typography
-                            mb="2rem"
-                            variant="h3"
-                            color={theme.palette.color.main}
-                        >
-                            Categories
-                        </Typography>
+          {/* CONTACT INFORMATION */}
+          <Box p="2rem 0">
+            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+              Contact informations
+            </Typography>
 
-                        <AccountCategories
-                            categories={categories}
-                            setCategories={setCategories}
-                        />
-                    </Box>
+            <AccountContactInformation />
+          </Box>
 
-                    {/* LOCATIONS */}
-                    <Box p="2rem 0">
-                        <Typography
-                            mb="2rem"
-                            variant="h3"
-                            color={theme.palette.color.main}
-                        >
-                            Locations
-                        </Typography>
+          {/* CATEGORIES */}
+          <Box p="2rem 0">
+            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+              Categories
+            </Typography>
 
-                        <AccountLocations
-                            locations={locations}
-                            setLocations={setLocations}
-                        />
-                    </Box>
+            <AccountCategories
+              categories={categories}
+              setCategories={setCategories}
+            />
+          </Box>
 
-                    {/* EDUCATIONS */}
-                    <Box p="2rem 0">
-                        <Typography
-                            mb="2rem"
-                            variant="h3"
-                            color={theme.palette.color.main}
-                        >
-                            Educations
-                        </Typography>
+          {/* LOCATIONS */}
+          <Box p="2rem 0">
+            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+              Locations
+            </Typography>
 
-                        <AccountEducations
-                            educations={educations}
-                            setEducations={setEducations}
-                        />
-                    </Box>
+            <AccountLocations
+              locations={locations}
+              setLocations={setLocations}
+            />
+          </Box>
 
-                    {/* EXPERIENCES */}
-                    <Box p="2rem 0">
-                        <Typography
-                            mb="2rem"
-                            variant="h3"
-                            color={theme.palette.color.main}
-                        >
-                            Experiences
-                        </Typography>
+          {/* EDUCATIONS */}
+          <Box p="2rem 0">
+            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+              Educations
+            </Typography>
 
-                        <AccountExperiences
-                            experiences={experiences}
-                            setExperiences={setExperiences}
-                        />
-                    </Box>
-                </>
-            ) : (
-                <Stack spacing={1}>
-                    {/* For variant="text", adjust the height via font-size */}
-                    <Skeleton
-                        variant="text"
-                        sx={{ fontSize: "1rem" }}
-                        animation="wave"
-                    />
-                    {/* For other variants, adjust the size with `width` and `height` */}
-                    <Skeleton variant="circular" width={40} height={40} />
-                    <Skeleton variant="rectangular" width={210} height={60} />
-                    <Skeleton variant="rounded" width={210} height={60} />
-                </Stack>
-            )}
-        </AccountContext.Provider>
-    );
+            <AccountEducations
+              educations={educations}
+              setEducations={setEducations}
+            />
+          </Box>
+
+          {/* EXPERIENCES */}
+          <Box p="2rem 0">
+            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+              Experiences
+            </Typography>
+
+            <AccountExperiences
+              experiences={experiences}
+              setExperiences={setExperiences}
+            />
+          </Box>
+        </>
+      ) : (
+        <Stack spacing={1}>
+          {/* For variant="text", adjust the height via font-size */}
+          <Skeleton variant="text" sx={{ fontSize: "1rem" }} animation="wave" />
+          {/* For other variants, adjust the size with `width` and `height` */}
+          <Skeleton variant="circular" width={40} height={40} />
+          <Skeleton variant="rectangular" width={210} height={60} />
+          <Skeleton variant="rounded" width={210} height={60} />
+        </Stack>
+      )}
+    </AccountContext.Provider>
+  );
 };
 
 export default memo(UserDetail);

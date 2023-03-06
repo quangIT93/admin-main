@@ -1,5 +1,5 @@
 const NotPermissionPage = () => {
-    return <>Not permission</>;
+  return <>Not permission</>;
 };
 
 export default NotPermissionPage;

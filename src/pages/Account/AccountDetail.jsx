@@ -6,27 +6,23 @@ import { UserDetail } from "components";
 import { usePermission } from "hooks";
 
 const AccountDetailPage = () => {
-    usePermission();
+  usePermission();
 
-    const theme = useTheme();
+  const theme = useTheme();
 
-    // GET ACCOUNT ID AND ROLE
-    const { id } = useParams();
+  // GET ACCOUNT ID AND ROLE
+  const { id } = useParams();
 
-    return (
-        <>
-            <Typography
-                variant="h2"
-                p="2rem 0"
-                color={theme.palette.color.main}
-            >
-                Chi tiết tài khoản
-            </Typography>
-            <>
-                <UserDetail accountId={id} />
-            </>
-        </>
-    );
+  return (
+    <>
+      <Typography variant="h2" p="2rem 0" color={theme.palette.color.main}>
+        Chi tiết tài khoản
+      </Typography>
+      <>
+        <UserDetail accountId={id} />
+      </>
+    </>
+  );
 };
 
 export default AccountDetailPage;

@@ -1,15 +1,15 @@
 @use "./variables" as *;
 
 @mixin mobile {
-    @media only screen and (max-width: $max-mobile-width) {
-        @content;
-    }
+  @media only screen and (max-width: $max-mobile-width) {
+    @content;
+  }
 }
 
 @mixin tablet {
-    @media only screen and (max-width: $max-tablet-width) {
-        @content;
-    }
+  @media only screen and (max-width: $max-tablet-width) {
+    @content;
+  }
 }
 
 // xs, extra-small: 0px
