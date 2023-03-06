@@ -8,42 +8,42 @@ import "react-toastify/dist/ReactToastify.css";
 import "App.scss";
 
 const App = () => {
-    const { theme, handleThemeMode } = useThemeMode();
+  const { theme, handleThemeMode } = useThemeMode();
 
-    return (
-        <ThemeModeContext.Provider value={{ theme, handleThemeMode }}>
-            <ThemeProvider theme={theme}>
-                <AppContextProvider>
-                    <Router>
-                        <Routes>
-                            {publicRoutes.map((route) => (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    element={
-                                        <>
-                                            <route.layout>
-                                                <route.component />
-                                            </route.layout>
+  return (
+    <ThemeModeContext.Provider value={{ theme, handleThemeMode }}>
+      <ThemeProvider theme={theme}>
+        <AppContextProvider>
+          <Router>
+            <Routes>
+              {publicRoutes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={
+                    <>
+                      <route.layout>
+                        <route.component />
+                      </route.layout>
 
-                                            {/* TOAST */}
-                                            <ToastContainer
-                                                position="bottom-right"
-                                                theme="colored"
-                                                autoClose={4000}
-                                                hideProgressBar={false}
-                                                closeOnClick
-                                            />
-                                        </>
-                                    }
-                                />
-                            ))}
-                        </Routes>
-                    </Router>
-                </AppContextProvider>
-            </ThemeProvider>
-        </ThemeModeContext.Provider>
-    );
+                      {/* TOAST */}
+                      <ToastContainer
+                        position="bottom-right"
+                        theme="colored"
+                        autoClose={4000}
+                        hideProgressBar={false}
+                        closeOnClick
+                      />
+                    </>
+                  }
+                />
+              ))}
+            </Routes>
+          </Router>
+        </AppContextProvider>
+      </ThemeProvider>
+    </ThemeModeContext.Provider>
+  );
 };
 
 export default App;
