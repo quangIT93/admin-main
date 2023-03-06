@@ -11,580 +11,553 @@ import { TextField } from "components";
 import { axios } from "configs";
 
 const Item = styled(Box)(({ theme }) => ({
-    textarea: {
-        fontSize: "1rem",
-    },
+  textarea: {
+    fontSize: "1rem",
+  },
 }));
 
 const BasicInformation = ({ basicInformation, setBasicInformation }) => {
-    const [statusValue, setStatusValue] = useState();
-    const [salaryTypes, setSalaryTypes] = useState([]);
-    const [locations, setLocations] = useState([]);
-    const [districts, setDistricts] = useState([]);
-    const [wards, setWards] = useState([]);
+  const [statusValue, setStatusValue] = useState();
+  const [salaryTypes, setSalaryTypes] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
 
-    
+  const fetchSalaryTypes = async () => {
+    const res = await axios.get("/salary-types");
+    setSalaryTypes(res.data);
+  };
 
-    const fetchSalaryTypes = async () => {
-        const res = await axios.get("/salary-types");
-        setSalaryTypes(res.data);
-    };
+  useEffect(() => {
+    if (basicInformation) {
+      switch (basicInformation.status) {
+        case 0:
+          setStatusValue("Đang chờ duyệt");
+          break;
+        case 1:
+          setStatusValue("Đã được duyệt");
+          break;
+        case 2:
+          setStatusValue("Đã không được duyệt");
+          break;
+        case 3:
+          setStatusValue("Đã đóng");
+          break;
+        default:
+          setStatusValue("Trạng thái không hợp lệ");
+          break;
+      }
+    }
+  }, [basicInformation]);
 
-    useEffect(() => {
-        if (basicInformation) {
-            switch (basicInformation.status) {
-                case 0:
-                    setStatusValue("Đang chờ duyệt");
-                    break;
-                case 1:
-                    setStatusValue("Đã được duyệt");
-                    break;
-                case 2:
-                    setStatusValue("Đã không được duyệt");
-                    break;
-                case 3:
-                    setStatusValue("Đã đóng");
-                    break;
-                default:
-                    setStatusValue("Trạng thái không hợp lệ");
-                    break;
-            }
+  useEffect(() => {
+    const fetchAllLocations = async () => {
+      const res = await axios.get("/locations");
+      if (res.success) {
+        setLocations(res.data);
+        if (
+          basicInformation &&
+          basicInformation.province_id &&
+          basicInformation.district_id &&
+          basicInformation.ward_id
+        ) {
+          const province = res.data.find(
+            (location) => location.province_id === basicInformation.province_id
+          );
+          const districts = province.districts;
+          const district = districts.find(
+            (d) => d.district_id === basicInformation.district_id
+          );
+          setDistricts(districts);
+          setWards(district.wards);
         }
-    }, [basicInformation]);
-
-    useEffect(() => {
-        const fetchAllLocations = async () => {
-            const res = await axios.get("/locations");
-            if (res.success) {
-                setLocations(res.data);
-                if (
-                    basicInformation &&
-                    basicInformation.province_id &&
-                    basicInformation.district_id &&
-                    basicInformation.ward_id
-                ) {
-                    const province = res.data.find(
-                        (location) =>
-                            location.province_id === basicInformation.province_id
-                    );
-                    const districts = province.districts;
-                    const district = districts.find(
-                        (d) => d.district_id === basicInformation.district_id
-                    );
-                    setDistricts(districts);
-                    setWards(district.wards);
-                }
-            }
-        };
-        fetchAllLocations();
-        fetchSalaryTypes();
-    }, []);
-
-    // Handle on change province
-    const handleOnChangeProvince = (e) => {
-        const province = locations.find(
-            (location) => location.province_id === e.target.value
-        );
-        if (province) {
-            setDistricts(province.districts);
-            setWards(province.districts[0].wards);
-
-            setBasicInformation((prevState) => ({
-                ...prevState,
-                province_id: e.target.value,
-                district_id: province.districts[0].district_id,
-                ward_id: province.districts[0].wards[0].id,
-            }));
-        }
+      }
     };
+    fetchAllLocations();
+    fetchSalaryTypes();
+  }, []);
 
-    // Handle on change district
-    const handleOnChangeDistrict = (e) => {
-        const wards = districts.find(
-            (district) => district.district_id === e.target.value
-        ).wards;
-        setWards(() => (wards ? wards : []));
-        setBasicInformation((prevState) => ({
-            ...prevState,
-            district_id: e.target.value,
-            ward_id: wards && wards.length > 0 ? wards[0].id : null,
-        }));
-    };
-
-    return (
-        <Grid container spacing={4}>
-            {/* Id */}
-            <Grid item xs={12} lg={6}>
-                <Item>
-                    <TextField
-                        label="ID"
-                        variant="outlined"
-                        value={basicInformation.id}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        onChange={(e) => {}}
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Created at */}
-            <Grid item xs={12} lg={6}>
-                <Item>
-                    <TextField
-                        label="Ngày tạo"
-                        variant="outlined"
-                        value={moment(basicInformation.created_at).format(
-                            "DD/MM/YYYY HH:mm:ss"
-                        )}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        onChange={(e) => {}}
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Status */}
-            <Grid item xs={12} lg={6}>
-                <Item>
-                    <TextField
-                        label="Trạng thái"
-                        variant="outlined"
-                        value={statusValue || ""}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        onChange={(e) => {}}
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Title */}
-            <Grid item xs={12} lg={6}>
-                <Item>
-                    <TextField
-                        label="Tên công việc"
-                        variant="outlined"
-                        value={basicInformation.title}
-                        onChange={(e) => {
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                title: e.target.value,
-                            }));
-                        }}
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Company name */}
-            <Grid item xs={12} lg={6}>
-                <Item>
-                    <TextField
-                        label="Công ty"
-                        variant="outlined"
-                        value={basicInformation.company_name}
-                        onChange={(e) => {
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                company_name: e.target.value,
-                            }));
-                        }}
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Province */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Tỉnh/Thành phố"
-                        variant="outlined"
-                        value={basicInformation.province_id || ""}
-                        onChange={handleOnChangeProvince}
-                        fullWidth
-                        select
-                    >
-                        {locations.map((location) => (
-                            <MenuItem
-                                key={location.province_id}
-                                value={location.province_id}
-                            >
-                                {location.province_name}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </Item>
-            </Grid>
-
-            {/* District */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Quận/Huyện"
-                        variant="outlined"
-                        value={basicInformation.district_id || ""}
-                        onChange={handleOnChangeDistrict}
-                        fullWidth
-                        select
-                    >
-                        {districts.map((district) => (
-                            <MenuItem
-                                key={district.district_id}
-                                value={district.district_id}
-                            >
-                                {district.district}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </Item>
-            </Grid>
-
-            {/* Ward */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Phường/Xã"
-                        variant="outlined"
-                        value={basicInformation.ward_id || ""}
-                        onChange={(e) =>
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                ward_id: e.target.value,
-                            }))
-                        }
-                        fullWidth
-                        select
-                    >
-                        {wards.map((ward) => (
-                            <MenuItem key={ward.id} value={ward.id}>
-                                {ward.full_name}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </Item>
-            </Grid>
-
-            {/* Street */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Tên đường"
-                        variant="outlined"
-                        value={basicInformation.address}
-                        onChange={(e) => {
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                address: e.target.value,
-                            }));
-                        }}
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Phone number */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Số điện thoại (0-***-***-***)"
-                        variant="outlined"
-                        value={basicInformation.phone_contact || ""}
-                        inputProps={{
-                            inputMode: "numeric",
-                            pattern: "[0-9]*",
-                        }}
-                        onChange={(e) =>
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                phone_contact: e.target.value,
-                            }))
-                        }
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Is working date period */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        select
-                        label="Thời gian làm việc"
-                        value={basicInformation.is_date_period}
-                        onChange={(e) => {
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                is_date_period: e.target.value,
-                            }));
-                        }}
-                        fullWidth
-                    >
-                        <MenuItem value={0}>Không thời hạn</MenuItem>
-                        <MenuItem value={1}>Có thời hạn</MenuItem>
-                    </TextField>
-                </Item>
-            </Grid>
-
-            {/* WORKING DATE */}
-            {basicInformation.is_date_period === 1 && (
-                <>
-                    <Grid item xs={6} lg={3}>
-                        <Item>
-                            <LocalizationProvider dateAdapter={AdapterMoment}>
-                                <DatePicker
-                                    label="Ngày bắt đầu"
-                                    value={moment(basicInformation.start_date)}
-                                    onChange={(e) =>
-                                        setBasicInformation((prevState) => ({
-                                            ...prevState,
-                                            start_date: new Date(
-                                                e._d
-                                            ).getTime(),
-                                        }))
-                                    }
-                                    renderInput={(params) => (
-                                        <TextField {...params} fullWidth />
-                                    )}
-                                />
-                            </LocalizationProvider>
-                        </Item>
-                    </Grid>
-
-                    <Grid item xs={6} lg={3}>
-                        <Item>
-                            <LocalizationProvider dateAdapter={AdapterMoment}>
-                                <DatePicker
-                                    label="Ngày kết thúc"
-                                    value={moment(basicInformation.end_date)}
-                                    onChange={(e) =>
-                                        setBasicInformation((prevState) => ({
-                                            ...prevState,
-                                            end_date: new Date(e._d).getTime(),
-                                        }))
-                                    }
-                                    renderInput={(params) => (
-                                        <TextField {...params} fullWidth />
-                                    )}
-                                />
-                            </LocalizationProvider>
-                        </Item>
-                    </Grid>
-                </>
-            )}
-
-            {/* WORKING TIME */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <TimePicker
-                            label="Thời gian bắt đầu"
-                            value={moment(basicInformation.start_time)}
-                            onChange={(e) =>
-                                setBasicInformation((prevState) => ({
-                                    ...prevState,
-                                    start_time: new Date(e._d).getTime(),
-                                }))
-                            }
-                            renderInput={(params) => (
-                                <TextField {...params} fullWidth />
-                            )}
-                        />
-                    </LocalizationProvider>
-                </Item>
-            </Grid>
-
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <TimePicker
-                            label="Thời gian kết thúc"
-                            value={moment(basicInformation.end_time)}
-                            onChange={(e) =>
-                                setBasicInformation((prevState) => ({
-                                    ...prevState,
-                                    end_time: new Date(e._d).getTime(),
-                                }))
-                            }
-                            renderInput={(params) => (
-                                <TextField {...params} fullWidth />
-                            )}
-                        />
-                    </LocalizationProvider>
-                </Item>
-            </Grid>
-
-            {/* Min salary */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Lương (tối thiểu)"
-                        variant="outlined"
-                        type="number"
-                        inputProps={{ min: 1000 }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={basicInformation.salary_min}
-                        onChange={(e) =>
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                salary_min: +e.target.value,
-                            }))
-                        }
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Max salary */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Lương (tối đa)"
-                        variant="outlined"
-                        type="number"
-                        inputProps={{ min: 1000 }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        value={basicInformation.salary_max}
-                        onChange={(e) =>
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                salary_max: +e.target.value,
-                            }))
-                        }
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-
-            {/* Salary types */}
-            {salaryTypes.length > 0 && (
-                <Grid item xs={12} lg={3}>
-                    <Item>
-                        <TextField
-                            label="Tính lương theo"
-                            variant="outlined"
-                            select
-                            value={basicInformation.salary_type_id}
-                            onChange={(e) =>
-                                setBasicInformation((prevState) => ({
-                                    ...prevState,
-                                    salary_type_id: e.target.value,
-                                }))
-                            }
-                            fullWidth
-                        >
-                            {salaryTypes.map((salaryType) => (
-                                <MenuItem
-                                    key={salaryType.id}
-                                    value={salaryType.id}
-                                >
-                                    {salaryType.value}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Item>
-                </Grid>
-            )}
-
-            {/* Money types */}
-            <Grid item xs={12} lg={3}>
-                <Item>
-                    <TextField
-                        label="Đơn vị tiền"
-                        variant="outlined"
-                        select
-                        value={basicInformation.money_type}
-                        onChange={(e) =>
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                money_type: e.target.value,
-                            }))
-                        }
-                        fullWidth
-                    >
-                        <MenuItem value={1}>VND</MenuItem>
-                        <MenuItem value={2}>USD</MenuItem>
-                    </TextField>
-                </Item>
-            </Grid>
-
-            {/* Is working weekend */}
-            <Grid item xs={6} lg={3}>
-                <Item>
-                    <FormControlLabel
-                        sx={{ color: "#eee" }}
-                        control={
-                            <Checkbox
-                                checked={
-                                    basicInformation.is_working_weekend === 1
-                                }
-                                onChange={() =>
-                                    setBasicInformation((prevState) => ({
-                                        ...prevState,
-                                        is_working_weekend:
-                                            prevState.is_working_weekend === 0
-                                                ? 1
-                                                : 0,
-                                    }))
-                                }
-                            />
-                        }
-                        label="Làm việc cuối tuần"
-                    />
-                </Item>
-            </Grid>
-
-            {/* Is remotely */}
-            <Grid item xs={6} lg={3}>
-                <Item>
-                    <FormControlLabel
-                        sx={{ color: "#eee" }}
-                        control={
-                            <Checkbox
-                                checked={basicInformation.is_remotely === 1}
-                                onChange={() =>
-                                    setBasicInformation((prevState) => ({
-                                        ...prevState,
-                                        is_remotely:
-                                            prevState.is_remotely === 0 ? 1 : 0,
-                                    }))
-                                }
-                            />
-                        }
-                        label="Làm việc từ xa"
-                    />
-                </Item>
-            </Grid>
-
-            {/* Description */}
-            <Grid item xs={12} lg={6}>
-                <Item>
-                    <TextField
-                        label="Mô tả"
-                        variant="outlined"
-                        multiline
-                        value={basicInformation.description}
-                        onChange={(e) =>
-                            setBasicInformation((prevState) => ({
-                                ...prevState,
-                                description: e.target.value,
-                            }))
-                        }
-                        fullWidth
-                    />
-                </Item>
-            </Grid>
-        </Grid>
+  // Handle on change province
+  const handleOnChangeProvince = (e) => {
+    const province = locations.find(
+      (location) => location.province_id === e.target.value
     );
+    if (province) {
+      setDistricts(province.districts);
+      setWards(province.districts[0].wards);
+
+      setBasicInformation((prevState) => ({
+        ...prevState,
+        province_id: e.target.value,
+        district_id: province.districts[0].district_id,
+        ward_id: province.districts[0].wards[0].id,
+      }));
+    }
+  };
+
+  // Handle on change district
+  const handleOnChangeDistrict = (e) => {
+    const wards = districts.find(
+      (district) => district.district_id === e.target.value
+    ).wards;
+    setWards(() => (wards ? wards : []));
+    setBasicInformation((prevState) => ({
+      ...prevState,
+      district_id: e.target.value,
+      ward_id: wards && wards.length > 0 ? wards[0].id : null,
+    }));
+  };
+
+  return (
+    <Grid container spacing={4}>
+      {/* Id */}
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="ID"
+            variant="outlined"
+            value={basicInformation.id}
+            InputProps={{
+              readOnly: true,
+            }}
+            onChange={(e) => {}}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Created at */}
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="Ngày tạo"
+            variant="outlined"
+            value={moment(basicInformation.created_at).format(
+              "DD/MM/YYYY HH:mm:ss"
+            )}
+            InputProps={{
+              readOnly: true,
+            }}
+            onChange={(e) => {}}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Status */}
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="Trạng thái"
+            variant="outlined"
+            value={statusValue || ""}
+            InputProps={{
+              readOnly: true,
+            }}
+            onChange={(e) => {}}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Title */}
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="Tên công việc"
+            variant="outlined"
+            value={basicInformation.title}
+            onChange={(e) => {
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                title: e.target.value,
+              }));
+            }}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Company name */}
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="Công ty"
+            variant="outlined"
+            value={basicInformation.company_name}
+            onChange={(e) => {
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                company_name: e.target.value,
+              }));
+            }}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Province */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Tỉnh/Thành phố"
+            variant="outlined"
+            value={basicInformation.province_id || ""}
+            onChange={handleOnChangeProvince}
+            fullWidth
+            select
+          >
+            {locations.map((location) => (
+              <MenuItem key={location.province_id} value={location.province_id}>
+                {location.province_name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Item>
+      </Grid>
+
+      {/* District */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Quận/Huyện"
+            variant="outlined"
+            value={basicInformation.district_id || ""}
+            onChange={handleOnChangeDistrict}
+            fullWidth
+            select
+          >
+            {districts.map((district) => (
+              <MenuItem key={district.district_id} value={district.district_id}>
+                {district.district}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Item>
+      </Grid>
+
+      {/* Ward */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Phường/Xã"
+            variant="outlined"
+            value={basicInformation.ward_id || ""}
+            onChange={(e) =>
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                ward_id: e.target.value,
+              }))
+            }
+            fullWidth
+            select
+          >
+            {wards.map((ward) => (
+              <MenuItem key={ward.id} value={ward.id}>
+                {ward.full_name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Item>
+      </Grid>
+
+      {/* Street */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Tên đường"
+            variant="outlined"
+            value={basicInformation.address}
+            onChange={(e) => {
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                address: e.target.value,
+              }));
+            }}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Phone number */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Số điện thoại (0-***-***-***)"
+            variant="outlined"
+            value={basicInformation.phone_contact || ""}
+            inputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+            }}
+            onChange={(e) =>
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                phone_contact: e.target.value,
+              }))
+            }
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Is working date period */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            select
+            label="Thời gian làm việc"
+            value={basicInformation.is_date_period}
+            onChange={(e) => {
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                is_date_period: e.target.value,
+              }));
+            }}
+            fullWidth
+          >
+            <MenuItem value={0}>Không thời hạn</MenuItem>
+            <MenuItem value={1}>Có thời hạn</MenuItem>
+          </TextField>
+        </Item>
+      </Grid>
+
+      {/* WORKING DATE */}
+      {basicInformation.is_date_period === 1 && (
+        <>
+          <Grid item xs={6} lg={3}>
+            <Item>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  label="Ngày bắt đầu"
+                  value={moment(basicInformation.start_date)}
+                  onChange={(e) =>
+                    setBasicInformation((prevState) => ({
+                      ...prevState,
+                      start_date: new Date(e._d).getTime(),
+                    }))
+                  }
+                  renderInput={(params) => <TextField {...params} fullWidth />}
+                />
+              </LocalizationProvider>
+            </Item>
+          </Grid>
+
+          <Grid item xs={6} lg={3}>
+            <Item>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  label="Ngày kết thúc"
+                  value={moment(basicInformation.end_date)}
+                  onChange={(e) =>
+                    setBasicInformation((prevState) => ({
+                      ...prevState,
+                      end_date: new Date(e._d).getTime(),
+                    }))
+                  }
+                  renderInput={(params) => <TextField {...params} fullWidth />}
+                />
+              </LocalizationProvider>
+            </Item>
+          </Grid>
+        </>
+      )}
+
+      {/* WORKING TIME */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <TimePicker
+              label="Thời gian bắt đầu"
+              value={moment(basicInformation.start_time)}
+              onChange={(e) =>
+                setBasicInformation((prevState) => ({
+                  ...prevState,
+                  start_time: new Date(e._d).getTime(),
+                }))
+              }
+              renderInput={(params) => <TextField {...params} fullWidth />}
+            />
+          </LocalizationProvider>
+        </Item>
+      </Grid>
+
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <TimePicker
+              label="Thời gian kết thúc"
+              value={moment(basicInformation.end_time)}
+              onChange={(e) =>
+                setBasicInformation((prevState) => ({
+                  ...prevState,
+                  end_time: new Date(e._d).getTime(),
+                }))
+              }
+              renderInput={(params) => <TextField {...params} fullWidth />}
+            />
+          </LocalizationProvider>
+        </Item>
+      </Grid>
+
+      {/* Min salary */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Lương (tối thiểu)"
+            variant="outlined"
+            type="number"
+            inputProps={{ min: 1000 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            value={basicInformation.salary_min}
+            onChange={(e) =>
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                salary_min: +e.target.value,
+              }))
+            }
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Max salary */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Lương (tối đa)"
+            variant="outlined"
+            type="number"
+            inputProps={{ min: 1000 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            value={basicInformation.salary_max}
+            onChange={(e) =>
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                salary_max: +e.target.value,
+              }))
+            }
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Salary types */}
+      {salaryTypes.length > 0 && (
+        <Grid item xs={12} lg={3}>
+          <Item>
+            <TextField
+              label="Tính lương theo"
+              variant="outlined"
+              select
+              value={basicInformation.salary_type_id}
+              onChange={(e) =>
+                setBasicInformation((prevState) => ({
+                  ...prevState,
+                  salary_type_id: e.target.value,
+                }))
+              }
+              fullWidth
+            >
+              {salaryTypes.map((salaryType) => (
+                <MenuItem key={salaryType.id} value={salaryType.id}>
+                  {salaryType.value}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Item>
+        </Grid>
+      )}
+
+      {/* Money types */}
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Đơn vị tiền"
+            variant="outlined"
+            select
+            value={basicInformation.money_type}
+            onChange={(e) =>
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                money_type: e.target.value,
+              }))
+            }
+            fullWidth
+          >
+            <MenuItem value={1}>VND</MenuItem>
+            <MenuItem value={2}>USD</MenuItem>
+          </TextField>
+        </Item>
+      </Grid>
+
+      {/* Is working weekend */}
+      <Grid item xs={6} lg={3}>
+        <Item>
+          <FormControlLabel
+            sx={{ color: "#eee" }}
+            control={
+              <Checkbox
+                checked={basicInformation.is_working_weekend === 1}
+                onChange={() =>
+                  setBasicInformation((prevState) => ({
+                    ...prevState,
+                    is_working_weekend:
+                      prevState.is_working_weekend === 0 ? 1 : 0,
+                  }))
+                }
+              />
+            }
+            label="Làm việc cuối tuần"
+          />
+        </Item>
+      </Grid>
+
+      {/* Is remotely */}
+      <Grid item xs={6} lg={3}>
+        <Item>
+          <FormControlLabel
+            sx={{ color: "#eee" }}
+            control={
+              <Checkbox
+                checked={basicInformation.is_remotely === 1}
+                onChange={() =>
+                  setBasicInformation((prevState) => ({
+                    ...prevState,
+                    is_remotely: prevState.is_remotely === 0 ? 1 : 0,
+                  }))
+                }
+              />
+            }
+            label="Làm việc từ xa"
+          />
+        </Item>
+      </Grid>
+
+      {/* Description */}
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="Mô tả"
+            variant="outlined"
+            multiline
+            value={basicInformation.description}
+            onChange={(e) =>
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                description: e.target.value,
+              }))
+            }
+            fullWidth
+          />
+        </Item>
+      </Grid>
+    </Grid>
+  );
 };
 
 export default memo(BasicInformation);
