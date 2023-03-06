@@ -112,7 +112,8 @@ const HomePage = () => {
                 <Box
                   sx={{
                     color: theme.palette.color.main,
-                    fontSize: "2rem",
+                    fontSize: "1.5rem",
+                    fontWeight: 600,
                   }}
                 >
                   Account per month
@@ -130,7 +131,8 @@ const HomePage = () => {
                 <Box
                   sx={{
                     color: theme.palette.color.main,
-                    fontSize: "2rem",
+                    fontSize: "1.5rem",
+                    fontWeight: 600,
                   }}
                 >
                   Post per month
@@ -170,7 +172,8 @@ const HomePage = () => {
               <Box
                 sx={{
                   color: theme.palette.color.main,
-                  fontSize: "2rem",
+                  fontSize: "1.5rem",
+                  fontWeight: 600,
                 }}
               >
                 Post per status

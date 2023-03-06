@@ -48,7 +48,7 @@ const Card = ({ data = {} }) => {
         <Typography
           sx={{
             color: theme.palette.color.main,
-            fontSize: "36px",
+            fontSize: "32px",
             marginRight: "1rem",
           }}
         >
