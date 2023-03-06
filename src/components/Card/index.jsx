@@ -1,11 +1,11 @@
-import classNames from "classnames/bind";
+// import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { Button, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-import styles from "./Card.module.scss";
+// import styles from "./Card.module.scss";
 
-const cx = classNames.bind(styles);
+// const cx = classNames.bind(styles);
 
 const Card = ({ data = {} }) => {
     const theme = useTheme();

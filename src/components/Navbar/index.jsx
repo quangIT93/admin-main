@@ -7,7 +7,7 @@ import styles from "./Navbar.module.scss";
 import { Notification, UserProfile, Popup } from "components";
 import { useAppStateContext } from "contexts/AppContext";
 import {
-    BellIcon,
+    // BellIcon,
     ArrowDownIcon,
     SettingIcon,
     MenuIcon,
@@ -25,7 +25,7 @@ const CustomIconButton = ({ theme, children }) => (
 const Navbar = () => {
     const theme = useTheme();
 
-    const { sidebarRef, contentRef, themeSettingRef, overlayRef } =
+    const { sidebarRef, themeSettingRef, overlayRef } =
         useAppStateContext();
 
     const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
@@ -34,9 +34,9 @@ const Navbar = () => {
     const openNotification = Boolean(notificationAnchorEl);
     const openProfile = Boolean(profileAnchorEl);
 
-    const handleClickNotification = (event) => {
-        setNotificationAnchorEl(event.currentTarget);
-    };
+    // const handleClickNotification = (event) => {
+    //     setNotificationAnchorEl(event.currentTarget);
+    // };
     const handleClickProfile = (event) => {
         setProfileAnchorEl(event.currentTarget);
     };

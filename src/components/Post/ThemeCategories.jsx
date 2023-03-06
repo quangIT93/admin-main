@@ -10,26 +10,26 @@ const ThemeCategories = ({
     const [visibleThemeCategories, setVisibleThemeCategories] = useState([]);
     const [themeCategoryIdSelected, setThemeCategoryIdSelected] = useState();
 
-    // GET ALL THEME CATEGORIES
-    const fetchThemeCategories = async () => {
-        const res = await axios.get(`/theme-categories`);
-        if (res.success) {
-            const visibleThemes = res.data.filter(
-                (theme) =>
-                    themeCategoriesOfPost.findIndex(
-                        (currentTheme) => currentTheme.id === theme.id
-                    ) < 0
-            );
-
-            setVisibleThemeCategories(visibleThemes);
-            if (visibleThemes.length > 0) {
-                setThemeCategoryIdSelected(visibleThemes[0].id);
-            }
-        }
-    };
-
+    
     //
     useEffect(() => {
+        // GET ALL THEME CATEGORIES
+        const fetchThemeCategories = async () => {
+            const res = await axios.get(`/theme-categories`);
+            if (res.success) {
+                const visibleThemes = res.data.filter(
+                    (theme) =>
+                        themeCategoriesOfPost.findIndex(
+                            (currentTheme) => currentTheme.id === theme.id
+                        ) < 0
+                );
+    
+                setVisibleThemeCategories(visibleThemes);
+                if (visibleThemes.length > 0) {
+                    setThemeCategoryIdSelected(visibleThemes[0].id);
+                }
+            }
+        };
         fetchThemeCategories();
     }, []);
 

@@ -10,7 +10,7 @@ import { usePermission } from "hooks";
 const WorkerDetail = () => {
     usePermission();
     const theme = useTheme();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const aid = searchParams.get("aid");
     const isOwn = searchParams.get("own");
 

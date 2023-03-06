@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { ThemeModeContext, useThemeMode } from "contexts/ThemeModeContext";
@@ -8,13 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 import "App.scss";
 
 const App = () => {
-    const { theme, handleThemeMode } = useThemeMode();
+  const { theme, handleThemeMode } = useThemeMode();
 
     return (
         <ThemeModeContext.Provider value={{ theme, handleThemeMode }}>
             <ThemeProvider theme={theme}>
                 <AppContextProvider>
-                    <Router>
+                    {/* <Router> */}
                         <Routes>
                             {publicRoutes.map((route) => (
                                 <Route
@@ -39,7 +39,7 @@ const App = () => {
                                 />
                             ))}
                         </Routes>
-                    </Router>
+                    {/* </Router> */}
                 </AppContextProvider>
             </ThemeProvider>
         </ThemeModeContext.Provider>

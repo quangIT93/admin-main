@@ -1,9 +1,9 @@
 import { forwardRef } from "react";
 import {
     DataGrid,
-    GridToolbar,
-    GridToolbarContainer,
-    GridToolbarFilterButton,
+    // GridToolbar,
+    // GridToolbarContainer,
+    // GridToolbarFilterButton,
     GridToolbarQuickFilter,
     GridToolbarExport,
     gridPageCountSelector,
@@ -12,7 +12,7 @@ import {
     useGridSelector,
 } from "@mui/x-data-grid";
 import { Pagination, Box, Typography } from "@mui/material";
-import { useTheme, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 // Custom display when empty row
 function CustomNoRowsOverlay() {
@@ -99,6 +99,7 @@ function CustomPagination() {
     );
 }
 
+
 // CSS GRID
 const CssDataGrid = styled(DataGrid)(({ theme }) => ({
     backgroundColor: theme.palette.background.content,
@@ -153,3 +154,4 @@ const Table = forwardRef((props, ref) => {
 });
 
 export default Table;
+export { CustomNoRowsOverlay, CustomToolbar, CustomPagination }

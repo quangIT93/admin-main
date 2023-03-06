@@ -13,7 +13,7 @@ const AccountPage = () => {
     usePermission();
 
     const theme = useTheme();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const isToday = searchParams.get("is_today");
     const [accounts, setAccounts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

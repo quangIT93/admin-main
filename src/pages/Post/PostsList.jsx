@@ -12,7 +12,7 @@ import { usePermission } from "hooks";
 const PostsListPage = () => {
     usePermission();
     const theme = useTheme();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 

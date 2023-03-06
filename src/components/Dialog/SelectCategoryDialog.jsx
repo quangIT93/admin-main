@@ -20,7 +20,7 @@ const SelectCategoryDialog = ({
 }) => {
     const theme = useTheme();
 
-    const [parentCategories, setParentCategories] = useState(
+    const [parentCategories] = useState(
         allCategories.map((category) => ({
             id: category.parent_category_id,
             name: category.parent_category,
@@ -51,7 +51,7 @@ const SelectCategoryDialog = ({
             setChildCategories(childs);
             setChildCategoryIdSelected(childs.length > 0 ? childs[0].id : "");
         }
-    }, [parentCategoryIdSelected, categories.length]);
+    }, [parentCategoryIdSelected, categories.length]); 
 
     // HANDLE ADD NEW CATEGORY
     const handleAddNewCategory = () => {

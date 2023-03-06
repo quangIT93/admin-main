@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Chip } from "@mui/material";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const applicationsOfPostColumns = [
     {

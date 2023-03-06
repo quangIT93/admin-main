@@ -6,7 +6,7 @@ const acceptedUrlForWorker = [
     "/admin/worker-manager/detail",
 ];
 
-const usePermission = () => {
+const usePermission = (callback = null) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,9 +22,14 @@ const usePermission = () => {
         }
 
         if (role === "2") {
-            if (!acceptedUrlForWorker.includes(window.location.pathname)) {
+            if (!window.location.pathname.startsWith("/admin/posts") && !acceptedUrlForWorker.includes(window.location.pathname)) {
+                console.log("Not permission");
                 navigate("/admin/not-permission");
             }
+        }
+
+        if (callback) {
+            callback();
         }
     }, []);
 };

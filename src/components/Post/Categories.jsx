@@ -69,7 +69,7 @@ const Categories = ({ categories, setCategories }) => {
             )}
 
             {/* SELECT CATEGORY DIALOG */}
-            {allCategories.length > 0 && (
+            {allCategories ? allCategories.length > 0 && (
                 <SelectCategoryDialog
                     showDialog={showDialog}
                     setShowDialog={setShowDialog}
@@ -77,7 +77,7 @@ const Categories = ({ categories, setCategories }) => {
                     setCategories={setCategories}
                     allCategories={allCategories}
                 />
-            )}
+            ) : null}
         </>
     );
 };

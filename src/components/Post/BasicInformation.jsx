@@ -16,36 +16,14 @@ const Item = styled(Box)(({ theme }) => ({
     },
 }));
 
-const BasicInformation = ({ basicInformations, setBasicInformations }) => {
+const BasicInformation = ({ basicInformation, setBasicInformation }) => {
     const [statusValue, setStatusValue] = useState();
     const [salaryTypes, setSalaryTypes] = useState([]);
     const [locations, setLocations] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
 
-    const fetchAllLocations = async () => {
-        const res = await axios.get("/locations");
-        if (res.success) {
-            setLocations(res.data);
-            if (
-                basicInformations &&
-                basicInformations.province_id &&
-                basicInformations.district_id &&
-                basicInformations.ward_id
-            ) {
-                const province = res.data.find(
-                    (location) =>
-                        location.province_id === basicInformations.province_id
-                );
-                const districts = province.districts;
-                const district = districts.find(
-                    (d) => d.district_id === basicInformations.district_id
-                );
-                setDistricts(districts);
-                setWards(district.wards);
-            }
-        }
-    };
+    
 
     const fetchSalaryTypes = async () => {
         const res = await axios.get("/salary-types");
@@ -53,8 +31,8 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
     };
 
     useEffect(() => {
-        if (basicInformations) {
-            switch (basicInformations.status) {
+        if (basicInformation) {
+            switch (basicInformation.status) {
                 case 0:
                     setStatusValue("Đang chờ duyệt");
                     break;
@@ -72,9 +50,32 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     break;
             }
         }
-    }, [basicInformations]);
+    }, [basicInformation]);
 
     useEffect(() => {
+        const fetchAllLocations = async () => {
+            const res = await axios.get("/locations");
+            if (res.success) {
+                setLocations(res.data);
+                if (
+                    basicInformation &&
+                    basicInformation.province_id &&
+                    basicInformation.district_id &&
+                    basicInformation.ward_id
+                ) {
+                    const province = res.data.find(
+                        (location) =>
+                            location.province_id === basicInformation.province_id
+                    );
+                    const districts = province.districts;
+                    const district = districts.find(
+                        (d) => d.district_id === basicInformation.district_id
+                    );
+                    setDistricts(districts);
+                    setWards(district.wards);
+                }
+            }
+        };
         fetchAllLocations();
         fetchSalaryTypes();
     }, []);
@@ -88,7 +89,7 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
             setDistricts(province.districts);
             setWards(province.districts[0].wards);
 
-            setBasicInformations((prevState) => ({
+            setBasicInformation((prevState) => ({
                 ...prevState,
                 province_id: e.target.value,
                 district_id: province.districts[0].district_id,
@@ -103,7 +104,7 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
             (district) => district.district_id === e.target.value
         ).wards;
         setWards(() => (wards ? wards : []));
-        setBasicInformations((prevState) => ({
+        setBasicInformation((prevState) => ({
             ...prevState,
             district_id: e.target.value,
             ward_id: wards && wards.length > 0 ? wards[0].id : null,
@@ -118,7 +119,7 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="ID"
                         variant="outlined"
-                        value={basicInformations.id}
+                        value={basicInformation.id}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -134,7 +135,7 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Ngày tạo"
                         variant="outlined"
-                        value={moment(basicInformations.created_at).format(
+                        value={moment(basicInformation.created_at).format(
                             "DD/MM/YYYY HH:mm:ss"
                         )}
                         InputProps={{
@@ -168,9 +169,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Tên công việc"
                         variant="outlined"
-                        value={basicInformations.title}
+                        value={basicInformation.title}
                         onChange={(e) => {
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 title: e.target.value,
                             }));
@@ -186,9 +187,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Công ty"
                         variant="outlined"
-                        value={basicInformations.company_name}
+                        value={basicInformation.company_name}
                         onChange={(e) => {
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 company_name: e.target.value,
                             }));
@@ -204,7 +205,7 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Tỉnh/Thành phố"
                         variant="outlined"
-                        value={basicInformations.province_id || ""}
+                        value={basicInformation.province_id || ""}
                         onChange={handleOnChangeProvince}
                         fullWidth
                         select
@@ -227,7 +228,7 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Quận/Huyện"
                         variant="outlined"
-                        value={basicInformations.district_id || ""}
+                        value={basicInformation.district_id || ""}
                         onChange={handleOnChangeDistrict}
                         fullWidth
                         select
@@ -250,9 +251,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Phường/Xã"
                         variant="outlined"
-                        value={basicInformations.ward_id || ""}
+                        value={basicInformation.ward_id || ""}
                         onChange={(e) =>
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 ward_id: e.target.value,
                             }))
@@ -275,9 +276,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Tên đường"
                         variant="outlined"
-                        value={basicInformations.address}
+                        value={basicInformation.address}
                         onChange={(e) => {
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 address: e.target.value,
                             }));
@@ -293,13 +294,13 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         label="Số điện thoại (0-***-***-***)"
                         variant="outlined"
-                        value={basicInformations.phone_contact || ""}
+                        value={basicInformation.phone_contact || ""}
                         inputProps={{
                             inputMode: "numeric",
                             pattern: "[0-9]*",
                         }}
                         onChange={(e) =>
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 phone_contact: e.target.value,
                             }))
@@ -315,9 +316,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <TextField
                         select
                         label="Thời gian làm việc"
-                        value={basicInformations.is_date_period}
+                        value={basicInformation.is_date_period}
                         onChange={(e) => {
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 is_date_period: e.target.value,
                             }));
@@ -331,16 +332,16 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
             </Grid>
 
             {/* WORKING DATE */}
-            {basicInformations.is_date_period === 1 && (
+            {basicInformation.is_date_period === 1 && (
                 <>
                     <Grid item xs={6} lg={3}>
                         <Item>
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DatePicker
                                     label="Ngày bắt đầu"
-                                    value={moment(basicInformations.start_date)}
+                                    value={moment(basicInformation.start_date)}
                                     onChange={(e) =>
-                                        setBasicInformations((prevState) => ({
+                                        setBasicInformation((prevState) => ({
                                             ...prevState,
                                             start_date: new Date(
                                                 e._d
@@ -360,9 +361,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DatePicker
                                     label="Ngày kết thúc"
-                                    value={moment(basicInformations.end_date)}
+                                    value={moment(basicInformation.end_date)}
                                     onChange={(e) =>
-                                        setBasicInformations((prevState) => ({
+                                        setBasicInformation((prevState) => ({
                                             ...prevState,
                                             end_date: new Date(e._d).getTime(),
                                         }))
@@ -383,9 +384,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                         <TimePicker
                             label="Thời gian bắt đầu"
-                            value={moment(basicInformations.start_time)}
+                            value={moment(basicInformation.start_time)}
                             onChange={(e) =>
-                                setBasicInformations((prevState) => ({
+                                setBasicInformation((prevState) => ({
                                     ...prevState,
                                     start_time: new Date(e._d).getTime(),
                                 }))
@@ -403,9 +404,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                         <TimePicker
                             label="Thời gian kết thúc"
-                            value={moment(basicInformations.end_time)}
+                            value={moment(basicInformation.end_time)}
                             onChange={(e) =>
-                                setBasicInformations((prevState) => ({
+                                setBasicInformation((prevState) => ({
                                     ...prevState,
                                     end_time: new Date(e._d).getTime(),
                                 }))
@@ -429,9 +430,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        value={basicInformations.salary_min}
+                        value={basicInformation.salary_min}
                         onChange={(e) =>
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 salary_min: +e.target.value,
                             }))
@@ -452,9 +453,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                         InputLabelProps={{
                             shrink: true,
                         }}
-                        value={basicInformations.salary_max}
+                        value={basicInformation.salary_max}
                         onChange={(e) =>
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 salary_max: +e.target.value,
                             }))
@@ -472,9 +473,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                             label="Tính lương theo"
                             variant="outlined"
                             select
-                            value={basicInformations.salary_type_id}
+                            value={basicInformation.salary_type_id}
                             onChange={(e) =>
-                                setBasicInformations((prevState) => ({
+                                setBasicInformation((prevState) => ({
                                     ...prevState,
                                     salary_type_id: e.target.value,
                                 }))
@@ -501,9 +502,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                         label="Đơn vị tiền"
                         variant="outlined"
                         select
-                        value={basicInformations.money_type}
+                        value={basicInformation.money_type}
                         onChange={(e) =>
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 money_type: e.target.value,
                             }))
@@ -524,10 +525,10 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                         control={
                             <Checkbox
                                 checked={
-                                    basicInformations.is_working_weekend === 1
+                                    basicInformation.is_working_weekend === 1
                                 }
                                 onChange={() =>
-                                    setBasicInformations((prevState) => ({
+                                    setBasicInformation((prevState) => ({
                                         ...prevState,
                                         is_working_weekend:
                                             prevState.is_working_weekend === 0
@@ -549,9 +550,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                         sx={{ color: "#eee" }}
                         control={
                             <Checkbox
-                                checked={basicInformations.is_remotely === 1}
+                                checked={basicInformation.is_remotely === 1}
                                 onChange={() =>
-                                    setBasicInformations((prevState) => ({
+                                    setBasicInformation((prevState) => ({
                                         ...prevState,
                                         is_remotely:
                                             prevState.is_remotely === 0 ? 1 : 0,
@@ -571,9 +572,9 @@ const BasicInformation = ({ basicInformations, setBasicInformations }) => {
                         label="Mô tả"
                         variant="outlined"
                         multiline
-                        value={basicInformations.description}
+                        value={basicInformation.description}
                         onChange={(e) =>
-                            setBasicInformations((prevState) => ({
+                            setBasicInformation((prevState) => ({
                                 ...prevState,
                                 description: e.target.value,
                             }))
