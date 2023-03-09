@@ -39,7 +39,7 @@ const PostsListPage = () => {
         // GET PENDING POSTS
         res = await axios.get(`/posts/by-admin?status=0`);
       } else if (isOwn === "true") {
-        // Get own posts
+        // GET OWN POSTS
         res = await axios.get("/posts/by-admin?is_own=true");
       } else {
         // GET ALL POSTS
