@@ -109,14 +109,16 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
   };
 
   return (
-    <Grid container spacing={4}>
+    
+      basicInformation && 
+      <Grid container spacing={4}>
       {/* Id */}
       <Grid item xs={12} lg={6}>
         <Item>
           <TextField
             label="ID"
             variant="outlined"
-            value={basicInformation.id}
+            value={basicInformation.id || "1"}
             InputProps={{
               readOnly: true,
             }}
@@ -134,7 +136,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             variant="outlined"
             value={moment(basicInformation.created_at).format(
               "DD/MM/YYYY HH:mm:ss"
-            )}
+            ) || ""}
             InputProps={{
               readOnly: true,
             }}
@@ -150,7 +152,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Trạng thái"
             variant="outlined"
-            value={statusValue || ""}
+            value={statusValue || "1"}
             InputProps={{
               readOnly: true,
             }}
@@ -166,7 +168,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Tên công việc"
             variant="outlined"
-            value={basicInformation.title}
+            value={basicInformation.title || "1"}
             onChange={(e) => {
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -184,7 +186,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Công ty"
             variant="outlined"
-            value={basicInformation.company_name}
+            value={basicInformation.company_name || "1"}
             onChange={(e) => {
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -202,7 +204,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Tỉnh/Thành phố"
             variant="outlined"
-            value={basicInformation.province_id || ""}
+            value={basicInformation.province_id || "1"}
             onChange={handleOnChangeProvince}
             fullWidth
             select
@@ -222,7 +224,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Quận/Huyện"
             variant="outlined"
-            value={basicInformation.district_id || ""}
+            value={basicInformation.district_id || "1"}
             onChange={handleOnChangeDistrict}
             fullWidth
             select
@@ -242,7 +244,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Phường/Xã"
             variant="outlined"
-            value={basicInformation.ward_id || ""}
+            value={basicInformation.ward_id || "1"}
             onChange={(e) =>
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -267,7 +269,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Tên đường"
             variant="outlined"
-            value={basicInformation.address}
+            value={basicInformation.address || "1"}
             onChange={(e) => {
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -285,7 +287,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Số điện thoại (0-***-***-***)"
             variant="outlined"
-            value={basicInformation.phone_contact || ""}
+            value={basicInformation.phone_contact || "1"}
             inputProps={{
               inputMode: "numeric",
               pattern: "[0-9]*",
@@ -307,7 +309,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             select
             label="Thời gian làm việc"
-            value={basicInformation.is_date_period}
+            value={basicInformation.is_date_period || 0}
             onChange={(e) => {
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -330,7 +332,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   label="Ngày bắt đầu"
-                  value={moment(basicInformation.start_date)}
+                  value={moment(basicInformation.start_date) || null}
                   onChange={(e) =>
                     setBasicInformation((prevState) => ({
                       ...prevState,
@@ -348,7 +350,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   label="Ngày kết thúc"
-                  value={moment(basicInformation.end_date)}
+                  value={moment(basicInformation.end_date) || null}
                   onChange={(e) =>
                     setBasicInformation((prevState) => ({
                       ...prevState,
@@ -369,7 +371,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <TimePicker
               label="Thời gian bắt đầu"
-              value={moment(basicInformation.start_time)}
+              value={moment(basicInformation.start_time) || null}
               onChange={(e) =>
                 setBasicInformation((prevState) => ({
                   ...prevState,
@@ -387,7 +389,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <TimePicker
               label="Thời gian kết thúc"
-              value={moment(basicInformation.end_time)}
+              value={moment(basicInformation.end_time) || null}
               onChange={(e) =>
                 setBasicInformation((prevState) => ({
                   ...prevState,
@@ -411,7 +413,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             InputLabelProps={{
               shrink: true,
             }}
-            value={basicInformation.salary_min}
+            value={basicInformation.salary_min || 0}
             onChange={(e) =>
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -434,7 +436,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             InputLabelProps={{
               shrink: true,
             }}
-            value={basicInformation.salary_max}
+            value={basicInformation.salary_max || 0}
             onChange={(e) =>
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -454,7 +456,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
               label="Tính lương theo"
               variant="outlined"
               select
-              value={basicInformation.salary_type_id}
+              value={basicInformation.salary_type_id || 0}
               onChange={(e) =>
                 setBasicInformation((prevState) => ({
                   ...prevState,
@@ -480,7 +482,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             label="Đơn vị tiền"
             variant="outlined"
             select
-            value={basicInformation.money_type}
+            value={basicInformation.money_type || 1}
             onChange={(e) =>
               setBasicInformation((prevState) => ({
                 ...prevState,
@@ -545,7 +547,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             label="Mô tả"
             variant="outlined"
             multiline
-            value={basicInformation.description}
+            value={basicInformation.description || "1"}
             onChange={(e) =>
               setBasicInformation((prevState) => ({
                 ...prevState,
