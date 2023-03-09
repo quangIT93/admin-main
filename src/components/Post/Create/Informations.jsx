@@ -311,7 +311,7 @@ const CreatePostInformations = ({
             label="Lương (tối thiểu)"
             variant="outlined"
             type="number"
-            inputProps={{ min: 1000 }}
+            inputProps={{ min: 1 }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -334,7 +334,7 @@ const CreatePostInformations = ({
             label="Lương (tối đa)"
             variant="outlined"
             type="number"
-            inputProps={{ min: 1000 }}
+            inputProps={{ min: 2 }}
             InputLabelProps={{
               shrink: true,
             }}
