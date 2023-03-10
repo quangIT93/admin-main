@@ -33,7 +33,7 @@ const PostDetail = () => {
   const role = sessionStorage.getItem("role");
 
   const [postData, setPostData] = useState();
-  const [basicInformations, setBasicInformations] = useState();
+  const [basicInformation, setBasicInformation] = useState(null);
   const [postCategories, setPostCategories] = useState([]);
   const [enabledImages, setEnabledImages] = useState([]);
   const [disabledImages, setDisabledImages] = useState([]);
@@ -47,11 +47,12 @@ const PostDetail = () => {
   const fetchPostData = async (id) => {
     const res = await axios.get(`/posts/by-admin/${id}`);
     if (res.success) {
-      setPostData(res.data);
       const { categories, images, ...otherData } = res.data;
-
+      // console.log("fetchPostData -> otherData");
       // SET BASIC INFORMATION
-      setBasicInformations(otherData);
+      setBasicInformation(otherData);
+      setPostData(res.data);
+      // console.log(otherData);
 
       // SET CATEGORIES
       setPostCategories(res.data.categories);
@@ -79,7 +80,7 @@ const PostDetail = () => {
       fetchPostData(id);
       fetchApplicationsOfPostData(id);
     }
-  }, [id]);
+  }, []);
 
   // HANDLE DISABLE PHOTO
   const handleDisableImage = useCallback((image) => {
@@ -104,23 +105,23 @@ const PostDetail = () => {
 
     const data = {
       id: id,
-      title: basicInformations.title.trim(),
-      companyName: basicInformations.company_name.trim(),
-      wardId: basicInformations.ward_id,
-      address: basicInformations.address.trim(),
-      phoneContact: basicInformations.phone_contact,
-      isDatePeriod: basicInformations.is_date_period,
-      isWorkingWeekend: basicInformations.is_working_weekend,
-      isRemotely: basicInformations.is_remotely,
-      startDate: basicInformations.start_date,
-      endDate: basicInformations.end_date,
-      startTime: basicInformations.start_time,
-      endTime: basicInformations.end_time,
-      salaryMin: basicInformations.salary_min,
-      salaryMax: basicInformations.salary_max,
-      salaryType: basicInformations.salary_type_id,
-      moneyType: basicInformations.money_type,
-      description: basicInformations.description.trim(),
+      title: basicInformation.title.trim(),
+      companyName: basicInformation.company_name.trim(),
+      wardId: basicInformation.ward_id,
+      address: basicInformation.address.trim(),
+      phoneContact: basicInformation.phone_contact,
+      isDatePeriod: basicInformation.is_date_period,
+      isWorkingWeekend: basicInformation.is_working_weekend,
+      isRemotely: basicInformation.is_remotely,
+      startDate: basicInformation.start_date,
+      endDate: basicInformation.end_date,
+      startTime: basicInformation.start_time,
+      endTime: basicInformation.end_time,
+      salaryMin: basicInformation.salary_min,
+      salaryMax: basicInformation.salary_max,
+      salaryType: basicInformation.salary_type_id,
+      moneyType: basicInformation.money_type,
+      description: basicInformation.description.trim(),
       categoryIds: postCategories.map((category) => category.child_category_id),
       enabledImageIds: enabledImages.map((image) => image.id),
       disabledImageIds: disabledImages.map((image) => image.id),
@@ -158,7 +159,7 @@ const PostDetail = () => {
       status: postStatusApproved,
     });
     if (res && res.success) {
-      setBasicInformations((prevState) => ({
+      setBasicInformation((prevState) => ({
         ...prevState,
         status: postStatusApproved,
       }));
@@ -197,7 +198,7 @@ const PostDetail = () => {
       </Box>
       {postData ? (
         <Box>
-          {basicInformations.status === 0 && role === "1" && (
+          {basicInformation.status === 0 && role === "1" && (
             <Box>
               <Typography sx={{ color: "#eee", marginBottom: "1rem" }}>
                 Bài viết này chưa được phê duyệt
@@ -224,7 +225,7 @@ const PostDetail = () => {
             </Box>
           )}
 
-          {role === "1" && basicInformations.status === 1 && (
+          {role === "1" && basicInformation.status === 1 && (
             <Button
               variant="outlined"
               sx={{ marginTop: "1rem" }}
@@ -237,7 +238,7 @@ const PostDetail = () => {
             </Button>
           )}
 
-          {role === "1" && basicInformations.status === 2 && (
+          {role === "1" && basicInformation.status === 2 && (
             <Button
               variant="outlined"
               sx={{ marginTop: "1rem" }}
@@ -251,15 +252,17 @@ const PostDetail = () => {
           )}
 
           {/* BASIC INFORMATION */}
-          <Box sx={{ flexGrow: 1, padding: "2rem 0" }}>
-            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
-              Thông tin bài viết
-            </Typography>
-            <PostBasicInformation
-              basicInformations={basicInformations}
-              setBasicInformations={setBasicInformations}
-            />
-          </Box>
+          {/* {basicInformation !== null && ( */}
+            <Box sx={{ flexGrow: 1, padding: "2rem 0" }}>
+              <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+                Thông tin bài viết
+              </Typography>
+              <PostBasicInformation
+                basicInformation={basicInformation}
+                setBasicInformation={setBasicInformation}
+              />
+            </Box>
+          {/* )} */}
 
           {/*  CATEGORIES */}
           <Box p="2rem 0">
