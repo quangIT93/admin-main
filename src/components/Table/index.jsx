@@ -1,9 +1,6 @@
 import React, { forwardRef } from "react";
 import {
   DataGrid,
-  // GridToolbar,
-  // GridToolbarContainer,
-  // GridToolbarFilterButton,
   GridToolbarQuickFilter,
   GridToolbarExport,
   gridPageCountSelector,
@@ -13,15 +10,7 @@ import {
 } from "@mui/x-data-grid";
 import { Pagination, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import "./style.scss";
-import { fetchAllLocations } from "#api";
-
-const Item = styled(Box)(({ theme }) => ({
-  textarea: {
-    fontSize: "1rem",
-  },
-}));
 
 // Custom display when empty row
 function CustomNoRowsOverlay() {
@@ -69,73 +58,6 @@ const CssGridToolbarQuickFilter = styled(GridToolbarQuickFilter)(
   })
 );
 
-function Dropdown(props) {
-  let { districts } = props;
-
-  const [isActive, setIsActive] = React.useState(false);
-
-  console.log("Just loaded the Dropdown compo");
-  console.log("districts from props :>> ", districts);
-
-  return (
-    <div className="dropdown">
-      <button
-        onClick={() => setIsActive((prev) => !prev)}
-        className="dropdown__btn"
-      >
-        <span>Choose one</span>
-        {isActive ? (
-          <IoMdArrowDropup size={20} />
-        ) : (
-          <IoMdArrowDropdown size={20} />
-        )}
-      </button>
-      {isActive && (
-        <div className="dropdown__content">
-          {districts
-            ? districts.map((district) => (
-                <divk className="dropdown-content__item">
-                  {district.district}
-                </divk>
-              ))
-            : undefined}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function SearchByLocation() {
-  const [districts, setDistricts] = React.useState([{}]);
-  const [locations, setLocations] = React.useState([]);
-
-  React.useEffect(() => {
-    const getLocations = async () => {
-      const locations = await fetchAllLocations();
-      setLocations(locations);
-      let districtsLocalScope = [];
-      locations.forEach((location) => {
-        districtsLocalScope.push(location.districts);
-      });
-      setDistricts(districtsLocalScope);
-    };
-    getLocations();
-  }, []);
-
-  console.log("SearchByLocation compo just loaded");
-
-  return (
-    <div className="search-by-location">
-      <button>Tìm kiếm bằng địa điểm</button>
-      <div className="location__dropdown">
-        <h2>Dropdown</h2>
-        <Dropdown districts={districts} />
-        {/* District */}
-      </div>
-    </div>
-  );
-}
-
 function CustomToolbar() {
   return (
     <Box
@@ -154,7 +76,6 @@ function CustomToolbar() {
       }}
     >
       <CssGridToolbarExport />
-      <SearchByLocation />
       <CssGridToolbarQuickFilter />
     </Box>
   );

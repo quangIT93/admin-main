@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from "react";
+import React,{ useState, memo } from "react";
 import { axios } from "configs";
 import {
   DialogContent,
@@ -6,10 +6,12 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { useTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import { Table, Dialog } from "components";
 import { postListColumns } from "configs/table";
+import { fetchAllLocations } from "#api";
 import "./SelectThemePosts";
 
 const SelectThemePostsDialog = ({
@@ -46,16 +48,95 @@ const SelectThemePostsDialog = ({
     }
   };
 
-  useEffect(() => {
+  function Dropdown(props) {
+  let { districts } = props;
+
+  const [isActive, setIsActive] = React.useState(false);
+
+  console.log("Just loaded the Dropdown compo");
+
+  console.log("districts props :>> ", districts);
+
+  districts.forEach(item => {
+    console.log("typeof item :>> ", typeof item);
+    console.log("item :>> ", item);
+  })
+
+  return (
+    <div className="dropdown">
+      <button
+        onClick={() => setIsActive((prev) => !prev)}
+        className="dropdown__btn"
+      >
+        <span>Choose one</span>
+        {isActive ? (
+          <IoMdArrowDropup size={20} />
+        ) : (
+          <IoMdArrowDropdown size={20} />
+        )}
+      </button>
+      {isActive && (
+        <div className="dropdown__content">
+          {districts
+            ? districts.map((district) => (
+                <divk className="dropdown-content__item">
+                  {district.district}
+                </divk>
+              ))
+            : undefined}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SearchByLocation() {
+  const [districts, setDistricts] = React.useState([{}]);
+  const [location, setLocation] = React.useState([]);
+
+  React.useEffect(() => {
+    const getLocations = async () => {
+      console.log("getLocaitons");
+      const location = await fetchAllLocations();
+      setLocation(location);
+      let districtsLocalScope = [];
+      location.forEach((location) => {
+        districtsLocalScope.push(location.districts);
+      });
+      setDistricts(districtsLocalScope);
+    };
+    getLocations();
+    // console.log("locaitons :>> ", location);
+    // console.log("locaitons length :>> ", location.length);
+    // console.log("districts :>> ", districts);
+  }, []);
+
+  console.log("SearchByLocation compo just loaded");
+
+  return (
+    <div className="search-by-location">
+      <button>Tìm kiếm bằng địa điểm</button>
+      <div className="location__dropdown">
+        <h2>Dropdown</h2>
+        <Dropdown districts={districts} />
+        {/* District */}
+      </div>
+    </div>
+  );
+}
+  React.useEffect(() => {
     setPostIdsSelection(postsOfTheme.map((post) => post.id));
   }, [postsOfTheme]);
 
   return (
     <>
       <Dialog disableEscapeKeyDown open={open} onClose={() => setOpen(false)}>
+        <div className="select-post">
         <DialogTitle variant="h4" sx={{ padding: "20px 24px" }}>
           Select posts
         </DialogTitle>
+          <SearchByLocation />
+        </div>
 
         <DialogContent
           sx={{
