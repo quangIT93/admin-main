@@ -8,9 +8,9 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
-
 import { Table, Dialog } from "components";
 import { postListColumns } from "configs/table";
+import "./SelectThemePosts";
 
 const SelectThemePostsDialog = ({
   themeId,
@@ -24,10 +24,6 @@ const SelectThemePostsDialog = ({
 
   // POST SELECTION
   const [postIdsSelections, setPostIdsSelection] = useState([]);
-
-  useEffect(() => {
-    setPostIdsSelection(postsOfTheme.map((post) => post.id));
-  }, [postsOfTheme]);
 
   const handleOnSubmit = async () => {
     setOpen(false);
@@ -49,6 +45,10 @@ const SelectThemePostsDialog = ({
       }
     }
   };
+
+  useEffect(() => {
+    setPostIdsSelection(postsOfTheme.map((post) => post.id));
+  }, [postsOfTheme]);
 
   return (
     <>

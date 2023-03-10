@@ -10,7 +10,6 @@ const ThemeCategories = ({
   const [visibleThemeCategories, setVisibleThemeCategories] = useState([]);
   const [themeCategoryIdSelected, setThemeCategoryIdSelected] = useState();
 
-  //
   useEffect(() => {
     // GET ALL THEME CATEGORIES
     const fetchThemeCategories = async () => {

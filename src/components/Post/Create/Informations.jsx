@@ -59,21 +59,6 @@ const CreatePostInformations = ({
     }));
   };
 
-  /*
-  post,
-  setPost,
-  locations,
-  districts,
-  wards,
-  setDistricts,
-  setWards,
-  salaryTypes,
- */
-
-  console.log("Just loaded the Information compo");
-  console.log("districts :>> ", districts);
-  console.log("location :>> ", locations);
-
   return (
     <Grid container spacing={4}>
       {/* Title */}
