@@ -216,9 +216,6 @@ const CreatePostPage = () => {
       return toast.warn(createPostValidationReply.message);
     }
 
-    // console.log(post);
-    // console.log("post :>> ", post);
-
     const postSubmit = new FormData();
     postSubmit.append("title", post.title.trim());
     postSubmit.append("companyName", post.companyName.trim());

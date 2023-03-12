@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, Suspense } from "react";
 import { axios } from "configs";
 import {
   DialogContent,
@@ -6,31 +6,13 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+// import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { useTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import { Table, Dialog } from "components";
 import { postListColumns } from "configs/table";
 import { fetchAllLocations } from "#api";
-import "./SelectThemePosts";
-
-// const obj = {
-//   name: "James",
-//   country: "Chile",
-// };
-
-// console.log(typeof Object.keys(obj));
-// console.log(Object.keys(obj));
-
-// Object.keys(obj).forEach((key) => {
-//   console.log("key :>> ", key);
-//   console.log("object[key] :>> ", obj[key]);
-// });
-
-// ⛔️ TypeError: object.forEach is not a function
-// obj.forEach((element) => {
-//   console.log(element);
-// });
+import "./SelectThemePosts.scss";
 
 const SelectThemePostsDialog = ({
   themeId,
@@ -66,106 +48,123 @@ const SelectThemePostsDialog = ({
     }
   };
 
-  const InitProvince = {
-    province_id: "",
-    province_Fullname: "",
-    province_name: "",
-  };
-
-  function Dropdown(props) {
-    let { districts, location } = props;
+  function Dropdown() {
+    let autoSelectedProvince = "";
+    let districtsGlobal = [];
+    let wardsGlobal = [];
     const [isActive, setIsActive] = React.useState(false);
-    const [provinces, setProvinces] = React.useState();
+    const [provinces, setProvinces] = React.useState([]);
+    const [selectedProvince, setSelectedProvince] = React.useState("");
+    const [selectedDistrict, setSelectedDistrict] = React.useState("");
+    const [selectedWard, setSelectedWard] = React.useState("");
 
-    const getProvinces = () => {
-      console.log("getProvinces");
-      let provinces = [];
-      // Object to arrays of keys
-      Object.keys(location).forEach((key) => {
-        // console.log("key :>> ", key);
-        // console.log("Provinces name :>> ", location[key].province_name);
-        const provinceInfo = {
-          province_id: location[key].province_id,
-          province_Fullname: location[key].province_Fullname,
-          province_name: location[key].province_name,
-        };
-        console.log("province info :>> ", provinceInfo);
-        provinces.push(provinceInfo);
-        // setProvinces(provinces);
-      });
-
-      return provinces;
+    const handleOnChangeProvince = (e) => {
+      setSelectedProvince(e.target.value);
     };
 
-    getProvinces();
+    const handleOnChangeDistrict = (e) => {
+      setSelectedDistrict(e.target.value);
+    };
 
-    // React.useEffect(() => {
-    //   getProvinces();
-    // setProvinces(getProvinces);
-    // console.log("provicne data :>> ", provinces);
-    // }, []);
+    const handleOnChangeWard = (e) => {
+      setSelectedWard(e.target.value);
+    };
 
-    console.log("Just laod the dropdown compo");
+    const getLocation = async () => {
+      const location = await fetchAllLocations();
+      autoSelectedProvince = location[0].province_name;
+      setProvinces(location);
+      setSelectedProvince(autoSelectedProvince);
+    };
+
+    const getWardBasedOnFirstDistrict = (province) => {
+      if (province) {
+        const districts = province.districts;
+        districtsGlobal = districts;
+
+        // Get the wards based on the specific district
+        const wards = districts[0].wards;
+        wardsGlobal = wards;
+      }
+    };
+
+    const getDistrictByProvinceName = () => {
+      console.log("getDistrictByProvinceName");
+      if (provinces) {
+        const province = provinces.find(
+          ({ province_name }) => province_name === selectedProvince
+        );
+
+        getWardBasedOnFirstDistrict(province);
+      }
+    };
+
+    getDistrictByProvinceName();
+
+    React.useEffect(() => {
+      getLocation();
+    }, []);
 
     return (
       <div className="dropdown">
-        <button
-          onClick={() => setIsActive((prev) => !prev)}
-          className="dropdown__btn"
-        >
-          <span>Tinh/Thanh Pho</span>
-          {isActive ? (
-            <IoMdArrowDropup size={20} />
-          ) : (
-            <IoMdArrowDropdown size={20} />
-          )}
-        </button>
-        {isActive && (
-          <div className="dropdown__content">
+        <div className="dropdown__item">
+          <div>Tỉnh/Thành phố</div>
+          <select
+            className="select-container"
+            value={selectedProvince}
+            onChange={handleOnChangeProvince}
+          >
             {provinces
-              ? provinces.map((province) => <h1>Hello</h1>)
+              ? provinces.map((province) => (
+                  <option
+                    className="select-container__item"
+                    key={province.province_id}
+                  >
+                    {province.province_name}
+                  </option>
+                ))
               : undefined}
-          </div>
-        )}
+          </select>
+        </div>
+        <div className="dropdown__item">
+          <div>Quận/Huyện</div>
+          <select value={selectedDistrict} onChange={handleOnChangeDistrict}>
+            {districtsGlobal
+              ? districtsGlobal.map((district) => (
+                  <option>{district.district}</option>
+                ))
+              : undefined}
+          </select>
+        </div>
+        <div className="dropdown__item">
+          <div>Phường/Xã</div>
+          <select value={selectedWard} onChange={handleOnChangeWard}>
+            {wardsGlobal
+              ? wardsGlobal.map((ward) => <option>{ward.full_name}</option>)
+              : undefined}
+          </select>
+        </div>
+        <div>
+          <div>Phường/Xã</div>
+          <input type="text" />
+        </div>
       </div>
     );
   }
 
   function SearchByLocation() {
-    const [districts, setDistricts] = React.useState([{}]);
-    const [location, setLocation] = React.useState([]);
-
-    React.useEffect(() => {
-      const getLocation = async () => {
-        console.log("getLocaiton");
-        const location = await fetchAllLocations();
-        // setProvinces(location);
-        setLocation(location);
-        let districtsLocalScope = [];
-        location.forEach((location) => {
-          districtsLocalScope.push(location.districts);
-        });
-        setDistricts(districtsLocalScope);
-      };
-
-      getLocation();
-    }, []);
-
-    // console.log("provinces :>> ", provinces);
-    // console.log("location :>> ", location);
-    console.log("SearchByLocation compo just loaded");
+    const [isActive, setIsActive] = React.useState(false);
 
     return (
       <div className="search-by-location">
-        <button>Tìm kiếm bằng địa điểm</button>
-        <div className="location__dropdown">
-          <h2>Dropdown</h2>
-          <Dropdown location={location} districts={districts} />
-          {/* District */}
-        </div>
+        <button onClick={() => setIsActive((prev) => !prev)}>
+          Tìm kiếm bằng địa điểm
+        </button>
+        <div className="location__dropdown">{isActive && <Dropdown />}</div>
       </div>
     );
   }
+
   React.useEffect(() => {
     setPostIdsSelection(postsOfTheme.map((post) => post.id));
   }, [postsOfTheme]);
