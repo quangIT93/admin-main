@@ -121,8 +121,6 @@ const Table = forwardRef((props, ref) => {
     onSelectionModelChange,
   } = props;
 
-  console.log("Just loaded the table componnet");
-
   return (
     <CssDataGrid
       sx={{ padding: "0.5rem" }}

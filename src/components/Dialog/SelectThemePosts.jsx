@@ -1,4 +1,4 @@
-import React, { useState, memo, Suspense } from "react";
+import React, { useState, memo } from "react";
 import { axios } from "configs";
 import {
   DialogContent,
@@ -48,103 +48,74 @@ const SelectThemePostsDialog = ({
     }
   };
 
-  function Dropdown() {
-    let autoSelectedProvince = "";
-    let districtsGlobal = [];
-    let wardsGlobal = [];
-    const [isActive, setIsActive] = React.useState(false);
-    const [provinces, setProvinces] = React.useState([]);
-    const [selectedProvince, setSelectedProvince] = React.useState("");
-    const [selectedDistrict, setSelectedDistrict] = React.useState("");
-    const [selectedWard, setSelectedWard] = React.useState("");
+  function Dropdown(props) {
+    const { locations, wards, districts, setWards, setDistricts } = props;
 
     const handleOnChangeProvince = (e) => {
-      setSelectedProvince(e.target.value);
+      const selectedProvinceName = e.target.value;
+      const province = locations.find(
+        (location) => location.province_name === selectedProvinceName
+      );
+      if (province) {
+        // Reset the districts and wards based on the selected province
+        setDistricts(province.districts);
+        setWards(province.districts[0].wards);
+      }
     };
 
     const handleOnChangeDistrict = (e) => {
-      setSelectedDistrict(e.target.value);
+      const selectedDistrict = e.target.value;
+      const newDistrict = districts.find(
+        (district) => district.district === selectedDistrict
+      );
+      const wards = newDistrict.wards;
+      setWards(wards);
     };
 
-    const handleOnChangeWard = (e) => {
-      setSelectedWard(e.target.value);
-    };
-
-    const getLocation = async () => {
-      const location = await fetchAllLocations();
-      autoSelectedProvince = location[0].province_name;
-      setProvinces(location);
-      setSelectedProvince(autoSelectedProvince);
-    };
-
-    const getWardBasedOnFirstDistrict = (province) => {
-      if (province) {
-        const districts = province.districts;
-        districtsGlobal = districts;
-
-        // Get the wards based on the specific district
-        const wards = districts[0].wards;
-        wardsGlobal = wards;
-      }
-    };
-
-    const getDistrictByProvinceName = () => {
-      console.log("getDistrictByProvinceName");
-      if (provinces) {
-        const province = provinces.find(
-          ({ province_name }) => province_name === selectedProvince
-        );
-
-        getWardBasedOnFirstDistrict(province);
-      }
-    };
-
-    getDistrictByProvinceName();
+    const handleOnChangeWard = (e) => {};
 
     React.useEffect(() => {
-      getLocation();
+      setDistricts(locations[0].districts);
+      setWards(locations[0].districts[0].wards);
     }, []);
 
     return (
       <div className="dropdown">
         <div className="dropdown__item">
           <div>Tỉnh/Thành phố</div>
-          <select
-            className="select-container"
-            value={selectedProvince}
-            onChange={handleOnChangeProvince}
-          >
-            {provinces
-              ? provinces.map((province) => (
-                  <option
-                    className="select-container__item"
-                    key={province.province_id}
-                  >
+          <select onChange={handleOnChangeProvince}>
+            {locations
+              ? locations.map((province) => (
+                  <option key={province.province_id}>
                     {province.province_name}
                   </option>
                 ))
               : undefined}
           </select>
+          <div className="dropdown__item">
+            <div>Quận/Huyện</div>
+            <select onChange={handleOnChangeDistrict}>
+              {districts
+                ? districts.map((district) => (
+                    <option key={district.district_id}>
+                      {district.district}
+                    </option>
+                  ))
+                : undefined}
+            </select>
+          </div>
+          <div className="dropdown__item">
+            <div>Phường/Xã</div>
+            <select onChange={handleOnChangeWard}>
+              {wards
+                ? wards.map((ward) => (
+                    <option key={ward.id}>{ward.full_name}</option>
+                  ))
+                : undefined}
+            </select>
+          </div>
         </div>
         <div className="dropdown__item">
-          <div>Quận/Huyện</div>
-          <select value={selectedDistrict} onChange={handleOnChangeDistrict}>
-            {districtsGlobal
-              ? districtsGlobal.map((district) => (
-                  <option>{district.district}</option>
-                ))
-              : undefined}
-          </select>
-        </div>
-        <div className="dropdown__item">
-          <div>Phường/Xã</div>
-          <select value={selectedWard} onChange={handleOnChangeWard}>
-            {wardsGlobal
-              ? wardsGlobal.map((ward) => <option>{ward.full_name}</option>)
-              : undefined}
-          </select>
-        </div>
-        <div>
           <div>Phường/Xã</div>
           <input type="text" />
         </div>
@@ -154,13 +125,39 @@ const SelectThemePostsDialog = ({
 
   function SearchByLocation() {
     const [isActive, setIsActive] = React.useState(false);
+    const [locations, setLocation] = React.useState([]);
+    const [districts, setDistricts] = React.useState([]);
+    const [wards, setWards] = React.useState([]);
+    const getLocation = async () => {
+      const location = await fetchAllLocations();
+      setLocation(location);
+      setDistricts([]);
+      setWards([]);
+    };
+
+    React.useEffect(() => {
+      getLocation();
+    }, []);
 
     return (
-      <div className="search-by-location">
-        <button onClick={() => setIsActive((prev) => !prev)}>
+      <div className="search-bylocation">
+        <button
+          className="location__button"
+          onClick={() => setIsActive((prev) => !prev)}
+        >
           Tìm kiếm bằng địa điểm
         </button>
-        <div className="location__dropdown">{isActive && <Dropdown />}</div>
+        {isActive && (
+          <div className="location__dropdown">
+            <Dropdown
+              locations={locations}
+              wards={wards}
+              districts={districts}
+              setWards={setWards}
+              setDistricts={setDistricts}
+            />
+          </div>
+        )}
       </div>
     );
   }
