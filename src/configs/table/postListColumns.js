@@ -3,8 +3,6 @@ import moment from "moment";
 import { Chip } from "@mui/material";
 import { Link } from "react-router-dom";
 
-console.log("Just laoded the list columns");
-
 const PostListColumns = [
   {
     field: "id",
@@ -62,31 +60,38 @@ const PostListColumns = [
     },
   },
   {
-    field: "created_at",
-    headerName: "Ngày tạo",
-    type: "string",
-    flex: 1,
-    minWidth: 150,
-    renderCell: (params) =>
-      moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
-  },
-  {
-    field: "street_names",
-    headerName: "Tên đường",
-    type: "string",
-    flex: 1,
-    minWidth: 150,
-    renderCell: (params) =>
-      moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
-  },
-  {
-    field: "city",
+    field: "province",
     headerName: "Thành phố",
     type: "string",
     flex: 1,
     minWidth: 150,
     // renderCell: (params) =>
     //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
+  },
+  {
+    field: "district",
+    headerName: "Quận/Huyện",
+    flex: 1,
+    minWidth: 100,
+    // renderCell: (params) =>
+    //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
+  },
+  {
+    field: "ward",
+    headerName: "Phường/Xã",
+    flex: 1,
+    minWidth: 100,
+    // renderCell: (params) =>
+    //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
+  },
+  {
+    field: "created_at",
+    headerName: "Ngày tạo",
+    type: "string",
+    flex: 1,
+    minWidth: 150,
+    renderCell: (params) =>
+      moment(params.row.created_at).format("DD/MM/YYYY HH:mm"),
   },
 ];
 
