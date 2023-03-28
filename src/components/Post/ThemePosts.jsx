@@ -44,14 +44,14 @@ const ThemePosts = ({ posts = [], themeId, setPosts }) => {
 
       <Table rows={posts} columns={postListColumns} showCheckbox={false} />
 
-      <SelectThemePostsDialog
+      {allPosts.length > 0 && <SelectThemePostsDialog
         themeId={themeId}
         open={showSelectPostsOfThemeDialog}
         setOpen={setShowSelectPostsOfThemeDialog}
         allPosts={allPosts}
         postsOfTheme={posts}
         setPostsOfTheme={setPosts}
-      />
+      />}
     </Box>
   );
 };

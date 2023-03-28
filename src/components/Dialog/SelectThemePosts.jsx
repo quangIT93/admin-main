@@ -16,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import { Table, Dialog } from "components";
 import { postListColumns } from "configs/table";
-import { fetchAllLocations } from "#api";
+import { fetchAllLocations } from "api";
 import "./SelectThemePosts.scss";
 
 const Item = styled(Box)(({ theme }) => ({
@@ -37,6 +37,8 @@ const SelectThemePostsDialog = ({
 
   // POST SELECTION
   const [postIdsSelections, setPostIdsSelection] = useState([]);
+
+  const [filtedPosts, setFiltedPosts] = useState([]);
 
   const handleOnSubmit = async () => {
     setOpen(false);
@@ -59,160 +61,73 @@ const SelectThemePostsDialog = ({
     }
   };
 
-  function Dropdown(props) {
-    const { locations } = props;
-    console.log("locations :>> ", locations);
-    const [selectedProvinceId, setSelectedProvinceId] = React.useState(-1);
-    const [selectedDistrictId, setSelectedDistrictId] = React.useState();
-    const [selectedWardId, setSelectedWardId] = React.useState(-1);
-    const [districts, setDistricts] = React.useState([]);
-    const [wards, setWards] = React.useState([]);
+  const [selectedProvinceId, setSelectedProvinceId] = useState("");
+  const [selectedDistrictId, setSelectedDistrictId] = useState("");
+  const [selectedWardId, setSelectedWardId] = useState("");
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [locations, setLocations] = useState([]);
 
-    const handleOnChangeProvince = (e) => {
-      const selectedProvinceId = e.target.value;
-      setSelectedProvinceId(selectedProvinceId);
-      const province = locations.find(
-        (location) => location.province_id === selectedProvinceId
+  const handleOnChangeProvince = (e) => {
+    const selectedProvinceIdValue = e.target.value;
+    setSelectedProvinceId(selectedProvinceIdValue.toString());
+    const province = locations.find(
+      (location) => location.province_id === selectedProvinceIdValue.toString()
       );
+    
 
+    if (province) {
+      const filtedPostTemp = allPosts.filter((post) => {
+        return post.province_id === selectedProvinceIdValue;
+      });
+      setFiltedPosts(filtedPostTemp);
       setDistricts(province.districts);
-    };
+    }
 
-    const handleOnChangeDistrict = (e) => {
-      const selectedDistrictId = e.target.value;
-      setSelectedDistrictId(selectedDistrictId);
-      const district = districts.find(
-        (district) => district.district_id === selectedDistrictId
-      );
+  };
 
-      if (district) {
-        setWards(district.wards);
-      }
-    };
-
-    const handleOnChangeWard = (e) => {
-      const selectedWardId = e.target.value;
-      setSelectedWardId(selectedWardId);
-    };
-
-    const handleClickSubmitFormSearchPost = (e) => {
-      e.preventDefault();
-
-      console.log("handleClickSubmitFormSearchPost ");
-      console.log("selected province id :>> ", selectedProvinceId);
-      console.log("selected district id :>> ", selectedDistrictId);
-      console.log("selected ward id :>> ", selectedWardId);
-
-      // API waiting for Hao finished the api
-    };
-
-    return (
-      <Box>
-        <Grid container xs={12} spacing={4}>
-          <Grid item lg={4}>
-            <TextField
-              label="Tỉnh/Thành phố"
-              variant="outlined"
-              value={selectedProvinceId !== "" ? selectedProvinceId : ""}
-              onChange={handleOnChangeProvince}
-              fullWidth
-              select
-            >
-              {locations.map((location) => (
-                <MenuItem
-                  key={location.province_id}
-                  value={location.province_id}
-                >
-                  {location.province_name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-
-          {/* District */}
-          <Grid item lg={4}>
-            <Item>
-              <TextField
-                label="Quận/Huyện"
-                variant="outlined"
-                value={selectedDistrictId !== "" ? selectedDistrictId : ""}
-                onChange={handleOnChangeDistrict}
-                fullWidth
-                select
-              >
-                {districts.map((district) => (
-                  <MenuItem
-                    key={district.district_id}
-                    value={district.district_id}
-                  >
-                    {district.district}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Item>
-          </Grid>
-
-          {/* Ward */}
-          <Grid item lg={4}>
-            <TextField
-              label="Phường/Xã"
-              variant="outlined"
-              onChange={handleOnChangeWard}
-              fullWidth
-              select
-            >
-              {wards.map((ward) => (
-                <MenuItem key={ward.id} value={ward.id}>
-                  {ward.full_name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-        </Grid>
-        <Button
-          onClick={handleClickSubmitFormSearchPost}
-          variant="contained"
-          sx={{ marginTop: "12px" }}
-        >
-          Submit
-        </Button>
-      </Box>
+  const handleOnChangeDistrict = (e) => {
+    const selectedDistrictIdTarget = e.target.value;
+    setSelectedDistrictId(selectedDistrictIdTarget);
+    const district = districts.find(
+      (district) => district.district_id === selectedDistrictIdTarget
     );
-  }
 
-  function SearchByLocation() {
-    const [isActive, setIsActive] = React.useState(false);
-    const [locations, setLocation] = React.useState([]);
+    if (district) {
+      const filtedPostTemp = allPosts.filter((post) => {
+        return post.district_id === selectedDistrictIdTarget;
+      });
 
-    const getLocation = async () => {
-      console.log("getLocaiton just be called");
-      const location = await fetchAllLocations();
-      setLocation(location);
-    };
+      setFiltedPosts(filtedPostTemp);
 
-    React.useEffect(() => {
-      getLocation();
-    }, []);
+      setWards(district.wards);
+    }
+  };
 
-    return (
-      <div className="search-bylocation">
-        <button
-          className="location__button"
-          onClick={() => setIsActive((prev) => !prev)}
-        >
-          Tìm kiếm bằng địa điểm
-        </button>
-        {isActive && (
-          <div className="location__dropdown">
-            <Dropdown locations={locations} />
-          </div>
-        )}
-      </div>
-    );
-  }
+  const handleOnChangeWard = (e) => {
+    const selectedWardIdValue = e.target.value;
+
+
+    const filtedPostTemp = allPosts.filter((post) => {
+      return post.ward_id === selectedWardIdValue;
+    });
+    setFiltedPosts(filtedPostTemp);
+    setSelectedWardId(selectedWardIdValue);
+  };
+
+  const getLocation = async () => {
+    if (locations.length > 0) return;
+    const location = await fetchAllLocations();
+    setLocations(location);
+  };
+
 
   React.useEffect(() => {
     setPostIdsSelection(postsOfTheme.map((post) => post.id));
+    setFiltedPosts(allPosts);
+    if (locations.length === 0) {
+      getLocation();
+    }
   }, [postsOfTheme]);
 
   return (
@@ -222,7 +137,71 @@ const SelectThemePostsDialog = ({
           <DialogTitle variant="h4" sx={{ padding: "20px 24px" }}>
             Select posts
           </DialogTitle>
-          <SearchByLocation />
+          <div className="location__dropdown">
+            <Box>
+              <Grid container xs={12} spacing={4}>
+                <Grid item lg={4}>
+                  <TextField
+                    label="Tỉnh/Thành phố"
+                    variant="outlined"
+                    value={selectedProvinceId !== "" ? selectedProvinceId.toString() : ""}
+                    onChange={handleOnChangeProvince}
+                    fullWidth
+                    select
+                  >
+                    {locations.map((location) => (
+                      <MenuItem
+                        key={location.province_id}
+                        value={location.province_id.toString()}
+                      >
+                        {location.province_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+
+                {/* District */}
+                <Grid item lg={4}>
+                  <Item>
+                    <TextField
+                      label="Quận/Huyện"
+                      variant="outlined"
+                      value={selectedDistrictId !== "" ? selectedDistrictId : ""}
+                      onChange={handleOnChangeDistrict}
+                      fullWidth
+                      select
+                    >
+                      {districts.map((district) => (
+                        <MenuItem
+                          key={district.district_id}
+                          value={district.district_id}
+                        >
+                          {district.district}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Item>
+                </Grid>
+
+                {/* Ward */}
+                <Grid item lg={4}>
+                  <TextField
+                    label="Phường/Xã"
+                    variant="outlined"
+                    onChange={handleOnChangeWard}
+                    fullWidth
+                    select
+                  >
+                    {wards.map((ward) => (
+                      <MenuItem key={ward.id} value={ward.id}>
+                        {ward.full_name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+              </Grid>
+            </Box>
+          </div>
         </div>
 
         <DialogContent
@@ -234,15 +213,15 @@ const SelectThemePostsDialog = ({
             width: "100%",
           }}
         >
-          <Table
-            rows={allPosts}
+          {filtedPosts.length > 0 && <Table
+            rows={filtedPosts}
             columns={postListColumns}
             showCheckbox={true}
             selectionModel={postIdsSelections}
             onSelectionModelChange={(newPostIdsSelections) => {
               setPostIdsSelection(newPostIdsSelections);
             }}
-          />
+          />}
         </DialogContent>
 
         <DialogActions sx={{ padding: "20px 24px" }}>

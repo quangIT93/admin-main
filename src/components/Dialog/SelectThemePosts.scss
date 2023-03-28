@@ -13,10 +13,9 @@
     border: 1px solid #fcfcfc;
     border-radius: 12px;
     padding-block: 4px;
-    padding: 1rem;
     background-color: #FFFFFF;
     top: 120%;
-    position: absolute;
+    position: relative;
   }
   
   &__button {
@@ -48,4 +47,11 @@
 
 .dropdown__item:not(:first-child) {
   margin-top: 8px;
+}
+
+@media (min-width: 1200px) {
+  .MuiDialog-paper {
+    width: 100% !important;
+    max-width: 1200px !important;
+  }
 }
