@@ -35,10 +35,12 @@ const SelectThemePostsDialog = ({
 }) => {
   const theme = useTheme();
 
+  console.log("allPosts", allPosts);
+
   // POST SELECTION
   const [postIdsSelections, setPostIdsSelection] = useState([]);
 
-  const [filtedPosts, setFiltedPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   const handleOnSubmit = async () => {
     setOpen(false);
@@ -77,10 +79,10 @@ const SelectThemePostsDialog = ({
     
 
     if (province) {
-      const filtedPostTemp = allPosts.filter((post) => {
+      const filteredPostTemp = allPosts.filter((post) => {
         return post.province_id === selectedProvinceIdValue;
       });
-      setFiltedPosts(filtedPostTemp);
+      setFilteredPosts(filteredPostTemp);
       setDistricts(province.districts);
     }
 
@@ -94,11 +96,11 @@ const SelectThemePostsDialog = ({
     );
 
     if (district) {
-      const filtedPostTemp = allPosts.filter((post) => {
+      const filteredPostTemp = allPosts.filter((post) => {
         return post.district_id === selectedDistrictIdTarget;
       });
 
-      setFiltedPosts(filtedPostTemp);
+      setFilteredPosts(filteredPostTemp);
 
       setWards(district.wards);
     }
@@ -108,10 +110,10 @@ const SelectThemePostsDialog = ({
     const selectedWardIdValue = e.target.value;
 
 
-    const filtedPostTemp = allPosts.filter((post) => {
+    const filteredPostTemp = allPosts.filter((post) => {
       return post.ward_id === selectedWardIdValue;
     });
-    setFiltedPosts(filtedPostTemp);
+    setFilteredPosts(filteredPostTemp);
     setSelectedWardId(selectedWardIdValue);
   };
 
@@ -124,7 +126,7 @@ const SelectThemePostsDialog = ({
 
   React.useEffect(() => {
     setPostIdsSelection(postsOfTheme.map((post) => post.id));
-    setFiltedPosts(allPosts);
+    setFilteredPosts(allPosts);
     if (locations.length === 0) {
       getLocation();
     }
@@ -213,8 +215,8 @@ const SelectThemePostsDialog = ({
             width: "100%",
           }}
         >
-          {filtedPosts.length > 0 && <Table
-            rows={filtedPosts}
+          {filteredPosts.length > 0 && <Table
+            rows={filteredPosts}
             columns={postListColumns}
             showCheckbox={true}
             selectionModel={postIdsSelections}

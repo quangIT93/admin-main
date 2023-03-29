@@ -49,9 +49,16 @@
   margin-top: 8px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1200px) and (max-width: 1499px) {
   .MuiDialog-paper {
     width: 100% !important;
     max-width: 1200px !important;
+  }
+}
+
+@media (min-width: 1500px) {
+  .MuiDialog-paper {
+    width: 100% !important;
+    max-width: calc(100% - 100px )!important;
   }
 }

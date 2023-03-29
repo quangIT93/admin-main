@@ -59,19 +59,19 @@ const PostListColumns = [
       }
     },
   },
-  {
-    field: "province",
-    headerName: "Thành phố",
-    type: "string",
-    flex: 1,
-    minWidth: 150,
-    // renderCell: (params) =>
-    //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
-  },
+  // {
+  //   field: "province",
+  //   headerName: "Thành phố",
+  //   type: "string",
+  //   flex: 1,
+  //   minWidth: 150,
+  //   // renderCell: (params) =>
+  //   //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
+  // },
   {
     field: "district",
     headerName: "Quận/Huyện",
-    flex: 1,
+    flex: 0.75,
     minWidth: 100,
     // renderCell: (params) =>
     //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
@@ -85,14 +85,23 @@ const PostListColumns = [
     //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
   },
   {
-    field: "created_at",
-    headerName: "Ngày tạo",
-    type: "string",
-    flex: 1,
-    minWidth: 150,
-    renderCell: (params) =>
-      moment(params.row.created_at).format("DD/MM/YYYY HH:mm"),
-  },
+    field: "address",
+    headerName: "Địa chỉ",
+    flex: 1.75,
+    minWidth: 200,
+    // renderCell: (params) =>
+    //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
+  
+  }
+  // {
+  //   field: "created_at",
+  //   headerName: "Ngày tạo",
+  //   type: "string",
+  //   flex: 1,
+  //   minWidth: 150,
+  //   renderCell: (params) =>
+  //     moment(params.row.created_at).format("DD/MM/YYYY HH:mm"),
+  // },
 ];
 
 export default PostListColumns;
