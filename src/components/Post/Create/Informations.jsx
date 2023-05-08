@@ -119,7 +119,7 @@ const CreatePostInformations = ({
         <Item>
           <TextField
             label="Job Type (Ex: Fulltime, Parttime, ...)"
-            variant="outlined"
+            variant="outlined"  
             value={post.provinceId || ""}
             onChange={handleOnChangeProvince}
             fullWidth
