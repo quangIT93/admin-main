@@ -258,6 +258,56 @@ const Sidebar = () => {
                     </Box>
                   </Link>
                 </ListItemButton>
+                {
+                  link.sub_link && (
+                    <Collapse in={true} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {link.sub_link.map((sub_link) => (
+                          <ListItemButton
+                            sx={{
+                              "&.Mui-selected": {
+                                backgroundColor: theme.palette.background.active,
+                              },
+                            }}
+                          >
+                            <Link
+
+                              to={`${sub_link.path}`}
+                              key={sub_link.name}
+                              onClick={() => handleOnClickLink(sub_link.name)}
+                              style={{ width: "100%" }}
+                            >
+                              <Box
+
+                                sx={[
+                                  {
+                                    color:
+                                      navLinkActived === sub_link.name
+                                        ? theme.palette.color.active
+                                        : theme.palette.color.main,
+                                    backgroundColor:
+                                      navLinkActived === sub_link.name
+                                        ? theme.palette.background.active
+                                        : theme.palette.background.main,
+                                  },
+                                  (theme) => ({
+                                    "&:hover": {
+                                      backgroundColor: theme.palette.background.hover,
+                                    },
+                                  }),
+                                ]}
+                                className={cx("nav-link")}
+                              >
+                                {sub_link.icon}
+                                <span>{sub_link.name}</span>
+                              </Box>
+                            </Link>
+                          </ListItemButton>
+                        ))}
+                      </List>
+                    </Collapse>
+                  )
+                }
               </>
             ))}
           </Box>
