@@ -287,7 +287,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Số điện thoại (0-***-***-***)"
             variant="outlined"
-            value={basicInformation.phone_contact || "1"}
+            value={basicInformation.phone_contact.replace("+84", "0") || "1"}
             inputProps={{
               inputMode: "numeric",
               pattern: "[0-9]*",

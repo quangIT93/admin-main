@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
-import { Box, Typography } from "@mui/material";
+import { Box, ListItemButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { useAppStateContext } from "contexts/AppContext";
@@ -219,35 +219,46 @@ const Sidebar = () => {
           <Box className={cx("link-item")} key={link.title}>
             <Typography>{link.title}</Typography>
             {link.links.map((link) => (
-              <Link
-                to={`${link.path}`}
-                key={link.name}
-                onClick={() => handleOnClickLink(link.name)}
-              >
-                <Box
-                  sx={[
-                    {
-                      color:
-                        navLinkActived === link.name
-                          ? theme.palette.color.active
-                          : theme.palette.color.main,
-                      backgroundColor:
-                        navLinkActived === link.name
-                          ? theme.palette.background.active
-                          : theme.palette.background.main,
+              <>
+                <ListItemButton
+                  sx={{
+                    "&.Mui-selected": {
+                      backgroundColor: theme.palette.background.active,
                     },
-                    (theme) => ({
-                      "&:hover": {
-                        backgroundColor: theme.palette.background.hover,
-                      },
-                    }),
-                  ]}
-                  className={cx("nav-link")}
+                  }}
                 >
-                  {link.icon}
-                  <span>{link.name}</span>
-                </Box>
-              </Link>
+                  <Link
+                    to={`${link.path}`}
+                    key={link.name}
+                    onClick={() => handleOnClickLink(link.name)}
+                    style={{ width: "100%" }}
+                  >
+                    <Box
+                      sx={[
+                        {
+                          color:
+                            navLinkActived === link.name
+                              ? theme.palette.color.active
+                              : theme.palette.color.main,
+                          backgroundColor:
+                            navLinkActived === link.name
+                              ? theme.palette.background.active
+                              : theme.palette.background.main,
+                        },
+                        (theme) => ({
+                          "&:hover": {
+                            backgroundColor: theme.palette.background.hover,
+                          },
+                        }),
+                      ]}
+                      className={cx("nav-link")}
+                    >
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </Box>
+                  </Link>
+                </ListItemButton>
+              </>
             ))}
           </Box>
         ))}

@@ -79,6 +79,61 @@ const CreatePostInformations = ({
         </Item>
       </Grid>
 
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="URL bài đăng (Ex: https://neowork.vn)"
+            variant="outlined"
+            value={post.title}
+            onChange={(e) => {
+              setPost((prevState) => ({
+                ...prevState,
+                title: e.target.value,
+              }));
+            }}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Nguồn (Ex: HiJob, CareerLink, ...)"
+            variant="outlined"
+            value={post.provinceId || ""}
+            onChange={handleOnChangeProvince}
+            fullWidth
+            select
+          >
+            {locations.map((location) => (
+              <MenuItem key={location.province_id} value={location.province_id}>
+                {location.province_name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Item>
+      </Grid>
+
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Job Type (Ex: Fulltime, Parttime, ...)"
+            variant="outlined"
+            value={post.provinceId || ""}
+            onChange={handleOnChangeProvince}
+            fullWidth
+            select
+          >
+            {locations.map((location) => (
+              <MenuItem key={location.province_id} value={location.province_id}>
+                {location.province_name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Item>
+      </Grid>
+
       {/* Company name */}
       <Grid item xs={12} lg={6}>
         <Item>

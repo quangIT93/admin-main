@@ -24,6 +24,7 @@ import { applicationsOfPostColumns } from "configs/table";
 import { ArrowLeft } from "components/Icons";
 import updatePostValidation from "validations/post/update";
 import { usePermission } from "hooks";
+import imageCompression from "browser-image-compression";
 
 const PostDetail = () => {
   usePermission();
@@ -42,6 +43,54 @@ const PostDetail = () => {
   const [showConfirmApprovalModal, setShowConfirmApprovalModal] =
     useState(false);
   const [postStatusApproved, setPostStatusApproved] = useState(1);
+
+  const handleOnChangeImages = async (e) => {
+    const imagesUpload = Array.from(e.target.files);
+
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 840,
+    };
+
+    const imagesToCheck =
+    enabledImages.length + disabledImages.length + imagesUpload.length > 5
+        ? imagesUpload.slice(0, 5 - enabledImages.length)
+        : imagesUpload;
+    if (imagesToCheck.length > 0) {
+      const validateImagesReply = validateImagesReply(imagesToCheck);
+      if (validateImagesReply.isError) {
+        console.log("::: Invalid images");
+        return toast.warn("Ảnh không đúng định dạng");
+      } else {
+        try {
+          const compressedImages = [];
+          await Promise.all(
+            imagesToCheck.map(async (image) => {
+              const compressedImage = await imageCompression(image, options);
+              compressedImages.push(
+                new File([compressedImage], compressedImage.name, {
+                  type: compressedImage.type,
+                })
+              );
+            })
+          );
+
+          console.log("Original image ::: ", imagesUpload);
+          console.log("Compressed image ::: ", compressedImages);
+
+          // setImages((prevState) => [
+          //   ...prevState,
+          //   ...compressedImages.map((image) => ({
+          //     image,
+          //     preview: window.URL.createObjectURL(image),
+          //   })),
+          // ]);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  };
 
   // GET POST DATA
   const fetchPostData = async (id) => {
@@ -333,6 +382,23 @@ const PostDetail = () => {
               >
                 Images
               </Typography>
+              <Box mt="2rem">
+                <Button
+                  variant="outlined"
+                  component="label"
+                  disabled={enabledImages.length === 5}
+                >
+                  Tải ảnh
+                  <input
+                    type="file"
+                    name="images"
+                    hidden
+                    accept="image/*"
+                    onChange={(e) => handleOnChangeImages(e)}
+                    multiple
+                  />
+                </Button>
+              </Box>
               <ImageList
                 images={enabledImages}
                 handleOnClick={handleDisableImage}
@@ -341,7 +407,7 @@ const PostDetail = () => {
           )}
 
           {/* SUBMIT BUTTON */}
-          {role === "1" && (
+          {(role === "1" || role === "2") && (
             <Button
               sx={{ marginTop: "1rem" }}
               variant="outlined"
