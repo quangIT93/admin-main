@@ -23,9 +23,23 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
 
+  const [jobTypes, setJobTypes] = useState([]);
+  const [companies, setCompanies] = useState([]);
+
   const fetchSalaryTypes = async () => {
     const res = await axios.get("/salary-types");
     setSalaryTypes(res.data);
+  };
+
+  const fetchJobTypes = async () => {
+    const res = await axios.get("/job-types");
+    setJobTypes(res.data);
+  };
+
+
+  const fetchCompaniesResource = async () => {
+    const res = await axios.get("/companies");
+    setCompanies(res.data);
   };
 
   useEffect(() => {
@@ -75,6 +89,8 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
     };
     fetchAllLocations();
     fetchSalaryTypes();
+    fetchJobTypes();
+    fetchCompaniesResource();
   }, []);
 
   // Handle on change province
@@ -179,6 +195,90 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           />
         </Item>
       </Grid>
+
+      {/* URL */}
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="URL bài đăng (Ex: https://neowork.vn)"
+            variant="outlined"
+            value={basicInformation.resource.url || ""}
+            onChange={(e) => {
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                resource: {
+                  ...prevState.resource,
+                  url: e.target.value,
+                },
+              }));
+            }}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {
+        companies.length > 0 && (
+          <Grid item xs={12} lg={3}>
+            <Item>
+              <TextField
+                label="Nguồn (Ex: HiJob, Vietnamwork, ...)"
+                variant="outlined"
+                value={basicInformation.resource.company_resource_id || ""}
+                onChange={(e) => {
+                  setBasicInformation((prevState) => ({
+                    ...prevState,
+                    resource: {
+                      ...prevState.resource,
+                      company_resource_id: e.target.value,
+                    },
+                  }));
+                }}
+                fullWidth
+                select
+              >
+                {companies.map((company) => (
+                  <MenuItem key={company.id} value={company.id}>
+                    {company.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Item>
+          </Grid>
+        ) 
+      }
+
+      {
+        jobTypes.length > 0 && (
+          <Grid item xs={12} lg={3}>
+            <Item>
+              <TextField
+                label="Loại công việc (Ex: Fulltime, Parttime, ...)"
+                variant="outlined"
+                value={basicInformation.job_type.job_type_id || ""}
+                onChange={(e) => {
+                  setBasicInformation((prevState) => ({
+                    ...prevState,
+                    job_type: {
+                      ...prevState.job_type,
+                      job_type_id: e.target.value,
+                    },
+                  }))
+                }
+                }
+                fullWidth
+                select
+              >
+                {jobTypes.map((jobType) => (
+                  <MenuItem key={jobType.id} value={jobType.id}>
+                    {jobType.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Item>
+          </Grid>
+        ) 
+      }
 
       {/* Company name */}
       <Grid item xs={12} lg={6}>
@@ -287,7 +387,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
           <TextField
             label="Số điện thoại (0-***-***-***)"
             variant="outlined"
-            value={basicInformation.phone_contact.replace("+84", "0") || "1"}
+            value={basicInformation.phone_contact ? basicInformation.phone_contact.replace("+84", "0") : ""}
             inputProps={{
               inputMode: "numeric",
               pattern: "[0-9]*",
@@ -303,6 +403,23 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
         </Item>
       </Grid>
 
+
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Email"
+            variant="outlined"
+            value={basicInformation.email}
+            onChange={(e) =>
+              setBasicInformation((prevState) => ({
+                ...prevState,
+                email: e.target.value,
+              }))
+            }
+            fullWidth
+          />
+        </Item>
+      </Grid>
       {/* Is working date period */}
       <Grid item xs={12} lg={3}>
         <Item>

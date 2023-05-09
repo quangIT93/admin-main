@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
-import { Box, ListItemButton, Typography } from "@mui/material";
+import { Box, Collapse, List, ListItemButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { useAppStateContext } from "contexts/AppContext";
@@ -118,102 +118,7 @@ const Sidebar = () => {
           </Box>
         </Box>
       </Box>
-
-      {/* LINKS */}
-      {/* {role === 0 && (
-                <Box className={cx("links")}>
-                    {normalAdminTabs.map((link) => (
-                        <Box className={cx("link-item")} key={link.title}>
-                            <Typography>{link.title}</Typography>
-                            {link.links.map((link) => (
-                                <Link
-                                    to={`${link.path}`}
-                                    key={link.name}
-                                    onClick={() => handleOnClickLink(link.name)}
-                                >
-                                    <Box
-                                        sx={[
-                                            {
-                                                color:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette.color
-                                                              .active
-                                                        : theme.palette.color
-                                                              .main,
-                                                backgroundColor:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette
-                                                              .background.active
-                                                        : theme.palette
-                                                              .background.main,
-                                            },
-                                            (theme) => ({
-                                                "&:hover": {
-                                                    backgroundColor:
-                                                        theme.palette.background
-                                                            .hover,
-                                                },
-                                            }),
-                                        ]}
-                                        className={cx("nav-link")}
-                                    >
-                                        {link.icon}
-                                        <span>{link.name}</span>
-                                    </Box>
-                                </Link>
-                            ))}
-                        </Box>
-                    ))}
-                </Box>
-            )} */}
-
-      {/* {role === 1 && (
-                <Box className={cx("links")}>
-                    {superAdminTabs.map((link) => (
-                        <Box className={cx("link-item")} key={link.title}>
-                            <Typography>{link.title}</Typography>
-                            {link.links.map((link) => (
-                                <Link
-                                    to={`${link.path}`}
-                                    key={link.name}
-                                    onClick={() => handleOnClickLink(link.name)}
-                                >
-                                    <Box
-                                        sx={[
-                                            {
-                                                color:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette.color
-                                                              .active
-                                                        : theme.palette.color
-                                                              .main,
-                                                backgroundColor:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette
-                                                              .background.active
-                                                        : theme.palette
-                                                              .background.main,
-                                            },
-                                            (theme) => ({
-                                                "&:hover": {
-                                                    backgroundColor:
-                                                        theme.palette.background
-                                                            .hover,
-                                                },
-                                            }),
-                                        ]}
-                                        className={cx("nav-link")}
-                                    >
-                                        {link.icon}
-                                        <span>{link.name}</span>
-                                    </Box>
-                                </Link>
-                            ))}
-                        </Box>
-                    ))}
-                </Box>
-            )} */}
-
+      
       <Box className={cx("links")}>
         {superAdminTabs.map((link) => (
           <Box className={cx("link-item")} key={link.title}>
@@ -259,10 +164,10 @@ const Sidebar = () => {
                   </Link>
                 </ListItemButton>
                 {
-                  link.sub_link && (
+                  link.subLinks && (
                     <Collapse in={true} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
-                        {link.sub_link.map((sub_link) => (
+                        {link.subLinks.map((subLink) => (
                           <ListItemButton
                             sx={{
                               "&.Mui-selected": {
@@ -272,9 +177,9 @@ const Sidebar = () => {
                           >
                             <Link
 
-                              to={`${sub_link.path}`}
-                              key={sub_link.name}
-                              onClick={() => handleOnClickLink(sub_link.name)}
+                              to={`${subLink.path}`}
+                              key={subLink.name}
+                              onClick={() => handleOnClickLink(subLink.name)}
                               style={{ width: "100%" }}
                             >
                               <Box
@@ -282,11 +187,11 @@ const Sidebar = () => {
                                 sx={[
                                   {
                                     color:
-                                      navLinkActived === sub_link.name
+                                      navLinkActived === subLink.name 
                                         ? theme.palette.color.active
                                         : theme.palette.color.main,
                                     backgroundColor:
-                                      navLinkActived === sub_link.name
+                                      navLinkActived === subLink.name
                                         ? theme.palette.background.active
                                         : theme.palette.background.main,
                                   },
@@ -298,8 +203,8 @@ const Sidebar = () => {
                                 ]}
                                 className={cx("nav-link")}
                               >
-                                {sub_link.icon}
-                                <span>{sub_link.name}</span>
+                                {subLink.icon}
+                                <span>{subLink.name}</span>
                               </Box>
                             </Link>
                           </ListItemButton>

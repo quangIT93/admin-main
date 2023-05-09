@@ -95,6 +95,7 @@ const PostDetail = () => {
   // GET POST DATA
   const fetchPostData = async (id) => {
     const res = await axios.get(`/posts/by-admin/${id}`);
+    console.log("fetchPostData -> res", res);
     if (res.success) {
       const { categories, images, ...otherData } = res.data;
       // console.log("fetchPostData -> otherData");
@@ -174,7 +175,13 @@ const PostDetail = () => {
       categoryIds: postCategories.map((category) => category.child_category_id),
       enabledImageIds: enabledImages.map((image) => image.id),
       disabledImageIds: disabledImages.map((image) => image.id),
+      jobTypeId: basicInformation.job_type.job_type_id,
+      companyResourceId: basicInformation.resource.company_resource_id,
+      url: basicInformation.resource.url,
+      email: basicInformation.email ? basicInformation.email.trim() : null,
     };
+
+    console.log("handleSubmitPostData -> data", data);
 
     // VALIDATION
     const validationRes = updatePostValidation(data);

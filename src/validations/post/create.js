@@ -74,9 +74,7 @@ const createPostValidation = (post) => {
   }
   if (
     !Number.isInteger(post.salaryMin) ||
-    post.salaryMin < 1000 ||
     !Number.isInteger(post.salaryMax) ||
-    post.salaryMax < 1000 ||
     +post.salaryMin > +post.salaryMax
   ) {
     return {
@@ -107,19 +105,19 @@ const createPostValidation = (post) => {
       field: "moneyType",
     };
   }
-  if (post.phoneNumber && !validatePhoneNumber(post.phoneNumber)) {
-    return {
-      isError: true,
-      message: "Số điện thoại không hợp lệ",
-      field: "phoneNumber",
-    };
-  } else if (post.phoneNumber === "") {
-    return {
-      isError: true,
-      message: "Số điện thoại của bạn không được để trống",
-      field: "phoneNumber",
-    };
-  }
+  // if (post.phoneNumber && !validatePhoneNumber(post.phoneNumber)) {
+  //   return {
+  //     isError: true,
+  //     message: "Số điện thoại không hợp lệ",
+  //     field: "phoneNumber",
+  //   };
+  // } else if (post.phoneNumber === "") {
+  //   return {
+  //     isError: true,
+  //     message: "Số điện thoại của bạn không được để trống",
+  //     field: "phoneNumber",
+  //   };
+  // }
   if (!post.description.trim()) {
     return {
       isError: true,

@@ -56,6 +56,16 @@ export const superAdminTabs = [
         path: "/admin/posts",
         name: "Bài đăng",
         icon: <PostIcon />,
+        subLinks: [
+          {
+            path: "/admin/posts",
+            name: "Tất cả",
+          },
+          {
+            path: "/admin/posts/create",
+            name: "Tạo mới",
+          }
+        ]
       },
       {
         path: "/admin/accounts",

@@ -29,13 +29,13 @@ const updatePostValidation = (post) => {
       field: "address",
     };
   }
-  if (post.phoneContact && !validatePhoneNumber(post.phoneContact)) {
-    return {
-      isError: true,
-      message: "Số điện thoại không hợp lệ",
-      field: "phoneContact",
-    };
-  }
+  // if (post.phoneContact && !validatePhoneNumber(post.phoneContact)) {
+  //   return {
+  //     isError: true,
+  //     message: "Số điện thoại không hợp lệ",
+  //     field: "phoneContact",
+  //   };
+  // }
   if (
     !Number.isInteger(post.isDatePeriod) ||
     post.isDatePeriod < 0 ||
