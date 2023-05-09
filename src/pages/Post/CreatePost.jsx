@@ -39,6 +39,10 @@ const initPost = {
   phoneNumber: "",
   categories: [],
   images: [],
+  jobTypeId: null,
+  companyResourceId: null,
+  url: "",
+  email: "",
 };
 
 const CreatePostPage = () => {
@@ -65,9 +69,23 @@ const CreatePostPage = () => {
   const [isShowConfirmDialog, setIsShowConfirmDialog] = useState(false);
   const [images, setImages] = useState([]);
 
+  const [jobTypes, setJobTypes] = useState([]);
+  const [companies, setCompanies] = useState([]);
+
   const fetchSalaryTypes = async () => {
     const res = await axios.get("/salary-types");
     setSalaryTypes(res.data);
+  };
+
+  const fetchJobTypes = async () => {
+    const res = await axios.get("/job-types");
+    setJobTypes(res.data);
+  };
+
+
+  const fetchCompaniesResource = async () => {
+    const res = await axios.get("/companies");
+    setCompanies(res.data);
   };
 
   const fetchAllCategories = async () => {
@@ -90,9 +108,11 @@ const CreatePostPage = () => {
     }
   };
 
-  // Fecth salary types and categories
+  // Fetch salary types and categories
   useEffect(() => {
     fetchSalaryTypes();
+    fetchJobTypes();
+    fetchCompaniesResource();
     fetchAllCategories();
     fetchAllLocations();
   }, []);
@@ -261,6 +281,13 @@ const CreatePostPage = () => {
       postSubmit.append("images", image.image);
     });
 
+    // NEW FIELD
+    postSubmit.append("email", post.email);
+    postSubmit.append("jobTypeId", post.jobTypeId);
+    postSubmit.append("companyResourceId", post.companyResourceId);
+    postSubmit.append("url", post.url);
+
+
     let toastId = toast.loading("Please wait...");
 
     // Fetch api
@@ -322,6 +349,8 @@ const CreatePostPage = () => {
             setDistricts={setDistricts}
             setWards={setWards}
             salaryTypes={salaryTypes}
+            jobTypes={jobTypes}
+            companies={companies}
           />
         </Box>
 

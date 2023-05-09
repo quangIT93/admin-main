@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
-import { Box, Typography } from "@mui/material";
+import { Box, Collapse, List, ListItemButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { useAppStateContext } from "contexts/AppContext";
@@ -118,136 +118,102 @@ const Sidebar = () => {
           </Box>
         </Box>
       </Box>
-
-      {/* LINKS */}
-      {/* {role === 0 && (
-                <Box className={cx("links")}>
-                    {normalAdminTabs.map((link) => (
-                        <Box className={cx("link-item")} key={link.title}>
-                            <Typography>{link.title}</Typography>
-                            {link.links.map((link) => (
-                                <Link
-                                    to={`${link.path}`}
-                                    key={link.name}
-                                    onClick={() => handleOnClickLink(link.name)}
-                                >
-                                    <Box
-                                        sx={[
-                                            {
-                                                color:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette.color
-                                                              .active
-                                                        : theme.palette.color
-                                                              .main,
-                                                backgroundColor:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette
-                                                              .background.active
-                                                        : theme.palette
-                                                              .background.main,
-                                            },
-                                            (theme) => ({
-                                                "&:hover": {
-                                                    backgroundColor:
-                                                        theme.palette.background
-                                                            .hover,
-                                                },
-                                            }),
-                                        ]}
-                                        className={cx("nav-link")}
-                                    >
-                                        {link.icon}
-                                        <span>{link.name}</span>
-                                    </Box>
-                                </Link>
-                            ))}
-                        </Box>
-                    ))}
-                </Box>
-            )} */}
-
-      {/* {role === 1 && (
-                <Box className={cx("links")}>
-                    {superAdminTabs.map((link) => (
-                        <Box className={cx("link-item")} key={link.title}>
-                            <Typography>{link.title}</Typography>
-                            {link.links.map((link) => (
-                                <Link
-                                    to={`${link.path}`}
-                                    key={link.name}
-                                    onClick={() => handleOnClickLink(link.name)}
-                                >
-                                    <Box
-                                        sx={[
-                                            {
-                                                color:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette.color
-                                                              .active
-                                                        : theme.palette.color
-                                                              .main,
-                                                backgroundColor:
-                                                    navLinkActived === link.name
-                                                        ? theme.palette
-                                                              .background.active
-                                                        : theme.palette
-                                                              .background.main,
-                                            },
-                                            (theme) => ({
-                                                "&:hover": {
-                                                    backgroundColor:
-                                                        theme.palette.background
-                                                            .hover,
-                                                },
-                                            }),
-                                        ]}
-                                        className={cx("nav-link")}
-                                    >
-                                        {link.icon}
-                                        <span>{link.name}</span>
-                                    </Box>
-                                </Link>
-                            ))}
-                        </Box>
-                    ))}
-                </Box>
-            )} */}
-
+      
       <Box className={cx("links")}>
         {superAdminTabs.map((link) => (
           <Box className={cx("link-item")} key={link.title}>
             <Typography>{link.title}</Typography>
             {link.links.map((link) => (
-              <Link
-                to={`${link.path}`}
-                key={link.name}
-                onClick={() => handleOnClickLink(link.name)}
-              >
-                <Box
-                  sx={[
-                    {
-                      color:
-                        navLinkActived === link.name
-                          ? theme.palette.color.active
-                          : theme.palette.color.main,
-                      backgroundColor:
-                        navLinkActived === link.name
-                          ? theme.palette.background.active
-                          : theme.palette.background.main,
+              <>
+                <ListItemButton
+                  sx={{
+                    "&.Mui-selected": {
+                      backgroundColor: theme.palette.background.active,
                     },
-                    (theme) => ({
-                      "&:hover": {
-                        backgroundColor: theme.palette.background.hover,
-                      },
-                    }),
-                  ]}
-                  className={cx("nav-link")}
+                  }}
                 >
-                  {link.icon}
-                  <span>{link.name}</span>
-                </Box>
-              </Link>
+                  <Link
+                    to={`${link.path}`}
+                    key={link.name}
+                    onClick={() => handleOnClickLink(link.name)}
+                    style={{ width: "100%" }}
+                  >
+                    <Box
+                      sx={[
+                        {
+                          color:
+                            navLinkActived === link.name
+                              ? theme.palette.color.active
+                              : theme.palette.color.main,
+                          backgroundColor:
+                            navLinkActived === link.name
+                              ? theme.palette.background.active
+                              : theme.palette.background.main,
+                        },
+                        (theme) => ({
+                          "&:hover": {
+                            backgroundColor: theme.palette.background.hover,
+                          },
+                        }),
+                      ]}
+                      className={cx("nav-link")}
+                    >
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </Box>
+                  </Link>
+                </ListItemButton>
+                {
+                  link.subLinks && (
+                    <Collapse in={true} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        {link.subLinks.map((subLink) => (
+                          <ListItemButton
+                            sx={{
+                              "&.Mui-selected": {
+                                backgroundColor: theme.palette.background.active,
+                              },
+                            }}
+                          >
+                            <Link
+
+                              to={`${subLink.path}`}
+                              key={subLink.name}
+                              onClick={() => handleOnClickLink(subLink.name)}
+                              style={{ width: "100%" }}
+                            >
+                              <Box
+
+                                sx={[
+                                  {
+                                    color:
+                                      navLinkActived === subLink.name 
+                                        ? theme.palette.color.active
+                                        : theme.palette.color.main,
+                                    backgroundColor:
+                                      navLinkActived === subLink.name
+                                        ? theme.palette.background.active
+                                        : theme.palette.background.main,
+                                  },
+                                  (theme) => ({
+                                    "&:hover": {
+                                      backgroundColor: theme.palette.background.hover,
+                                    },
+                                  }),
+                                ]}
+                                className={cx("nav-link")}
+                              >
+                                {subLink.icon}
+                                <span>{subLink.name}</span>
+                              </Box>
+                            </Link>
+                          </ListItemButton>
+                        ))}
+                      </List>
+                    </Collapse>
+                  )
+                }
+              </>
             ))}
           </Box>
         ))}

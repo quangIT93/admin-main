@@ -22,6 +22,8 @@ const CreatePostInformations = ({
   setDistricts,
   setWards,
   salaryTypes,
+  jobTypes,
+  companies
 }) => {
   const handleOnChangeProvince = (e) => {
     const province = locations.find(
@@ -78,6 +80,80 @@ const CreatePostInformations = ({
           />
         </Item>
       </Grid>
+
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="URL bài đăng (Ex: https://neowork.vn)"
+            variant="outlined"
+            value={post.url}
+            onChange={(e) => {
+              setPost((prevState) => ({
+                ...prevState,
+                url: e.target.value,
+              }));
+            }}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {
+        companies.length > 0 && (
+          <Grid item xs={12} lg={3}>
+            <Item>
+              <TextField
+                label="Nguồn (Ex: HiJob, Vietnamwork, ...)"
+                variant="outlined"
+                value={post.companyResourceId || ""}
+                onChange={(e) => {
+                  setPost((prevState) => ({
+                    ...prevState,
+                    companyResourceId: e.target.value,
+                  }));
+                }}
+                fullWidth
+                select
+              >
+                {companies.map((company) => (
+                  <MenuItem key={company.id} value={company.id}>
+                    {company.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Item>
+          </Grid>
+        ) 
+      }
+
+      {
+        jobTypes.length > 0 && (
+          <Grid item xs={12} lg={3}>
+            <Item>
+              <TextField
+                label="Loại công việc (Ex: Fulltime, Parttime, ...)"
+                variant="outlined"
+                value={post.jobTypeId || ""}
+                onChange={(e) => {
+                  setPost((prevState) => ({
+                    ...prevState,
+                    jobTypeId: e.target.value,
+                  }))
+                }
+                }
+                fullWidth
+                select
+              >
+                {jobTypes.map((jobType) => (
+                  <MenuItem key={jobType.id} value={jobType.id}>
+                    {jobType.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Item>
+          </Grid>
+        ) 
+      }
 
       {/* Company name */}
       <Grid item xs={12} lg={6}>
@@ -205,8 +281,26 @@ const CreatePostInformations = ({
         </Item>
       </Grid>
 
-      {/* Is working date period */}
+      {/* EMAIL */}
       <Grid item xs={12} lg={3}>
+        <Item>
+          <TextField
+            label="Email"
+            variant="outlined"
+            value={post.email}
+            onChange={(e) =>
+              setPost((prevState) => ({
+                ...prevState,
+                email: e.target.value,
+              }))
+            }
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
+      {/* Is working date period */}
+      <Grid item xs={12} lg={6}>
         <Item>
           <TextField
             select
