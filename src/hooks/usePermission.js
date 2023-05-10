@@ -39,7 +39,7 @@ const usePermission = (callback = null) => {
     ) {
       sessionStorage.clear();
       localStorage.clear();
-      // navigate("/admin/auth");
+      navigate("/admin/auth");
     } else if (!sessionStorage.getItem("access-token")) {
       await getNewAccessToken();
     } else if (sessionStorage.getItem("access-token")) {
