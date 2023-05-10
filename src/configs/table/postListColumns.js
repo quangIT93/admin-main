@@ -12,6 +12,7 @@ const PostListColumns = [
     filterable: true,
     renderCell: (params) => (
       <Link
+        target="_blank"
         to={`/admin/posts/${params.row.id}`}
         style={{
           padding: "0.5rem 4rem 0.5rem 0",

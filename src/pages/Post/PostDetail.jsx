@@ -31,7 +31,7 @@ const PostDetail = () => {
   const theme = useTheme();
   const params = useParams();
   const id = +params.id;
-  const role = sessionStorage.getItem("role");
+  const role = localStorage.getItem("role");
 
   const [postData, setPostData] = useState();
   const [basicInformation, setBasicInformation] = useState(null);
