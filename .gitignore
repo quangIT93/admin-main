@@ -2,3 +2,4 @@ node_modules
 .git
 build
 .env
+builder.sh
