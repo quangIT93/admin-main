@@ -43,6 +43,7 @@ const initPost = {
   companyResourceId: null,
   url: "",
   email: "",
+  expiredDate: null,
 };
 
 const CreatePostPage = () => {
@@ -283,10 +284,10 @@ const CreatePostPage = () => {
 
     // NEW FIELD
     postSubmit.append("email", post.email);
-    postSubmit.append("jobTypeId", post.jobTypeId);
-    postSubmit.append("companyResourceId", post.companyResourceId);
+    postSubmit.append("jobTypeId", post.jobTypeId ? post.jobTypeId : 3);
+    postSubmit.append("companyResourceId", post.companyResourceId ? post.companyResourceId : "");
     postSubmit.append("url", post.url);
-
+    postSubmit.append("expiredDate", post.expiredDate);
 
     let toastId = toast.loading("Please wait...");
 

@@ -179,7 +179,9 @@ const PostDetail = () => {
       companyResourceId: basicInformation.resource.company_resource_id,
       url: basicInformation.resource.url,
       email: basicInformation.email ? basicInformation.email.trim() : null,
+      expiredDate: basicInformation.expired_date,
     };
+
 
     console.log("handleSubmitPostData -> data", data);
 
