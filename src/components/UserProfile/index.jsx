@@ -29,6 +29,7 @@ const UserProfile = () => {
 
         // Clear sessiong storage
         sessionStorage.clear();
+        localStorage.clear();
 
         // Navigate to sign in page
         setTimeout(() => {
