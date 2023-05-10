@@ -125,9 +125,9 @@ const AuthForm = () => {
       const res = await axios.post("/sign-in/admin", data);
 
       sessionStorage.setItem("access-token", res.data.accessToken);
-      sessionStorage.setItem("refresh-token", res.data.refreshToken);
-      sessionStorage.setItem("role", res.data.role);
-      sessionStorage.setItem("id", res.data.id);
+      localStorage.setItem("refresh-token", res.data.refreshToken);
+      localStorage.setItem("role", res.data.role);
+      localStorage.setItem("id", res.data.id);
       toast.success("Đăng nhập thành công");
       setTimeout(() => {
         return res.data.role === 1

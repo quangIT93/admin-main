@@ -1,3 +1,4 @@
+import instance from "configs/axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,17 +9,42 @@ const acceptedUrlForWorker = [
 
 const usePermission = (callback = null) => {
   const navigate = useNavigate();
+  
+  console.log("usePermission")
 
-  useEffect(() => {
-    const role = sessionStorage.getItem("role");
+  const getNewAccessToken = async () => {
+    await instance.post("/reset-access-token", {
+      refreshToken: localStorage.getItem("refresh-token"),
+    }).then((res) => {
+      sessionStorage.setItem("access-token", res.data.accessToken);
+      instance.defaults.headers.common["Authorization"] =
+        "Bearer " + sessionStorage.getItem("access-token");
+      window.location.reload();
+      
+    }).catch((err) => {
+      console.log(err);
+      sessionStorage.clear();
+      localStorage.clear();
+      navigate("/admin/auth");
+    });
+  }
+
+  const init = async () => {
+    const role = localStorage.getItem("role");
 
     if (
-      !sessionStorage.getItem("access-token") ||
-      !sessionStorage.getItem("refresh-token") ||
+      // !sessionStorage.getItem("access-token") ||
+      !localStorage.getItem("refresh-token") ||
       (role !== "1" && role !== "2")
     ) {
       sessionStorage.clear();
-      navigate("/admin/auth");
+      localStorage.clear();
+      // navigate("/admin/auth");
+    } else if (!sessionStorage.getItem("access-token")) {
+      await getNewAccessToken();
+    } else if (sessionStorage.getItem("access-token")) {
+      instance.defaults.headers.common["Authorization"] =
+        "Bearer " + sessionStorage.getItem("access-token");
     }
 
     if (role === "2") {
@@ -34,6 +60,10 @@ const usePermission = (callback = null) => {
     if (callback) {
       callback();
     }
+  };
+
+  useEffect(() => {
+    init();
   }, []);
 };
 

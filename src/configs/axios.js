@@ -72,7 +72,7 @@ instance.interceptors.response.use(
 );
 
 const resetAccessToken = async () => {
-  const refreshToken = window.sessionStorage.getItem("refresh-token") || "";
+  const refreshToken = window.localStorage.getItem("refresh-token") || "";
   const data = {
     refreshToken,
   };

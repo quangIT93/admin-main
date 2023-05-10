@@ -18,7 +18,7 @@ const UserProfile = () => {
   // Handle sign out
   const handleSignout = async () => {
     try {
-      const refreshToken = sessionStorage.getItem("refresh-token");
+      const refreshToken = localStorage.getItem("refresh-token");
       if (refreshToken) {
         const data = {
           refreshToken,
