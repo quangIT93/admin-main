@@ -105,7 +105,16 @@ const EditThemeDialog = ({
             province_name: location.province_name,
           }))
         );
-        setProvinceIdSelected(res.data[0].province_id);
+
+        const all = res.data.find((location) => {
+          if (themeEdited.locations.length > 0)
+            return (
+              location.province_id === themeEdited.locations[0]?.province_id
+            );
+        }).districts;
+        if (all) {
+          setDistricts(all);
+        }
       }
     };
     fetchAllLocations();
@@ -426,8 +435,14 @@ const EditThemeDialog = ({
           >
             <TextField
               select
-              label="Province"
-              value={provinceIdSelected ? provinceIdSelected : ""}
+              label="provice"
+              value={
+                provinceIdSelected
+                  ? provinceIdSelected
+                  : themeEdited.locations.length > 0
+                  ? themeEdited.locations[0].province_id
+                  : ""
+              }
               onChange={(e) => setProvinceIdSelected(e.target.value)}
             >
               {provinces.map((province) => (
