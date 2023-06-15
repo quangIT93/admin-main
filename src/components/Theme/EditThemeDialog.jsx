@@ -113,7 +113,7 @@ const EditThemeDialog = ({
             );
         }).districts;
 
-        console.log("all", all);
+        // console.log("all", all);
         if (all) {
           setDistricts(all);
         }

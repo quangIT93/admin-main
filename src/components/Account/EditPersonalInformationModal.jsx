@@ -18,7 +18,7 @@ const EditPersonalInformationDialog = ({ open, setOpen }) => {
   const [photoUploadSelected, setPhotoUploadSelected] = useState();
   const [bannerRedirectUrl, setBannerRedirectUrl] = useState("");
 
-  console.log(">>> addPhotoError: ", addPhotoError);
+  // console.log(">>> addPhotoError: ", addPhotoError);
 
   const [snackbar, setSnackbar] = useState({
     open: false,

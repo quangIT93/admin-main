@@ -10,7 +10,7 @@ const acceptedUrlForWorker = [
 const usePermission = (callback = null) => {
   const navigate = useNavigate();
   
-  console.log("usePermission")
+  // console.log("usePermission")
 
   const getNewAccessToken = async () => {
     await instance.post("/reset-access-token", {
@@ -52,7 +52,7 @@ const usePermission = (callback = null) => {
         !window.location.pathname.startsWith("/admin/posts") &&
         !acceptedUrlForWorker.includes(window.location.pathname)
       ) {
-        console.log("Not permission");
+        // console.log("Not permission");
         navigate("/admin/not-permission");
       }
     }
