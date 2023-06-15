@@ -53,7 +53,7 @@ const PostDetail = () => {
     };
 
     const imagesToCheck =
-    enabledImages.length + disabledImages.length + imagesUpload.length > 5
+      enabledImages.length + disabledImages.length + imagesUpload.length > 5
         ? imagesUpload.slice(0, 5 - enabledImages.length)
         : imagesUpload;
     if (imagesToCheck.length > 0) {
@@ -75,8 +75,8 @@ const PostDetail = () => {
             })
           );
 
-          console.log("Original image ::: ", imagesUpload);
-          console.log("Compressed image ::: ", compressedImages);
+          // console.log("Original image ::: ", imagesUpload);
+          // console.log("Compressed image ::: ", compressedImages);
 
           // setImages((prevState) => [
           //   ...prevState,
@@ -95,7 +95,7 @@ const PostDetail = () => {
   // GET POST DATA
   const fetchPostData = async (id) => {
     const res = await axios.get(`/posts/by-admin/${id}`);
-    console.log("fetchPostData -> res", res);
+    // console.log("fetchPostData -> res", res);
     if (res.success) {
       const { categories, images, ...otherData } = res.data;
       // console.log("fetchPostData -> otherData");
@@ -182,8 +182,7 @@ const PostDetail = () => {
       expiredDate: basicInformation.expired_date,
     };
 
-
-    console.log("handleSubmitPostData -> data", data);
+    // console.log("handleSubmitPostData -> data", data);
 
     // VALIDATION
     const validationRes = updatePostValidation(data);
@@ -311,15 +310,15 @@ const PostDetail = () => {
 
           {/* BASIC INFORMATION */}
           {/* {basicInformation !== null && ( */}
-            <Box sx={{ flexGrow: 1, padding: "2rem 0" }}>
-              <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
-                Thông tin bài viết
-              </Typography>
-              <PostBasicInformation
-                basicInformation={basicInformation}
-                setBasicInformation={setBasicInformation}
-              />
-            </Box>
+          <Box sx={{ flexGrow: 1, padding: "2rem 0" }}>
+            <Typography mb="2rem" variant="h3" color={theme.palette.color.main}>
+              Thông tin bài viết
+            </Typography>
+            <PostBasicInformation
+              basicInformation={basicInformation}
+              setBasicInformation={setBasicInformation}
+            />
+          </Box>
           {/* )} */}
 
           {/*  CATEGORIES */}

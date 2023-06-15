@@ -1,4 +1,4 @@
-import { validatePhoneNumber } from "utils";
+// import { validatePhoneNumber } from "utils";
 
 const createPostValidation = (post) => {
   if (post.title.trim() === "") {
@@ -84,10 +84,12 @@ const createPostValidation = (post) => {
     };
   }
   if (
-    !Number.isInteger(post.salaryType) ||
-    post.salaryType < 1 ||
-    post.salaryType > 5
+    !Number.isInteger(post.salaryType)
+    // ||
+    // post.salaryType < 1 ||
+    // post.salaryType >= 5
   ) {
+    console.log("post.salaryType", post.salaryType);
     return {
       isError: true,
       message: "Thông tin không hợp lệ",

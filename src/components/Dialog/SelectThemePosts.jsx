@@ -35,7 +35,7 @@ const SelectThemePostsDialog = ({
 }) => {
   const theme = useTheme();
 
-  console.log("allPosts", allPosts);
+  // console.log("allPosts", allPosts);
 
   // POST SELECTION
   const [postIdsSelections, setPostIdsSelection] = useState([]);

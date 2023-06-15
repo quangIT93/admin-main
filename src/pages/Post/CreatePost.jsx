@@ -83,7 +83,6 @@ const CreatePostPage = () => {
     setJobTypes(res.data);
   };
 
-
   const fetchCompaniesResource = async () => {
     const res = await axios.get("/companies");
     setCompanies(res.data);

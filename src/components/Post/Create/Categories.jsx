@@ -70,7 +70,7 @@ const CreatePostCategories = ({
 }) => {
   const theme = useTheme();
 
-  console.log("Just loaded the Categories component");
+  // console.log("Just loaded the Categories component");
 
   return (
     <Grid container spacing={2}>

@@ -144,7 +144,7 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
         setPreviewPhoto(null);
         setBannerRedirectUrl("");
 
-        console.log(photoUploadSelected);
+        // console.log(photoUploadSelected);
 
         data = new FormData();
         data.append("images", photoUploadSelected);
