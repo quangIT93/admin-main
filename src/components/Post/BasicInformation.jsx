@@ -527,7 +527,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             label="Lương (tối thiểu)"
             variant="outlined"
             type="number"
-            inputProps={{ min: 1000 }}
+            inputProps={{ min: 0 }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -550,7 +550,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             label="Lương (tối đa)"
             variant="outlined"
             type="number"
-            inputProps={{ min: 1000 }}
+            inputProps={{ min: 0 }}
             InputLabelProps={{
               shrink: true,
             }}

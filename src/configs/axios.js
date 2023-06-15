@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create instance
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://neoworks.vn/api/v1",
   // timeout: 10000,
   // headers: {
   //     "Content-Type": "application/json",
