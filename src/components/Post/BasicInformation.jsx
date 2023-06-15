@@ -9,6 +9,7 @@ import moment from "moment";
 
 import { TextField } from "components";
 import { axios } from "configs";
+import { DateTimePicker } from "@mui/x-date-pickers";
 
 const Item = styled(Box)(({ theme }) => ({
   textarea: {
@@ -673,6 +674,24 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
             }
             fullWidth
           />
+        </Item>
+      </Grid>
+
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DateTimePicker
+              label="Thời gian hêt hạn"
+              value={moment(basicInformation.expired_date) || null}
+              onChange={(e) =>
+                setBasicInformation((prevState) => ({
+                  ...prevState,
+                  expired_date: new Date(e._d).getTime(),
+                }))
+              }
+              renderInput={(params) => <TextField {...params} fullWidth />}
+            />
+          </LocalizationProvider>
         </Item>
       </Grid>
     </Grid>

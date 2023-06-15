@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import moment from "moment";
+import { DateTimePicker } from "@mui/x-date-pickers";
 
 const Item = styled(Box)(({ theme }) => ({
   textarea: {
@@ -529,6 +530,7 @@ const CreatePostInformations = ({
           />
         </Item>
       </Grid>
+      
 
       {/* Description */}
       <Grid item xs={12} lg={6}>
@@ -541,6 +543,24 @@ const CreatePostInformations = ({
             onChange={handleOnChangeDescription}
             fullWidth
           />
+        </Item>
+      </Grid>
+
+      <Grid item xs={12} lg={3}>
+        <Item>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DateTimePicker
+              label="Thời gian hêt hạn"
+              value={moment(post.expiredDate) || null}
+              onChange={(e) =>
+                setPost((prevState) => ({
+                  ...prevState,
+                  expiredDate: new Date(e._d).getTime(),
+                }))
+              }
+              renderInput={(params) => <TextField {...params} fullWidth />}
+            />
+          </LocalizationProvider>
         </Item>
       </Grid>
     </Grid>
