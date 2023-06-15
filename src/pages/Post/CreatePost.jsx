@@ -82,7 +82,6 @@ const CreatePostPage = () => {
     setJobTypes(res.data);
   };
 
-
   const fetchCompaniesResource = async () => {
     const res = await axios.get("/companies");
     setCompanies(res.data);
@@ -286,7 +285,6 @@ const CreatePostPage = () => {
     postSubmit.append("jobTypeId", post.jobTypeId);
     postSubmit.append("companyResourceId", post.companyResourceId);
     postSubmit.append("url", post.url);
-
 
     let toastId = toast.loading("Please wait...");
 

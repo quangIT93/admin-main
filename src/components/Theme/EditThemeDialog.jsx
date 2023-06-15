@@ -112,6 +112,8 @@ const EditThemeDialog = ({
               location.province_id === themeEdited.locations[0]?.province_id
             );
         }).districts;
+
+        console.log("all", all);
         if (all) {
           setDistricts(all);
         }

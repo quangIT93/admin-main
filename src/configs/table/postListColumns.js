@@ -92,8 +92,7 @@ const PostListColumns = [
     minWidth: 200,
     // renderCell: (params) =>
     //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
-  
-  }
+  },
   // {
   //   field: "created_at",
   //   headerName: "Ngày tạo",
