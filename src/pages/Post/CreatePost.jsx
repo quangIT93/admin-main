@@ -53,6 +53,7 @@ const CreatePostPage = () => {
   const theme = useTheme();
 
   const [post, setPost] = useState(initPost);
+  
   const [locations, setLocations] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -74,22 +75,22 @@ const CreatePostPage = () => {
   const [companies, setCompanies] = useState([]);
 
   const fetchSalaryTypes = async () => {
-    const res = await axios.get("/salary-types");
+    const res = await axios.get("/v1/salary-types");
     setSalaryTypes(res.data);
   };
 
   const fetchJobTypes = async () => {
-    const res = await axios.get("/job-types");
+    const res = await axios.get("/v1/job-types");
     setJobTypes(res.data);
   };
 
   const fetchCompaniesResource = async () => {
-    const res = await axios.get("/companies");
+    const res = await axios.get("/v1/companies");
     setCompanies(res.data);
   };
 
   const fetchAllCategories = async () => {
-    const res = await axios.get("/categories");
+    const res = await axios.get("/v1/categories");
     if (res.success) {
       setAllCategories(res.data);
       setParentCategories(
@@ -102,7 +103,7 @@ const CreatePostPage = () => {
   };
 
   const fetchAllLocations = async () => {
-    const res = await axios.get("/locations");
+    const res = await axios.get("/v1/locations");
     if (res.success) {
       setLocations(res.data);
     }
@@ -173,6 +174,7 @@ const CreatePostPage = () => {
 
   // Handle on change images
   const handleOnChangeImages = async (e) => {
+    console.log("::: handleOnChangeImages");
     const imagesUpload = Array.from(e.target.files);
 
     const options = {
@@ -203,8 +205,8 @@ const CreatePostPage = () => {
             })
           );
 
-          console.log("Original image ::: ", imagesUpload);
-          console.log("Compressed image ::: ", compressedImages);
+          // console.log("Original image ::: ", imagesUpload);
+          // console.log("Compressed image ::: ", compressedImages);
 
           setImages((prevState) => [
             ...prevState,
@@ -233,6 +235,7 @@ const CreatePostPage = () => {
 
     const createPostValidationReply = createPostValidation(post);
     if (createPostValidationReply.isError) {
+      // console.log(createPostValidationReply.field);
       return toast.warn(createPostValidationReply.message);
     }
 
@@ -241,11 +244,11 @@ const CreatePostPage = () => {
     postSubmit.append("companyName", post.companyName.trim());
     postSubmit.append("wardId", post.wardId);
     postSubmit.append("address", post.address.trim());
-    postSubmit.append("latitude", 10.761955);
-    postSubmit.append("longitude", 106.70183);
+    // postSubmit.append("latitude", 10.761955);
+    // postSubmit.append("longitude", 106.70183);
     postSubmit.append("isDatePeriod", post.isDatePeriod);
-    postSubmit.append("startDate", post.startDate);
-    postSubmit.append("endDate", post.endDate);
+    post.startDate && postSubmit.append("startDate", post.startDate);
+    post.endDate && postSubmit.append("endDate", post.endDate);
     postSubmit.append(
       "startTime",
       new Date(
@@ -273,26 +276,26 @@ const CreatePostPage = () => {
     postSubmit.append("salaryType", post.salaryType);
     postSubmit.append("moneyType", post.moneyType);
     postSubmit.append("description", post.description.trim());
-    postSubmit.append("phoneNumber", post.phoneNumber);
+    postSubmit.append("phone", post.phoneNumber);
     post.categories.forEach((category) => {
-      postSubmit.append("categoryIds", category.child_id);
+      postSubmit.append("categoriesId", category.child_id);
     });
     images.forEach((image) => {
       postSubmit.append("images", image.image);
     });
 
     // NEW FIELD
-    postSubmit.append("email", post.email);
+    post.email && postSubmit.append("email", post.email);
     postSubmit.append("jobTypeId", post.jobTypeId ? post.jobTypeId : 3);
     postSubmit.append("companyResourceId", post.companyResourceId ? post.companyResourceId : "");
-    postSubmit.append("url", post.url);
-    postSubmit.append("expiredDate", post.expiredDate);
+    postSubmit.append("siteUrl", post.url);
 
+    post.expiredDate && postSubmit.append("expiredDate", post.expiredDate);
     let toastId = toast.loading("Please wait...");
 
     // Fetch api
     try {
-      await axios.post("/posts", postSubmit, {
+      await axios.post("/v3/posts/by-worker", postSubmit, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -34,7 +34,7 @@ const ThemePage = () => {
   // GET THEMES
   useEffect(() => {
     const fetchThemes = async () => {
-      const res = await axios.get("/themes/all");
+      const res = await axios.get("/v1/themes/all");
       if (res.success) {
         setEnabledThemes(res.data.filter((theme) => theme.status === 1));
         setDisabledThemes(res.data.filter((theme) => theme.status === 0));

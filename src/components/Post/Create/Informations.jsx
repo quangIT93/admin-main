@@ -402,10 +402,10 @@ const CreatePostInformations = ({
             variant="outlined"
             type="number"
             inputProps={{ min: 0 }}
+            value={post.salaryMin}
             InputLabelProps={{
               shrink: true,
             }}
-            value={post.salaryMin}
             onChange={(e) =>
               setPost((prevState) => ({
                 ...prevState,

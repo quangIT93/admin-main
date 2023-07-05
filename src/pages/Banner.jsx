@@ -30,7 +30,7 @@ const Banner = () => {
   // GET BANNERS
   useEffect(() => {
     const fetchBanners = async () => {
-      const res = await axios.get("/banners/all");
+      const res = await axios.get("/v1/banners/all");
       if (res.success) {
         setBanners(res.data);
         setIsLoading(false);

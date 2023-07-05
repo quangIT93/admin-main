@@ -28,26 +28,26 @@ const PostsListPage = () => {
 
       if (themeId) {
         // GET POSTS BY THEME
-        res = await axios.get(`/posts/theme/all?tid=${themeId}`);
+        res = await axios.get(`/v1/posts/theme/all?tid=${themeId}`);
       } else if (isToday === "true" && status === "0") {
         // GET TODAY PENDING POSTS
-        res = await axios.get(`/posts/by-admin?is_today=true&status=0`);
+        res = await axios.get(`/v1/posts/by-admin?is_today=true&status=0`);
       } else if (isToday === "true") {
         // GET TODAY POSTS
-        res = await axios.get(`/posts/by-admin?is_today=true`);
+        res = await axios.get(`/v1/posts/by-admin?is_today=true`);
       } else if (status === "0") {
         // GET PENDING POSTS
-        res = await axios.get(`/posts/by-admin?status=0`);
+        res = await axios.get(`/v1/posts/by-admin?status=0`);
       } else if (isOwn === "true") {
         // GET OWN POSTS
-        res = await axios.get("/posts/by-admin?is_own=true");
+        res = await axios.get("/v1/posts/by-admin?is_own=true");
       } else {
         // GET ALL POSTS
-        res = await axios.get(`/posts/by-admin`);
+        res = await axios.get(`/v1/posts/by-admin`);
       }
 
       if (res && res.success) {
-        setPosts(res.data);
+        setPosts(res.data.posts);
         setIsLoading(false);
       }
     };
