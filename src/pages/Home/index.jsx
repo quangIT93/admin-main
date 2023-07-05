@@ -42,7 +42,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/home-admin/count");
+      const res = await axios.get("/v1/home-admin/count");
       if (res && res.success) {
         // SET CARDS DATA
         setCardsData((prevState) => {

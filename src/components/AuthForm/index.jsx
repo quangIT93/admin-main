@@ -122,7 +122,7 @@ const AuthForm = () => {
     // Pass validation
     // Call API
     try {
-      const res = await axios.post("/sign-in/admin", data);
+      const res = await axios.post("/v1/sign-in/admin", data);
 
       sessionStorage.setItem("access-token", res.data.accessToken);
       localStorage.setItem("refresh-token", res.data.refreshToken);

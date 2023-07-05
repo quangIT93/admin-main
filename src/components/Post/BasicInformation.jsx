@@ -28,18 +28,18 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
   const [companies, setCompanies] = useState([]);
 
   const fetchSalaryTypes = async () => {
-    const res = await axios.get("/salary-types");
+    const res = await axios.get("/v1/salary-types");
     setSalaryTypes(res.data);
   };
 
   const fetchJobTypes = async () => {
-    const res = await axios.get("/job-types");
+    const res = await axios.get("/v1/job-types");
     setJobTypes(res.data);
   };
 
 
   const fetchCompaniesResource = async () => {
-    const res = await axios.get("/companies");
+    const res = await axios.get("/v1/companies");
     setCompanies(res.data);
   };
 
@@ -67,7 +67,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
 
   useEffect(() => {
     const fetchAllLocations = async () => {
-      const res = await axios.get("/locations");
+      const res = await axios.get("/v1/locations");
       if (res.success) {
         setLocations(res.data);
         if (
@@ -201,7 +201,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
       <Grid item xs={12} lg={6}>
         <Item>
           <TextField
-            label="URL bài đăng (Ex: https://neowork.vn)"
+            label="URL bài đăng (Ex: http://neowork.vn)"
             variant="outlined"
             value={basicInformation.resource.url || ""}
             onChange={(e) => {
@@ -686,7 +686,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
               onChange={(e) =>
                 setBasicInformation((prevState) => ({
                   ...prevState,
-                  expired_date: new Date(e._d).getTime(),
+                  expired_date: new Date(e._d),
                 }))
               }
               renderInput={(params) => <TextField {...params} fullWidth />}

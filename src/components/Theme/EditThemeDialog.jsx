@@ -96,7 +96,7 @@ const EditThemeDialog = ({
   useEffect(() => {
     // GET LOCATIONS
     const fetchAllLocations = async () => {
-      const res = await axios.get("/locations");
+      const res = await axios.get("/v1/locations");
       if (res.success) {
         setAllLocations(res.data);
         setProvinces(

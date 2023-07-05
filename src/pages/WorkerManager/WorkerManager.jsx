@@ -15,7 +15,7 @@ const WorkerManager = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchWorkers = async () => {
-    const res = await axios.get("/accounts?role=2");
+    const res = await axios.get("/v1/accounts?role=2");
     // console.log("res:", res.data);
     setWorkers(res.data);
     setIsLoading(false);

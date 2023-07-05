@@ -1,6 +1,8 @@
 const validatePostImages = (images) => {
+
   let isValid = true;
   let message = "";
+
   images.forEach((image) => {
     if (!image.name.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
       isValid = false;

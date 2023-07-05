@@ -24,10 +24,10 @@ const AccountPage = () => {
       let res;
       if (isToday === "true") {
         // GET TODAY ACCOUNTS
-        res = await axios.get("/accounts/today");
+        res = await axios.get("/v1/accounts/today");
       } else {
         // GET ALL ACCOUNTS
-        res = await axios.get("/accounts");
+        res = await axios.get("/v1/accounts");
       }
       if (res && res.success) {
         setAccounts(res.data);
