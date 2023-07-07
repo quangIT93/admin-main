@@ -21,9 +21,9 @@ const WorkerDetail = () => {
   const fetchPosts = async () => {
     let res;
     if (isOwn === "true") {
-      res = await axios.get("/posts/by-admin?is_own=true");
+      res = await axios.get("/v1/posts/by-admin?is_own=true");
     } else if (aid) {
-      res = await axios.get(`/posts/by-admin?aid=${aid}`);
+      res = await axios.get(`/v1/posts/by-admin?aid=${aid}`);
     }
     setPosts(res.data);
     setIsLoadingPosts(false);
@@ -32,9 +32,9 @@ const WorkerDetail = () => {
   const fetchQuantity = async () => {
     let res;
     if (isOwn === "true") {
-      res = await axios.get(`/posts/by-admin/count-quantity?is_own=true`);
+      res = await axios.get(`/v1/posts/by-admin/count-quantity?is_own=true`);
     } else {
-      res = await axios.get(`/posts/by-admin/count-quantity?aid=${aid}`);
+      res = await axios.get(`/v1/posts/by-admin/count-quantity?aid=${aid}`);
     }
     setQuantityData(res.data);
   };
@@ -57,7 +57,7 @@ const WorkerDetail = () => {
         </Stack>
       ) : (
         <Box
-          sx={{
+          sx={{ 
             width: "100%",
             height: `calc(100vh - ${theme.height.navbar} - 6rem)`,
           }}

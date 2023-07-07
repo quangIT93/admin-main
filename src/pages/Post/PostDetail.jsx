@@ -94,7 +94,7 @@ const PostDetail = () => {
 
   // GET POST DATA
   const fetchPostData = async (id) => {
-    const res = await axios.get(`/posts/by-admin/${id}`);
+    const res = await axios.get(`/v1/posts/by-admin/${id}`);
     // console.log("fetchPostData -> res", res);
     if (res.success) {
       const { categories, images, ...otherData } = res.data;

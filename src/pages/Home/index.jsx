@@ -84,7 +84,7 @@ const HomePage = () => {
             sx={{
               width: {
                 xs: "50%",
-                md: "25%",
+                md: "33.33%",
               },
               marginBottom: "1.25rem",
               padding: "0 0.75rem",

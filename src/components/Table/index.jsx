@@ -11,6 +11,7 @@ import {
 import { Pagination, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import "./style.scss";
+import Button from '@mui/material/Button';
 
 // Custom display when empty row
 function CustomNoRowsOverlay() {
@@ -110,44 +111,100 @@ const CssDataGrid = styled(DataGrid)(({ theme }) => ({
   "& .Mui-disabled": {
     color: "rgba(255, 255, 255, 0.26)",
   },
+  height: "95%",
 }));
 
 const Table = forwardRef((props, ref) => {
   const {
     rows,
+    currentPage,
+    nextPage,
+    prevPage,
     columns,
+    totalPages,
     showCheckbox = true,
     selectionModel,
     onSelectionModelChange,
   } = props;
 
+  const handleNextPage = () => {
+    nextPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    prevPage(currentPage - 1);
+  };
+
   return (
-    <CssDataGrid
-      sx={{ padding: "0.5rem" }}
-      ref={ref}
-      rows={rows}
-      columns={columns}
-      autoPageSize
-      checkboxSelection={showCheckbox}
-      rowHeight={46}
-      disableSelectionOnClick={true}
-      // disableColumnMenu={true}
-      components={{
-        // Toolbar: GridToolbar,
-        Toolbar: CustomToolbar,
-        NoRowsOverlay: CustomNoRowsOverlay,
-        // Pagination: CustomPagination,
-      }}
-      componentsProps={{
-        toolbar: {
-          showQuickFilter: true,
-          quickFilterProps: { debounceMs: 1000 },
-        },
-      }}
-      selectionModel={selectionModel}
-      onSelectionModelChange={onSelectionModelChange}
-    />
+    <>
+      <CssDataGrid
+        sx={{ padding: "0.5rem" }}
+        ref={ref}
+        rows={rows}
+        columns={columns}
+        // autoPageSize
+        // pageSize={10}
+        checkboxSelection={showCheckbox}
+        rowHeight={46}
+        disableSelectionOnClick={true}
+        disableColumnMenu={true}
+        components={{
+          // Toolbar: GridToolbar,
+          Toolbar: CustomToolbar,
+          NoRowsOverlay: CustomNoRowsOverlay,
+          // Pagination: CustomPagination,
+        }}
+        componentsProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 1000 },
+          },
+        }}
+        selectionModel={selectionModel}
+        onSelectionModelChange={onSelectionModelChange}
+        // hideFooterPagination
+        hideFooter
+      />
+       <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          marginTop: "1rem",
+          gap: "1rem",
+        }}
+      >
+      
+      {totalPages > 0 && (
+        <>
+          <div>
+            Trang {currentPage} / {totalPages}
+          </div>
+          <div>
+            <Button
+              style={{ marginRight: "0.5rem" }}
+              variant="outlined"
+              onClick={() => handlePrevPage()}
+              disabled={currentPage === 1}
+            >
+              {"<"}
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => handleNextPage()}
+              disabled={currentPage === totalPages || totalPages === 0}
+            >
+              {">"}
+            </Button>
+          </div>
+        </>
+      )}
+
+     </div>
+    
+    </>
   );
+  
 });
 
 export default Table;
