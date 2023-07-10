@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@mui/icons-material": "^5.13.7",
     "@mui/x-data-grid": "^5.17.5",
     "@mui/x-date-pickers": "^5.0.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",

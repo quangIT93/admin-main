@@ -1,12 +1,36 @@
 import { validatePhoneNumber } from "utils";
+const validator = require('validator');
 
 const updatePostValidation = (post) => {
+  console.log(post);
+
   if (!post.title.trim()) {
     return {
       isError: true,
       message: "Tiêu đề không hợp lệ",
       field: "title",
     };
+  }
+  if (!post.url.trim()) {
+    return {
+      isError: true,
+      message: "URL không hợp lệ",
+      field: "url",
+    };
+  }
+  if (!post.companyResourceId){
+    return {
+      isError: true,
+      message: "Nguồn không hợp lệ",
+      field: "companyResourceId",
+    }
+  }
+  if (!post.jobTypeId) {
+    return {
+      isError: true,
+      message: "Loại công việc không hợp lệ",
+      field: "jobTypeId",
+    }
   }
   if (!post.companyName) {
     return {
@@ -29,11 +53,43 @@ const updatePostValidation = (post) => {
       field: "address",
     };
   }
-  // if (post.phoneContact && !validatePhoneNumber(post.phoneContact)) {
+  const phonePattern = /^\+\d{11}$/;
+
+  if (post.phoneContact && !phonePattern.test(post.phoneContact)) {
+    return {
+      isError: true,
+      message: "Số điện thoại không hợp lệ",
+      field: "phoneNumber",
+    };
+  } else if (!post.phoneContact) {
+    return {
+      isError: true,
+      message: "Số điện thoại của bạn không được để trống",
+      field: "phoneNumber",
+    };
+  }
+  if(post.email){
+    if(!validator.isEmail(post.email.trim()))
+    {
+      return {
+        isError: true,
+        message: "Email không hợp lệ",
+        field: "email",
+      };
+    }
+  }
+  else{
+    return {
+      isError: true,
+      message: "Email không được để trống",
+      field: "email",
+    }
+  }
+  // if (!post.description.trim()) {
   //   return {
   //     isError: true,
-  //     message: "Số điện thoại không hợp lệ",
-  //     field: "phoneContact",
+  //     message: "Thông tin mô tả không hợp lệ",
+  //     field: "description",
   //   };
   // }
   if (

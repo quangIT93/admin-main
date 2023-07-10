@@ -12,6 +12,10 @@ import { Pagination, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import "./style.scss";
 import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchCircle from '@mui/icons-material/Search';
+import ClearCircle from "@mui/icons-material/Clear";
 
 // Custom display when empty row
 function CustomNoRowsOverlay() {
@@ -60,6 +64,18 @@ const CssGridToolbarQuickFilter = styled(GridToolbarQuickFilter)(
 );
 
 function CustomToolbar() {
+  // const [valueSearch, setValueSearch] = React.useState('');
+
+  // const handleChange = (data) => { 
+  //   setValueSearch(data);
+  //   handleSearch(data)
+  // }
+
+  // const handleClearSearch = () => {
+  //   setValueSearch("");
+  //   handleSearch(valueSearch)
+  // }
+
   return (
     <Box
       sx={{
@@ -78,7 +94,20 @@ function CustomToolbar() {
     >
       <CssGridToolbarExport />
       <CssGridToolbarQuickFilter />
-    </Box>
+      {/* <Input value={valueSearch} style={{width: "45%", height: "2rem", border: "none", outline: "none", backgroundColor: "none"}} placeholder="Search...." onChange={(e) => handleChange(e.target.value)}
+          id="input-with-icon-adornment"
+          startAdornment={
+          <InputAdornment position="start">
+            <SearchCircle />
+          </InputAdornment>
+          }
+          endAdornment={
+            <InputAdornment position="end" onClick = {handleClearSearch}>
+              <ClearCircle />
+            </InputAdornment>
+          }
+      />     */}
+      </Box>
   );
 }
 
@@ -111,7 +140,7 @@ const CssDataGrid = styled(DataGrid)(({ theme }) => ({
   "& .Mui-disabled": {
     color: "rgba(255, 255, 255, 0.26)",
   },
-  height: "95%",
+  height: "90%",
 }));
 
 const Table = forwardRef((props, ref) => {
@@ -121,10 +150,11 @@ const Table = forwardRef((props, ref) => {
     nextPage,
     prevPage,
     columns,
-    totalPages,
+    checkData,
     showCheckbox = true,
     selectionModel,
     onSelectionModelChange,
+    handleSearchFilterParent
   } = props;
 
   const handleNextPage = () => {
@@ -134,6 +164,10 @@ const Table = forwardRef((props, ref) => {
   const handlePrevPage = () => {
     prevPage(currentPage - 1);
   };
+
+  // const handleSearchFilter = (search) => {
+  //   handleSearchFilterParent(search)
+  // }
 
   return (
     <>
@@ -151,6 +185,7 @@ const Table = forwardRef((props, ref) => {
         components={{
           // Toolbar: GridToolbar,
           Toolbar: CustomToolbar,
+          // Toolbar: () => CustomToolbar((search) => handleSearchFilter(search)),
           NoRowsOverlay: CustomNoRowsOverlay,
           // Pagination: CustomPagination,
         }}
@@ -175,10 +210,11 @@ const Table = forwardRef((props, ref) => {
         }}
       >
       
-      {totalPages > 0 && (
+      {checkData && (
         <>
-          <div>
-            Trang {currentPage} / {totalPages}
+          <div style = {{color: 'white'}} >
+            {/* Trang {currentPage} / {(parseInt(totalPages/20) + 1)} */}
+            Trang: {currentPage} 
           </div>
           <div>
             <Button
@@ -192,7 +228,7 @@ const Table = forwardRef((props, ref) => {
             <Button
               variant="outlined"
               onClick={() => handleNextPage()}
-              disabled={currentPage === totalPages || totalPages === 0}
+              disabled={checkData === false || rows.length < 20}
             >
               {">"}
             </Button>

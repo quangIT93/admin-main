@@ -27,7 +27,7 @@ const PendingPosts = ({ posts = [], setPosts }) => {
     setShowConfirmDialog(false);
 
     try {
-      const res = await axios.put("/posts/sta/many", data);
+      const res = await axios.put("/v1/posts/sta/many", data);
       if (res && res.success) {
         toast.update(toastId, {
           render: "Accept posts successfully",

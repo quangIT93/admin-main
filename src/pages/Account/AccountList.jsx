@@ -16,7 +16,8 @@ const AccountPage = () => {
   const [searchParams] = useSearchParams();
   const isToday = searchParams.get("is_today");
   const [accounts, setAccounts] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1);
+  const [checkData, setCheckData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -32,9 +33,12 @@ const AccountPage = () => {
         res = await axios.get(`/v1/accounts?page=${currentPage}&limit=20`);
       }
       if (res && res.success) {
-        setTotalPages(res.totalAccounts)
+        setCheckData(true)
         setAccounts(res.data);
         setIsLoading(false);
+      }
+      else{
+        setCheckData(false)
       }
     };
     fetchAccountData();
@@ -77,7 +81,7 @@ const AccountPage = () => {
               Danh sách tài khoản đã đăng ký app
             </Typography>
             <Table
-              totalPages={totalPages}
+              checkData={checkData}
               prevPage={prevPage}
               nextPage={nextPage}
               currentPage={currentPage}
