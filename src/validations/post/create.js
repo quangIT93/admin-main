@@ -137,7 +137,7 @@ const createPostValidation = (post) => {
     };
   }
 
-  const phonePattern = /^\d{10}$/;
+  // const phonePattern = /^\d{10}$/;
 
   // if (post.phoneNumber && !phonePattern.test(post.phoneNumber)) {
   //   return {
