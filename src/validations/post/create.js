@@ -1,4 +1,4 @@
-// import { validatePhoneNumber } from "utils";
+
 const validator = require('validator');
 
 const createPostValidation = (post) => {
