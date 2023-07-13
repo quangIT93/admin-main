@@ -11,6 +11,11 @@ import {
 import { Pagination, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import "./style.scss";
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchCircle from '@mui/icons-material/Search';
+import ClearCircle from "@mui/icons-material/Clear";
 
 // Custom display when empty row
 function CustomNoRowsOverlay() {
@@ -59,6 +64,18 @@ const CssGridToolbarQuickFilter = styled(GridToolbarQuickFilter)(
 );
 
 function CustomToolbar() {
+  // const [valueSearch, setValueSearch] = React.useState('');
+
+  // const handleChange = (data) => { 
+  //   setValueSearch(data);
+  //   handleSearch(data)
+  // }
+
+  // const handleClearSearch = () => {
+  //   setValueSearch("");
+  //   handleSearch(valueSearch)
+  // }
+
   return (
     <Box
       sx={{
@@ -77,7 +94,20 @@ function CustomToolbar() {
     >
       <CssGridToolbarExport />
       <CssGridToolbarQuickFilter />
-    </Box>
+      {/* <Input value={valueSearch} style={{width: "45%", height: "2rem", border: "none", outline: "none", backgroundColor: "none"}} placeholder="Search...." onChange={(e) => handleChange(e.target.value)}
+          id="input-with-icon-adornment"
+          startAdornment={
+          <InputAdornment position="start">
+            <SearchCircle />
+          </InputAdornment>
+          }
+          endAdornment={
+            <InputAdornment position="end" onClick = {handleClearSearch}>
+              <ClearCircle />
+            </InputAdornment>
+          }
+      />     */}
+      </Box>
   );
 }
 
@@ -110,44 +140,107 @@ const CssDataGrid = styled(DataGrid)(({ theme }) => ({
   "& .Mui-disabled": {
     color: "rgba(255, 255, 255, 0.26)",
   },
+  height: "90%",
 }));
 
 const Table = forwardRef((props, ref) => {
   const {
     rows,
+    currentPage,
+    nextPage,
+    prevPage,
     columns,
+    checkData,
     showCheckbox = true,
     selectionModel,
     onSelectionModelChange,
+    handleSearchFilterParent
   } = props;
 
+  const handleNextPage = () => {
+    nextPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    prevPage(currentPage - 1);
+  };
+
+  // const handleSearchFilter = (search) => {
+  //   handleSearchFilterParent(search)
+  // }
+
   return (
-    <CssDataGrid
-      sx={{ padding: "0.5rem" }}
-      ref={ref}
-      rows={rows}
-      columns={columns}
-      autoPageSize
-      checkboxSelection={showCheckbox}
-      rowHeight={46}
-      disableSelectionOnClick={true}
-      // disableColumnMenu={true}
-      components={{
-        // Toolbar: GridToolbar,
-        Toolbar: CustomToolbar,
-        NoRowsOverlay: CustomNoRowsOverlay,
-        // Pagination: CustomPagination,
-      }}
-      componentsProps={{
-        toolbar: {
-          showQuickFilter: true,
-          quickFilterProps: { debounceMs: 1000 },
-        },
-      }}
-      selectionModel={selectionModel}
-      onSelectionModelChange={onSelectionModelChange}
-    />
+    <>
+      <CssDataGrid
+        sx={{ padding: "0.5rem" }}
+        ref={ref}
+        rows={rows}
+        columns={columns}
+        // autoPageSize
+        // pageSize={10}
+        checkboxSelection={showCheckbox}
+        rowHeight={46}
+        disableSelectionOnClick={true}
+        disableColumnMenu={true}
+        components={{
+          // Toolbar: GridToolbar,
+          Toolbar: CustomToolbar,
+          // Toolbar: () => CustomToolbar((search) => handleSearchFilter(search)),
+          NoRowsOverlay: CustomNoRowsOverlay,
+          // Pagination: CustomPagination,
+        }}
+        componentsProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 1000 },
+          },
+        }}
+        selectionModel={selectionModel}
+        onSelectionModelChange={onSelectionModelChange}
+        // hideFooterPagination
+        hideFooter
+      />
+       <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          marginTop: "1rem",
+          gap: "1rem",
+        }}
+      >
+      
+      {checkData && (
+        <>
+          <div style = {{color: 'white'}} >
+            {/* Trang {currentPage} / {(parseInt(totalPages/20) + 1)} */}
+            Trang: {currentPage} 
+          </div>
+          <div>
+            <Button
+              style={{ marginRight: "0.5rem" }}
+              variant="outlined"
+              onClick={() => handlePrevPage()}
+              disabled={currentPage === 1}
+            >
+              {"<"}
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => handleNextPage()}
+              disabled={checkData === false || rows.length < 20}
+            >
+              {">"}
+            </Button>
+          </div>
+        </>
+      )}
+
+     </div>
+    
+    </>
   );
+  
 });
 
 export default Table;

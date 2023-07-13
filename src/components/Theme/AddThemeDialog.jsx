@@ -193,7 +193,7 @@ const AddThemeDialog = ({ open, setOpen, setEnabledThemes }) => {
 
     // CALL API
     try {
-      const res = await axios.post("/themes", data);
+      const res = await axios.post("/v1/themes", data);
       if (res.success) {
         setEnabledThemes((prevState) => [
           {

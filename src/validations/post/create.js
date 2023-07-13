@@ -17,27 +17,19 @@ const createPostValidation = (post) => {
       field: "url",
     }
   }
-  else if (!validator.isURL(post.url.trim())) {
+  if(!post.companyResourceId){
     return { 
       isError: true,
-      message: "URL không hợp lệ",
+      message: "Nguồn không hợp lệ",
+    }
+  }
+  if(!post.jobTypeId){
+    return { 
+      isError: true,
+      message: "Loại công việc không hợp lệ",
       field: "url",
     }
   }
-  // if(!post.companyResourceId){
-  //   return { 
-  //     isError: true,
-  //     message: "Nhà tuyển dụng không hợp lệ",
-  //     field: "url",
-  //   }
-  // }
-  // if(!post.jobTypeId){
-  //   return { 
-  //     isError: true,
-  //     message: "Loại công việc không hợp lệ",
-  //     field: "url",
-  //   }
-  // }
   if (post.companyName.trim() === "") {
     return {
       isError: true,

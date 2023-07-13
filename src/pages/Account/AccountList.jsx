@@ -16,7 +16,10 @@ const AccountPage = () => {
   const [searchParams] = useSearchParams();
   const isToday = searchParams.get("is_today");
   const [accounts, setAccounts] = useState([]);
+  // const [totalPages, setTotalPages] = useState(1);
+  const [checkData, setCheckData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // GET ALL ACCOUNTS
   useEffect(() => {
@@ -24,18 +27,30 @@ const AccountPage = () => {
       let res;
       if (isToday === "true") {
         // GET TODAY ACCOUNTS
-        res = await axios.get("/v1/accounts/today");
+        res = await axios.get(`/v1/accounts/today?page=${currentPage}&limit=20`);
       } else {
         // GET ALL ACCOUNTS
-        res = await axios.get("/v1/accounts");
+        res = await axios.get(`/v1/accounts?page=${currentPage}&limit=20`);
       }
       if (res && res.success) {
+        setCheckData(true)
         setAccounts(res.data);
         setIsLoading(false);
       }
+      else{
+        setCheckData(false)
+      }
     };
     fetchAccountData();
-  }, []);
+  }, [currentPage]);
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  }
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  }
 
   return (
     <>
@@ -66,6 +81,10 @@ const AccountPage = () => {
               Danh sách tài khoản đã đăng ký app
             </Typography>
             <Table
+              checkData={checkData}
+              prevPage={prevPage}
+              nextPage={nextPage}
+              currentPage={currentPage}
               rows={accounts}
               columns={accountListColumns}
               showCheckbox={false}

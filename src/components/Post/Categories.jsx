@@ -15,7 +15,7 @@ const Categories = ({ categories, setCategories }) => {
   useEffect(() => {
     // GET CATEGORIES
     const fetchAllCategories = async () => {
-      const res = await axios.get("/categories");
+      const res = await axios.get("/v1/categories");
       if (res.success) {
         setAllCategories(res.data);
       }

@@ -174,7 +174,6 @@ const CreatePostPage = () => {
 
   // Handle on change images
   const handleOnChangeImages = async (e) => {
-    console.log("::: handleOnChangeImages");
     const imagesUpload = Array.from(e.target.files);
 
     const options = {
@@ -239,6 +238,10 @@ const CreatePostPage = () => {
       return toast.warn(createPostValidationReply.message);
     }
 
+    if (images.length === 0) {
+      return toast.warn("Vui lòng chọn ít nhất 1 ảnh");
+    }
+
     const postSubmit = new FormData();
     postSubmit.append("title", post.title.trim());
     postSubmit.append("companyName", post.companyName.trim());
@@ -280,9 +283,7 @@ const CreatePostPage = () => {
     post.categories.forEach((category) => {
       postSubmit.append("categoriesId", category.child_id);
     });
-    images.forEach((image) => {
-      postSubmit.append("images", image.image);
-    });
+    images.forEach((image) => postSubmit.append("images", image.image));
 
     // NEW FIELD
     post.email && postSubmit.append("email", post.email);

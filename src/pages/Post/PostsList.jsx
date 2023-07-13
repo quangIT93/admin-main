@@ -15,7 +15,9 @@ const PostsListPage = () => {
   const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  // const [totalPages, setTotalPages] = useState(1);
+  const [checkData, setCheckData] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const themeId = searchParams.get("themeId");
   const isToday = searchParams.get("is_today");
   const status = searchParams.get("status");
@@ -28,31 +30,51 @@ const PostsListPage = () => {
 
       if (themeId) {
         // GET POSTS BY THEME
-        res = await axios.get(`/v1/posts/theme/all?tid=${themeId}`);
+        res = await axios.get(`/v1/posts/theme/all?tid=${themeId}&page=${currentPage}&limit=20`);
       } else if (isToday === "true" && status === "0") {
         // GET TODAY PENDING POSTS
-        res = await axios.get(`/v1/posts/by-admin?is_today=true&status=0`);
+        res = await axios.get(`/v1/posts/by-admin?is_today=true&status=0&page=${currentPage}&limit=20`);
       } else if (isToday === "true") {
         // GET TODAY POSTS
-        res = await axios.get(`/v1/posts/by-admin?is_today=true`);
+        res = await axios.get(`/v1/posts/by-admin?is_today=true&page=${currentPage}&limit=20`);
       } else if (status === "0") {
         // GET PENDING POSTS
-        res = await axios.get(`/v1/posts/by-admin?status=0`);
+        res = await axios.get(`/v1/posts/by-admin?status=0&page=${currentPage}&limit=20`);
       } else if (isOwn === "true") {
         // GET OWN POSTS
-        res = await axios.get("/v1/posts/by-admin?is_own=true");
+        res = await axios.get(`/v1/posts/by-admin?is_own=true&page=${currentPage}&limit=20`);
       } else {
         // GET ALL POSTS
-        res = await axios.get(`/v1/posts/by-admin`);
+        res = await axios.get(`/v1/posts/by-admin?page=${currentPage}&limit=20`);
       }
 
       if (res && res.success) {
-        setPosts(res.data.posts);
+        // setTotalPages(res.totalPosts);
+        setCheckData(true);
+        setPosts(res.data);
         setIsLoading(false);
       }
+
+      else {
+        setCheckData(false);
+      }
+
     };
     getPostsData();
-  }, [themeId, isToday, status]);
+  }, [themeId, isToday, status, currentPage]);
+
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  }
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  }
+
+  const handleSearchFilterParent = (search) => {
+    
+  }
 
   return (
     <>
@@ -107,6 +129,12 @@ const PostsListPage = () => {
                   </Box>
 
                   <Table
+                    // totalPages={totalPages}
+                    handleSearchFilterParent={handleSearchFilterParent}
+                    checkData={checkData}
+                    prevPage={prevPage}
+                    nextPage={nextPage}
+                    currentPage={currentPage}
                     rows={posts}
                     columns={postListColumns}
                     showCheckbox={false}

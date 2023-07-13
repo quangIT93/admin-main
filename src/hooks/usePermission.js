@@ -13,7 +13,7 @@ const usePermission = (callback = null) => {
   // console.log("usePermission")
 
   const getNewAccessToken = async () => {
-    await instance.post("/reset-access-token", {
+    await instance.post("/v1/reset-access-token", {
       refreshToken: localStorage.getItem("refresh-token"),
     }).then((res) => {
       sessionStorage.setItem("access-token", res.data.accessToken);
