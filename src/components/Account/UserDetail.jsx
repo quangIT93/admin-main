@@ -30,7 +30,7 @@ const UserDetail = ({ accountId }) => {
     // ACCOUNT DATA
     const getAccountDataFromApi = async (accountId) => {
       if (accountId) {
-        const res = await axios.get(`/profiles/s?id=${accountId}`);
+        const res = await axios.get(`/v1/profiles/s?id=${accountId}`);
         if (res.success) {
           console.log(res.data);
           setAccountData(res.data);

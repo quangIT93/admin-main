@@ -15,9 +15,9 @@ const PostsListPage = () => {
   const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1);
+  const [checkData, setCheckData] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
   const themeId = searchParams.get("themeId");
   const isToday = searchParams.get("is_today");
   const status = searchParams.get("status");
@@ -49,9 +49,14 @@ const PostsListPage = () => {
       }
 
       if (res && res.success) {
-        setTotalPages(res.totalPosts);
+        // setTotalPages(res.totalPosts);
+        setCheckData(true);
         setPosts(res.data);
         setIsLoading(false);
+      }
+
+      else {
+        setCheckData(false);
       }
 
     };
@@ -65,6 +70,10 @@ const PostsListPage = () => {
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
+  }
+
+  const handleSearchFilterParent = (search) => {
+    
   }
 
   return (
@@ -120,7 +129,9 @@ const PostsListPage = () => {
                   </Box>
 
                   <Table
-                    totalPages={totalPages}
+                    // totalPages={totalPages}
+                    handleSearchFilterParent={handleSearchFilterParent}
+                    checkData={checkData}
                     prevPage={prevPage}
                     nextPage={nextPage}
                     currentPage={currentPage}

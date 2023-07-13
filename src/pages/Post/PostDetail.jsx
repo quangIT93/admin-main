@@ -117,7 +117,7 @@ const PostDetail = () => {
 
   // GET APPLICATIONS
   const fetchApplicationsOfPostData = async (id) => {
-    const res = await axios.get(`/history/recruiter/${id}/applications`);
+    const res = await axios.get(`/v1/history/recruiter/${id}/applications`);
     if (res.success) {
       setApplications(res.data.applications);
     }
@@ -182,17 +182,18 @@ const PostDetail = () => {
       expiredDate: basicInformation.expired_date,
     };
 
-    // console.log("handleSubmitPostData -> data", data);
+    // console.log("handleSubmitPostData -> data", data)
 
     // VALIDATION
     const validationRes = updatePostValidation(data);
+    
     if (validationRes.isError) {
       return toast.warn(validationRes.message);
     }
 
     // GET RESPONSE
     try {
-      await axios.put("/posts/inf/by-ad", data);
+      await axios.put("/v1/posts/inf/by-ad", data);
       return toast.success("Cập nhật bài đăng thành công");
     } catch (error) {
       return toast.error("Cập nhật bài đăng thất bại");
@@ -211,7 +212,7 @@ const PostDetail = () => {
     }
 
     // UPDATE POST STATUS
-    const res = await axios.put(`/posts/sta/`, {
+    const res = await axios.put(`/v1/posts/sta/`, {
       id,
       status: postStatusApproved,
     });
