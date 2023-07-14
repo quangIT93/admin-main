@@ -1,4 +1,4 @@
-// import { validatePhoneNumber } from "utils";
+
 const validator = require('validator');
 
 const createPostValidation = (post) => {
@@ -137,21 +137,21 @@ const createPostValidation = (post) => {
     };
   }
 
-  const phonePattern = /^\d{10}$/;
+  // const phonePattern = /^\d{10}$/;
 
-  if (post.phoneNumber && !phonePattern.test(post.phoneNumber)) {
-    return {
-      isError: true,
-      message: "Số điện thoại không hợp lệ",
-      field: "phoneNumber",
-    };
-  } else if (post.phoneNumber === "") {
-    return {
-      isError: true,
-      message: "Số điện thoại của bạn không được để trống",
-      field: "phoneNumber",
-    };
-  }
+  // if (post.phoneNumber && !phonePattern.test(post.phoneNumber)) {
+  //   return {
+  //     isError: true,
+  //     message: "Số điện thoại không hợp lệ",
+  //     field: "phoneNumber",
+  //   };
+  // } else if (post.phoneNumber === "") {
+  //   return {
+  //     isError: true,
+  //     message: "Số điện thoại của bạn không được để trống",
+  //     field: "phoneNumber",
+  //   };
+  // }
   if(post.email.trim() !== ""){
     if(!validator.isEmail(post.email.trim()))
     {

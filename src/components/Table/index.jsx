@@ -211,9 +211,8 @@ const Table = forwardRef((props, ref) => {
       
       {checkData && (
         <>
-          <div style = {{color: 'white'}} >
-            {/* Trang {currentPage} / {(parseInt(totalPages/20) + 1)} */}
-            Trang: {currentPage} 
+          <div>
+            Trang {currentPage} / {parseInt(totalPages / 20)} 
           </div>
           <div>
             <Button
