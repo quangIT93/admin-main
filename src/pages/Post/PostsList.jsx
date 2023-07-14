@@ -27,7 +27,7 @@ const PostsListPage = () => {
   useEffect(() => {
     const getPostsData = async () => {
       let res;
-
+      
       if (themeId) {
         // GET POSTS BY THEME
         res = await axios.get(`/v1/posts/theme/all?tid=${themeId}&page=${currentPage}&limit=20`);

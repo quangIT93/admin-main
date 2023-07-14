@@ -18,7 +18,7 @@ const WorkerManager = () => {
 
 
   const fetchWorkers = async () => {
-    const res = await axios.get(`/v1/accounts?role=2&page=${currentPage}&limit=10`);
+    const res = await axios.get(`/v1/accounts?role=2&page=${currentPage}&limit=20`);
     // console.log("res:", res.data);
     setWorkers(res.data);
     setCheckData(true);
@@ -27,7 +27,7 @@ const WorkerManager = () => {
 
   useEffect(() => {
     fetchWorkers();
-  }, []);
+  }, [currentPage]);
 
 
   const prevPage = () => {

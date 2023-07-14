@@ -36,10 +36,17 @@ const WorkerDetail = () => {
 
   const fetchQuantity = async () => {
     let res;
-    if (isOwn === "true") {
-      res = await axios.get(`/v1/posts/by-admin/count-quantity?is_own=true`);
-    } else {
-      res = await axios.get(`/v1/posts/by-admin/count-quantity?aid=${aid}`);
+
+    try
+    {
+      if (isOwn === "true") {
+        res = await axios.get(`/v1/posts/by-admin/count-quantity?is_own=true`);
+      } else {
+        res = await axios.get(`/v1/posts/by-admin/count-quantity?aid=${aid}`);
+      }
+    }catch(err)
+    {
+
     }
     if (res && res.data) {
       setQuantityData(res.data);
