@@ -53,21 +53,6 @@ const updatePostValidation = (post) => {
       field: "address",
     };
   }
-  const phonePattern = /^\+\d{11}$/;
-
-  if (post.phoneContact && !phonePattern.test(post.phoneContact)) {
-    return {
-      isError: true,
-      message: "Số điện thoại không hợp lệ",
-      field: "phoneNumber",
-    };
-  } else if (!post.phoneContact) {
-    return {
-      isError: true,
-      message: "Số điện thoại của bạn không được để trống",
-      field: "phoneNumber",
-    };
-  }
   if(post.email){
     if(!validator.isEmail(post.email.trim()))
     {
