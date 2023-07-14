@@ -154,7 +154,6 @@ const Table = forwardRef((props, ref) => {
     showCheckbox = true,
     selectionModel,
     onSelectionModelChange,
-    handleSearchFilterParent
   } = props;
 
   const handleNextPage = () => {

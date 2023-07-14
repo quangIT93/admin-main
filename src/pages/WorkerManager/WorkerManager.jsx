@@ -13,17 +13,30 @@ const WorkerManager = () => {
   const theme = useTheme();
   const [workers, setWorkers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [checkData, setCheckData] = useState(false);
+
 
   const fetchWorkers = async () => {
-    const res = await axios.get("/v1/accounts?role=2");
+    const res = await axios.get(`/v1/accounts?role=2&page=${currentPage}&limit=10`);
     // console.log("res:", res.data);
-    setWorkers(res);
+    setWorkers(res.data);
+    setCheckData(true);
     setIsLoading(false);
   };
 
   useEffect(() => {
     fetchWorkers();
   }, []);
+
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  }
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  }
 
   return (
     <>
@@ -66,7 +79,15 @@ const WorkerManager = () => {
             </Box>
           </Box>
 
-          <Table rows={workers} columns={workerColumns} showCheckbox={false} />
+          <Table 
+            rows={workers} 
+            checkData={checkData}
+            prevPage={prevPage}
+            nextPage={nextPage}
+            currentPage={currentPage}
+            columns={workerColumns} 
+            showCheckbox={false} 
+          />
         </Box>
       )}
     </>
