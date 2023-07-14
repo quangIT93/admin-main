@@ -33,7 +33,9 @@ const AccountPage = () => {
         res = await axios.get(`/v1/accounts?page=${currentPage}&limit=20`);
       }
       if (res && res.success) {
-        setCheckData(true)
+        if (res?.data?.length > 0) {
+          setCheckData(true)
+        }
         setAccounts(res.data);
         setIsLoading(false);
       }

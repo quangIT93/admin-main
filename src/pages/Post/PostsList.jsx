@@ -50,7 +50,11 @@ const PostsListPage = () => {
 
       if (res && res.success) {
         // setTotalPages(res.totalPosts);
-        setCheckData(true);
+
+        if (res?.data?.length > 0)
+        {
+          setCheckData(true);
+        }
         setPosts(res.data);
         setIsLoading(false);
       }
@@ -130,7 +134,7 @@ const PostsListPage = () => {
 
                   <Table
                     // totalPages={totalPages}
-                    handleSearchFilterParent={handleSearchFilterParent}
+                    // handleSearchFilterParent={handleSearchFilterParent}
                     checkData={checkData}
                     prevPage={prevPage}
                     nextPage={nextPage}

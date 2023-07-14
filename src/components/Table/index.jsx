@@ -154,7 +154,6 @@ const Table = forwardRef((props, ref) => {
     showCheckbox = true,
     selectionModel,
     onSelectionModelChange,
-    handleSearchFilterParent
   } = props;
 
   const handleNextPage = () => {
@@ -212,9 +211,8 @@ const Table = forwardRef((props, ref) => {
       
       {checkData && (
         <>
-          <div style = {{color: 'white'}} >
-            {/* Trang {currentPage} / {(parseInt(totalPages/20) + 1)} */}
-            Trang: {currentPage} 
+          <div style={{color: 'white'}}>
+            Trang {currentPage}
           </div>
           <div>
             <Button

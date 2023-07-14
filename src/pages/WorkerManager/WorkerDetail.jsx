@@ -13,7 +13,8 @@ const WorkerDetail = () => {
   const [searchParams] = useSearchParams();
   const aid = searchParams.get("aid");
   const isOwn = searchParams.get("own");
-
+  const [checkData, setCheckData] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [quantityData, setQuantityData] = useState(null);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
@@ -21,11 +22,15 @@ const WorkerDetail = () => {
   const fetchPosts = async () => {
     let res;
     if (isOwn === "true") {
-      res = await axios.get("/v1/posts/by-admin?is_own=true");
+      res = await axios.get(`/v1/posts/by-admin?is_own=true&page=${currentPage}&limit=20`);
     } else if (aid) {
-      res = await axios.get(`/v1/posts/by-admin?aid=${aid}`);
+      res = await axios.get(`/v1/posts/by-admin?aid=${aid}&page=${currentPage}&limit=20`);
     }
     setPosts(res.data);
+
+    if (res?.data?.length > 0){
+      setCheckData(true);
+    }
     setIsLoadingPosts(false);
   };
 
@@ -36,13 +41,23 @@ const WorkerDetail = () => {
     } else {
       res = await axios.get(`/v1/posts/by-admin/count-quantity?aid=${aid}`);
     }
-    setQuantityData(res.data);
+    if (res && res.data) {
+      setQuantityData(res.data);
+    }
   };
 
   useEffect(() => {
     fetchPosts();
     fetchQuantity();
-  }, []);
+  }, [currentPage]);
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  }
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  }
 
   return (
     <>
@@ -85,7 +100,15 @@ const WorkerDetail = () => {
             </Box>
           </Box>
 
-          <Table rows={posts} columns={postListColumns} showCheckbox={false} />
+          <Table 
+            rows={posts} 
+            columns={postListColumns} 
+            showCheckbox={false} 
+            checkData={checkData}
+            currentPage={currentPage}
+            prevPage={prevPage}
+            nextPage={nextPage}
+          />
         </Box>
       )}
 
