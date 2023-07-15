@@ -55,36 +55,36 @@ const updatePostValidation = (post) => {
   }
   const phonePattern = /^\+\d{11}$/;
 
-  if (post.phoneContact && !phonePattern.test(post.phoneContact)) {
-    return {
-      isError: true,
-      message: "Số điện thoại không hợp lệ",
-      field: "phoneNumber",
-    };
-  } else if (!post.phoneContact) {
-    return {
-      isError: true,
-      message: "Số điện thoại của bạn không được để trống",
-      field: "phoneNumber",
-    };
-  }
-  if(post.email){
-    if(!validator.isEmail(post.email.trim()))
-    {
-      return {
-        isError: true,
-        message: "Email không hợp lệ",
-        field: "email",
-      };
-    }
-  }
-  else{
-    return {
-      isError: true,
-      message: "Email không được để trống",
-      field: "email",
-    }
-  }
+  // if (post.phoneContact && !phonePattern.test(post.phoneContact)) {
+  //   return {
+  //     isError: true,
+  //     message: "Số điện thoại không hợp lệ",
+  //     field: "phoneNumber",
+  //   };
+  // } else if (!post.phoneContact) {
+  //   return {
+  //     isError: true,
+  //     message: "Số điện thoại của bạn không được để trống",
+  //     field: "phoneNumber",
+  //   };
+  // }
+  // if(post.email){
+  //   if(!validator.isEmail(post.email.trim()))
+  //   {
+  //     return {
+  //       isError: true,
+  //       message: "Email không hợp lệ",
+  //       field: "email",
+  //     };
+  //   }
+  // }
+  // else{
+  //   return {
+  //     isError: true,
+  //     message: "Email không được để trống",
+  //     field: "email",
+  //   }
+  // }
   // if (!post.description.trim()) {
   //   return {
   //     isError: true,
