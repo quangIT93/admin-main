@@ -53,23 +53,23 @@ const updatePostValidation = (post) => {
       field: "address",
     };
   }
-  if(post.email){
-    if(!validator.isEmail(post.email.trim()))
-    {
-      return {
-        isError: true,
-        message: "Email không hợp lệ",
-        field: "email",
-      };
-    }
-  }
-  else{
-    return {
-      isError: true,
-      message: "Email không được để trống",
-      field: "email",
-    }
-  }
+  // if(post.email){
+  //   if(!validator.isEmail(post.email.trim()))
+  //   {
+  //     return {
+  //       isError: true,
+  //       message: "Email không hợp lệ",
+  //       field: "email",
+  //     };
+  //   }
+  // }
+  // else{
+  //   return {
+  //     isError: true,
+  //     message: "Email không được để trống",
+  //     field: "email",
+  //   }
+  // }
   // if (!post.description.trim()) {
   //   return {
   //     isError: true,

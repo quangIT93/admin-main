@@ -279,7 +279,7 @@ const CreatePostPage = () => {
     postSubmit.append("salaryType", post.salaryType);
     postSubmit.append("moneyType", post.moneyType);
     postSubmit.append("description", post.description.trim());
-    postSubmit.append("phone", post.phoneNumber);
+    post.phoneNumber && postSubmit.append("phone", post.phoneNumber);
     post.categories.forEach((category) => {
       postSubmit.append("categoriesId", category.child_id);
     });
