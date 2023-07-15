@@ -115,14 +115,14 @@ const updatePostValidation = (post) => {
       field: "startTime | endTime",
     };
   }
-  if (!Number.isInteger(post.salaryMin) || post.salaryMin < 1000) {
+  if (!Number.isInteger(post.salaryMin)) {
     return {
       isError: true,
       message: "Giá trị lương không hợp lệ",
       field: "salaryMin",
     };
   }
-  if (!Number.isInteger(post.salaryMax) || post.salaryMax < 1000) {
+  if (!Number.isInteger(post.salaryMax)) {
     return {
       isError: true,
       message: "Giá trị lương không hợp lệ",
