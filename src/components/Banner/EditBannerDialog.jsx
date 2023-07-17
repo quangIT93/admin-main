@@ -193,7 +193,7 @@ const EditBannerDialog = ({
     const toastId = toast.loading("Please wait...");
 
     try {
-      const res = await axios.put("/banners", data);
+      const res = await axios.put("v1/banners", data);
       if (res.success) {
         setBanners((prevState) => {
           const newState = [...prevState];
