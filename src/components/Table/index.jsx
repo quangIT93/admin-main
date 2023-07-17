@@ -12,10 +12,6 @@ import { Pagination, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import "./style.scss";
 import Button from '@mui/material/Button';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchCircle from '@mui/icons-material/Search';
-import ClearCircle from "@mui/icons-material/Clear";
 
 // Custom display when empty row
 function CustomNoRowsOverlay() {

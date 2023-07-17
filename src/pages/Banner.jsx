@@ -49,7 +49,7 @@ const Banner = () => {
     };
 
     try {
-      const res = await axios.put("/banners/status/many", data);
+      const res = await axios.put("v1/banners/status/many", data);
       if (res && res.success) {
         return toast.success("Upload banners status successfully");
       } else {
