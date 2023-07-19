@@ -27,7 +27,7 @@ const WorkerManager = () => {
 
   useEffect(() => {
     fetchWorkers();
-  }, []);
+  }, [currentPage]);
 
 
   const prevPage = () => {

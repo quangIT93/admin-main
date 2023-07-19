@@ -222,7 +222,7 @@ const Table = forwardRef((props, ref) => {
             <Button
               variant="outlined"
               onClick={() => handleNextPage()}
-              disabled={checkData === false || rows.length < 20}
+              disabled={checkData === false || rows.length === 0}
             >
               {">"}
             </Button>
