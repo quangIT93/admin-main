@@ -346,7 +346,7 @@ const CreatePostInformations = ({
                   onChange={(e) =>
                     setPost((prevState) => ({
                       ...prevState,
-                      endDate: new Date(e._d).getTime(),
+                      endDate: new Date(1970, 0, 2, e.hour(), e.minutes()).getTime(),
                     }))
                   }
                   renderInput={(params) => <TextField {...params} fullWidth />}
@@ -363,12 +363,17 @@ const CreatePostInformations = ({
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <TimePicker
               label="Thời gian bắt đầu"
+              
+              // disabled={true}
+              ampm={false}
               value={moment(post.startTime)}
               onChange={(e) =>
+                {
+                  console.log(e._d)
                 setPost((prevState) => ({
                   ...prevState,
-                  startTime: new Date(e._d).getTime(),
-                }))
+                  startTime: new Date(1970, 0, 2, e.hour(), e.minutes()).getTime(),
+                }))}
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
             />
@@ -381,11 +386,12 @@ const CreatePostInformations = ({
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <TimePicker
               label="Thời gian kết thúc"
+              ampm={false}
               value={moment(post.endTime)}
               onChange={(e) =>
                 setPost((prevState) => ({
                   ...prevState,
-                  endTime: new Date(e._d).getTime(),
+                  startTime: new Date(1970, 0, 2, e.hour(), e.minutes()).getTime(),
                 }))
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
