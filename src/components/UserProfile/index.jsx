@@ -23,7 +23,7 @@ const UserProfile = () => {
         const data = {
           refreshToken,
         };
-        const url = "/v1/admin/sign-out";
+        const url = "v1/admin/sign-out";
         await axios.post(url, data);
         toast.success("Nice! Sign out successfully");
 

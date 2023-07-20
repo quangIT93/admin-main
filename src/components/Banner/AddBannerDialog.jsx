@@ -20,10 +20,6 @@ import { TextField, Dialog } from "components";
 
 const addPhotoTypes = [
   {
-    id: 0,
-    type: "Enter url",
-  },
-  {
     id: 1,
     type: "Upload from device",
   },
@@ -237,7 +233,7 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
           </CssFormControl>
 
           {/* TEXT FIELD TO ENTER URL */}
-          {addPhotoTypeId === 0 && (
+          {/* {addPhotoTypeId === 0 && (
             <CssFormControl>
               <TextField
                 label="Photo url"
@@ -246,7 +242,7 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
                 onChange={(e) => handleChangePhotoUrlSelected(e)}
               />
             </CssFormControl>
-          )}
+          )} */}
 
           {/* FILE FIELD TO UPLOAD PHOTO */}
           {addPhotoTypeId === 1 && (
