@@ -4,7 +4,7 @@ import axios from "axios";
 const instance = axios.create({
   // baseURL: "https://aiworks.vn/api",
   // baseURL: "http://localhost:5000/api",
-  baseURL: "http://neoworks.vn/api",
+  baseURL: "https://neoworks.vn/api",
   timeout: 10000,
   headers: {
       "Content-Type": "application/json",
