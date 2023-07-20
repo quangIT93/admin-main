@@ -372,7 +372,7 @@ const CreatePostInformations = ({
                   console.log(e._d)
                 setPost((prevState) => ({
                   ...prevState,
-                  startTime: new Date(`Fri Jan 02 1970 ${e._d.getHours()}:${e._d.getMinutes()}:00 GMT+0700 (Indochina Time)`).getTime(),
+                  startTime: new Date(e._d).getTime(),
                 }))}
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
@@ -391,7 +391,7 @@ const CreatePostInformations = ({
               onChange={(e) =>
                 setPost((prevState) => ({
                   ...prevState,
-                  endTime: new Date(`Fri Jan 02 1970 ${e._d.getHours()}:${e._d.getMinutes()}:00 GMT+0700 (Indochina Time)`).getTime(),
+                  endTime: new Date(e._d).getTime(),
                 }))
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
