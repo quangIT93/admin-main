@@ -103,10 +103,13 @@ const BannerList = ({ banners, setBanners, handleRemoveBanner }) => {
     const match = pattern.exec(banner?.image);
 
     if (match) {
-      const imageName = match[0];
-      const res = await axios.post("http://localhost:8000/api/v3/banners/delete", {imageName, id: banner.id});
 
-      console.log(res);
+      toast.success('Chức năng đang được phát triển')
+
+      // const imageName = match[0];
+      // const res = await axios.post("v3/banners/delete", {imageName, id: banner.id});
+
+      // console.log(res);
       // if (res && res.status === 200) {
       //   toast.success('Delete banner successfully')
       //   setShowConfirmModal()
