@@ -4,7 +4,7 @@ import { Button, Skeleton, Typography, Box, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Table, LineChart } from "components";
 import { axios } from "configs";
-import { postListColumns } from "configs/table";
+import { workerDetailColumns } from "configs/table";
 import { usePermission } from "hooks";
 
 const WorkerDetail = () => {
@@ -102,7 +102,7 @@ const WorkerDetail = () => {
 
           <Table 
             rows={posts} 
-            columns={postListColumns} 
+            columns={workerDetailColumns} 
             showCheckbox={false} 
             checkData={checkData}
             currentPage={currentPage}
