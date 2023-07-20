@@ -346,7 +346,7 @@ const CreatePostInformations = ({
                   onChange={(e) =>
                     setPost((prevState) => ({
                       ...prevState,
-                      endDate: new Date(1970, 0, 2, e.hour(), e.minutes()).getTime(),
+                      endDate: new Date(e._d).getTime(),
                     }))
                   }
                   renderInput={(params) => <TextField {...params} fullWidth />}
@@ -365,14 +365,14 @@ const CreatePostInformations = ({
               label="Thời gian bắt đầu"
               
               // disabled={true}
-              ampm={false}
+              // ampm={false}
               value={moment(post.startTime)}
               onChange={(e) =>
                 {
                   console.log(e._d)
                 setPost((prevState) => ({
                   ...prevState,
-                  startTime: new Date(1970, 0, 2, e.hour(), e.minutes()).getTime(),
+                  startTime: new Date(`Fri Jan 02 1970 ${e._d.getHours()}:${e._d.getMinutes()}:00 GMT+0700 (Indochina Time)`).getTime(),
                 }))}
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
@@ -386,12 +386,12 @@ const CreatePostInformations = ({
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <TimePicker
               label="Thời gian kết thúc"
-              ampm={false}
+              // ampm={false}
               value={moment(post.endTime)}
               onChange={(e) =>
                 setPost((prevState) => ({
                   ...prevState,
-                  startTime: new Date(1970, 0, 2, e.hour(), e.minutes()).getTime(),
+                  endTime: new Date(`Fri Jan 02 1970 ${e._d.getHours()}:${e._d.getMinutes()}:00 GMT+0700 (Indochina Time)`).getTime(),
                 }))
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
