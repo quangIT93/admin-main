@@ -162,7 +162,7 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
     const toastId = toast.loading("Please wait...");
 
     try {
-      const res = await axios.post("/banners", data);
+      const res = await axios.post("/v1/banners", data);
       if (res.success) {
         setBanners((prevState) => [
           {

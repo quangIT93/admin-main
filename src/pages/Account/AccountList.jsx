@@ -20,17 +20,23 @@ const AccountPage = () => {
   const [checkData, setCheckData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [modifyLimit, setModifyLimit] = useState(10)
+  const [dataSearch, setDataSearch] = useState('')
+  const [checkSearch, setCheckSearch] = useState(false);
 
   // GET ALL ACCOUNTS
   useEffect(() => {
     const fetchAccountData = async () => {
       let res;
+
+      let limitNumber = +modifyLimit ? +modifyLimit : 10
+
       if (isToday === "true") {
         // GET TODAY ACCOUNTS
-        res = await axios.get(`/v1/accounts/today?page=${currentPage}&limit=20`);
+        res = await axios.get(`/v1/accounts/today?page=${currentPage}&limit=${limitNumber}`);
       } else {
         // GET ALL ACCOUNTS
-        res = await axios.get(`/v1/accounts?page=${currentPage}&limit=20`);
+        res = await axios.get(`/v1/accounts?page=${currentPage}&limit=${limitNumber}`);
       }
       if (res && res.success) {
         if (res?.data?.length > 0) {
@@ -44,7 +50,7 @@ const AccountPage = () => {
       }
     };
     fetchAccountData();
-  }, [currentPage]);
+  }, [currentPage, modifyLimit]);
 
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
@@ -54,6 +60,39 @@ const AccountPage = () => {
     setCurrentPage(currentPage + 1);
   }
 
+  const handleSearchFilterParent = (async (search) => {
+    if (search) {
+      let resSearch;
+
+      if (isToday === "true") {
+        // GET TODAY ACCOUNTS
+        resSearch = await axios.get(`/v1/accounts/search/today?search=${search}`);
+      } else {
+        // GET ALL ACCOUNTS
+        resSearch = await axios.get(`/v1/accounts/search?search=${search}`);
+      }
+  
+     
+      if (resSearch?.data?.length > 0) {
+        setCheckData(true);
+        setDataSearch(resSearch?.data)
+        setCheckSearch(true)
+      }
+      else {
+        setCheckData(false);
+        setCheckSearch(true)
+        setDataSearch([])
+      }
+    }
+    else {
+      setDataSearch([]);
+      setCheckSearch(false)
+    }
+  });
+
+  const handleOnchangeLimit = (limit) => {
+    setModifyLimit(limit);
+  }
   return (
     <>
       {isLoading ? (
@@ -83,11 +122,15 @@ const AccountPage = () => {
               Danh sách tài khoản đã đăng ký app
             </Typography>
             <Table
+              checkAutoFocus={true}
+              checkSearch={checkSearch}
+              handleSearchFilterParent={handleSearchFilterParent}
+              handleOnchangeLimit={handleOnchangeLimit}
               checkData={checkData}
               prevPage={prevPage}
               nextPage={nextPage}
               currentPage={currentPage}
-              rows={accounts}
+              rows={checkSearch === true ? (dataSearch?.length > 0 ? dataSearch : []) : accounts} 
               columns={accountListColumns}
               showCheckbox={false}
             />

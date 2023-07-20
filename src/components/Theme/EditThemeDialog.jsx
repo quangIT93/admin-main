@@ -226,7 +226,7 @@ const EditThemeDialog = ({
 
     // CALL API
     try {
-      const res = await axios.put("/themes", data);
+      const res = await axios.put("/v1/themes", data);
       if (res.success) {
         if (themeEdited.status === 0) {
           setDisabledThemes((prevState) => {

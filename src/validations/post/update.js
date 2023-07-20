@@ -1,4 +1,3 @@
-import { validatePhoneNumber } from "utils";
 const validator = require('validator');
 
 const updatePostValidation = (post) => {
@@ -100,14 +99,14 @@ const updatePostValidation = (post) => {
       field: "startTime | endTime",
     };
   }
-  if (!Number.isInteger(post.salaryMin) || post.salaryMin < 1000) {
+  if (!Number.isInteger(post.salaryMin)) {
     return {
       isError: true,
       message: "Giá trị lương không hợp lệ",
       field: "salaryMin",
     };
   }
-  if (!Number.isInteger(post.salaryMax) || post.salaryMax < 1000) {
+  if (!Number.isInteger(post.salaryMax)) {
     return {
       isError: true,
       message: "Giá trị lương không hợp lệ",
@@ -147,6 +146,14 @@ const updatePostValidation = (post) => {
     return {
       isError: true,
       message: "Thông tin mô tả bài viết không hợp lệ",
+      field: "description",
+    };
+  }
+  if(post.description.trim() !== '' && post.description.length > 4000)
+  {
+    return {
+      isError: true,
+      message: "Thông tin mô tả quá dài",
       field: "description",
     };
   }

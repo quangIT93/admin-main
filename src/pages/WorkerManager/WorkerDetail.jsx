@@ -4,7 +4,7 @@ import { Button, Skeleton, Typography, Box, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Table, LineChart } from "components";
 import { axios } from "configs";
-import { postListColumns } from "configs/table";
+import { wokerDetailColumns } from "configs/table";
 import { usePermission } from "hooks";
 
 const WorkerDetail = () => {
@@ -13,18 +13,24 @@ const WorkerDetail = () => {
   const [searchParams] = useSearchParams();
   const aid = searchParams.get("aid");
   const isOwn = searchParams.get("own");
+  const [modifyLimit, setModifyLimit] = useState(10)
   const [checkData, setCheckData] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [quantityData, setQuantityData] = useState(null);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  const [dataSearch, setDataSearch] = useState('')
+  const [checkSearch, setCheckSearch] = useState(false);
 
   const fetchPosts = async () => {
     let res;
+
+    let limitNumber = +modifyLimit ? +modifyLimit : 10
+
     if (isOwn === "true") {
-      res = await axios.get(`/v1/posts/by-admin?is_own=true&page=${currentPage}&limit=20`);
+      res = await axios.get(`/v1/posts/by-admin?is_own=true&page=${currentPage}&limit=${limitNumber}`);
     } else if (aid) {
-      res = await axios.get(`/v1/posts/by-admin?aid=${aid}&page=${currentPage}&limit=20`);
+      res = await axios.get(`/v1/posts/by-admin?aid=${aid}&page=${currentPage}&limit=${limitNumber}`);
     }
     setPosts(res.data);
 
@@ -56,7 +62,7 @@ const WorkerDetail = () => {
   useEffect(() => {
     fetchPosts();
     fetchQuantity();
-  }, [currentPage]);
+  }, [currentPage, modifyLimit]);
 
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
@@ -65,6 +71,39 @@ const WorkerDetail = () => {
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
   }
+
+  const handleOnchangeLimit = (limit) => {
+    setModifyLimit(limit);
+  }
+
+  const handleSearchFilterParent = (async (search) => {
+    if (search) {
+      let resSearch;
+      
+      if (isOwn === "true") {
+        resSearch = await axios.get(`/v1/posts/admin/search?search=${search}&is_own=true`);
+      } else if (aid) {
+        resSearch = await axios.get(`/v1/posts/admin/search?search=${search}&aid=${aid}`);
+      }
+     
+      if (resSearch?.data?.length > 0) {
+        setCheckData(true);
+        setCheckSearch(true)
+        setDataSearch(resSearch?.data)
+      }
+      else {
+        setCheckData(false);
+        setCheckSearch(true)
+        setDataSearch([])
+      }
+    }
+
+    else
+    {
+      setDataSearch([])
+      setCheckSearch(false)
+    }
+  });
 
   return (
     <>
@@ -108,8 +147,12 @@ const WorkerDetail = () => {
           </Box>
 
           <Table 
-            rows={posts} 
-            columns={postListColumns} 
+            checkAutoFocus={false}
+            checkSearch={checkSearch}
+            handleOnchangeLimit={handleOnchangeLimit}
+            handleSearchFilterParent={handleSearchFilterParent}
+            rows={checkSearch === true ? (dataSearch?.length > 0 ? dataSearch : []) : posts} 
+            columns={wokerDetailColumns} 
             showCheckbox={false} 
             checkData={checkData}
             currentPage={currentPage}

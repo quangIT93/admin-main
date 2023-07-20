@@ -13,7 +13,7 @@ const ThemeCategories = ({
   useEffect(() => {
     // GET ALL THEME CATEGORIES
     const fetchThemeCategories = async () => {
-      const res = await axios.get(`/theme-categories`);
+      const res = await axios.get(`/v1/theme-categories`);
       if (res.success) {
         const visibleThemes = res.data.filter(
           (theme) =>

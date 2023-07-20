@@ -97,7 +97,7 @@ const ThemePage = () => {
     };
 
     try {
-      const res = await axios.put("/themes/status", data);
+      const res = await axios.put("/v1/themes/status", data);
       if (res.success) {
         return toast.success("Upload themes status successfully");
       }

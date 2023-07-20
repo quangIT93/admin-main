@@ -32,8 +32,10 @@ const PostDetail = () => {
   const params = useParams();
   const id = +params.id;
   const role = localStorage.getItem("role");
-
+  const [currentPage, setCurrentPage] = useState(1);
   const [postData, setPostData] = useState();
+  const [modifyLimit, setModifyLimit] = useState(10)
+  const [checkData, setCheckData] = useState(false);
   const [basicInformation, setBasicInformation] = useState(null);
   const [postCategories, setPostCategories] = useState([]);
   const [enabledImages, setEnabledImages] = useState([]);
@@ -117,9 +119,18 @@ const PostDetail = () => {
 
   // GET APPLICATIONS
   const fetchApplicationsOfPostData = async (id) => {
+
+    let limitNumber = +modifyLimit ? +modifyLimit : 10
+
     const res = await axios.get(`/v1/history/recruiter/${id}/applications`);
+
+    // const res = await axios.get(`/v1/history/recruiter/${id}/applications?page=${currentPage}&limit=${limitNumber}`);
     if (res.success) {
       setApplications(res.data.applications);
+
+      if (res?.data.applications.length > 0) {
+        setCheckData(true);
+      }
     }
   };
 
@@ -130,7 +141,7 @@ const PostDetail = () => {
       fetchPostData(id);
       fetchApplicationsOfPostData(id);
     }
-  }, []);
+  }, [currentPage, modifyLimit]);
 
   // HANDLE DISABLE PHOTO
   const handleDisableImage = useCallback((image) => {
@@ -226,6 +237,22 @@ const PostDetail = () => {
       return toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }
   };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
+  }
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  }
+
+  const handleOnchangeLimit = (limit) => {
+    setModifyLimit(limit);
+  }
+
+  const handleSearchFilterParent = (search) => {
+    console.log(search);
+  }
 
   return (
     <Box sx={{ padding: "1rem" }}>
@@ -340,6 +367,12 @@ const PostDetail = () => {
             </Typography>
             <Box height="400px">
               <Table
+                // handleOnchangeLimit={handleOnchangeLimit}
+                // handleSearchFilterParent={handleSearchFilterParent}
+                // checkData={checkData}
+                // prevPage={prevPage}
+                // currentPage={currentPage}
+                // nextPage={nextPage}
                 rows={applications}
                 columns={applicationsOfPostColumns}
                 showCheckbox={false}
