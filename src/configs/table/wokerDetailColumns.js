@@ -66,17 +66,19 @@ const wokerDetailColumns = [
     flex: 0.75,
     type: "string",
     minWidth: 100,
-    renderCell: (params) =>
-      moment(params.row.start_time).format("DD/MM/YYYY HH:mm:ss"),
-  },
+    filterable: true,
+    renderCell: (params) => 
+      moment(+params.row.start_time).format("DD/MM/YYYY HH:mm:ss")
+    },
   {
     field: "end_time",
     headerName: "END TIME",
-    flex: 1,
+    flex: 0.75,
     minWidth: 100,
     type: "string",
+    filterable: true,
     renderCell: (params) =>
-      moment(params.row.end_time).format("DD/MM/YYYY HH:mm:ss"),
+      moment(+params.row.end_time).format("DD/MM/YYYY HH:mm:ss")
   },
   {
     field: "url",

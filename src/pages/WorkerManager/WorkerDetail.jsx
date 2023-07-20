@@ -147,7 +147,7 @@ const WorkerDetail = () => {
           </Box>
 
           <Table 
-            checkAutoFocus={false}
+            checkAutoFocus={true}
             checkSearch={checkSearch}
             handleOnchangeLimit={handleOnchangeLimit}
             handleSearchFilterParent={handleSearchFilterParent}
