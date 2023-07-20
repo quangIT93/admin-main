@@ -26,6 +26,7 @@ const Banner = () => {
   const [showAddBannerDialog, setShowAddBannerDialog] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [checkRemoveBanner, setCheckRemoveBanners] = useState(false);
 
   // GET BANNERS
   useEffect(() => {
@@ -37,8 +38,15 @@ const Banner = () => {
       }
     };
     fetchBanners();
-  }, []);
+  }, [checkRemoveBanner]);
+  
+  const handleRemoveBanner = () => {
+    setCheckRemoveBanners(!checkRemoveBanner);
+  }
 
+  const handleRemoveBannerFail = () => {
+    setCheckRemoveBanners(false);
+  }
   // HANDLE CLICK SAVE BUTTON => SUBMIT
   const handleClickSaveBtn = async () => {
     // HIDE CONFIRM DIALOG
@@ -110,6 +118,7 @@ const Banner = () => {
                     (banner) => banner.status === 1 && banner.version === 1
                   )}
                   setBanners={setBanners}
+                  handleRemoveBanner={handleRemoveBanner}
                 />
               </Box>
             </Grid>
@@ -133,6 +142,7 @@ const Banner = () => {
                     (banner) => banner.status === 0 && banner.version === 1
                   )}
                   setBanners={setBanners}
+                  handleRemoveBanner={handleRemoveBanner}
                 />
               </Box>
             </Grid>
@@ -165,6 +175,7 @@ const Banner = () => {
                     (banner) => banner.status === 1 && banner.version === 2
                   )}
                   setBanners={setBanners}
+                  handleRemoveBanner={handleRemoveBanner}
                 />
               </Box>
             </Grid>
@@ -188,6 +199,7 @@ const Banner = () => {
                     (banner) => banner.status === 0 && banner.version === 2
                   )}
                   setBanners={setBanners}
+                  handleRemoveBanner={handleRemoveBanner}
                 />
               </Box>
             </Grid>

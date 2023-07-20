@@ -15,10 +15,15 @@ const WorkerManager = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [checkData, setCheckData] = useState(false);
-
+  const [modifyLimit, setModifyLimit] = useState(10)
+  const [dataSearch, setDataSearch] = useState('')
+  const [checkSearch, setCheckSearch] = useState(false);
 
   const fetchWorkers = async () => {
-    const res = await axios.get(`/v1/accounts?role=2&page=${currentPage}&limit=10`);
+
+    let limitNumber = +modifyLimit ? +modifyLimit : 10
+
+    const res = await axios.get(`/v1/accounts?role=2&page=${currentPage}&limit=${limitNumber}`);
     // console.log("res:", res.data);
     setWorkers(res.data);
     setCheckData(true);
@@ -36,6 +41,33 @@ const WorkerManager = () => {
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
+  }
+
+  const handleSearchFilterParent = (async (search) => {
+    if (search) {
+      let resSearch;
+      
+      resSearch = await axios.get(`/v1/accounts/search?role=2&search=${search}`);
+
+      if (resSearch?.data?.length > 0) {
+        setCheckData(true);
+        setCheckSearch(true)
+        setDataSearch(resSearch?.data)
+      }
+      else {
+        setCheckData(false);
+        setDataSearch([])
+        setCheckSearch(true)
+      }
+    }
+    else{
+      setDataSearch([])
+      setCheckSearch(false)
+    }
+  });
+
+  const handleOnchangeLimit = (limit) => {
+    setModifyLimit(limit);
   }
 
   return (
@@ -80,7 +112,11 @@ const WorkerManager = () => {
           </Box>
 
           <Table 
-            rows={workers} 
+            checkAutoFocus={true}
+            checkSearch={checkSearch}
+            handleSearchFilterParent={handleSearchFilterParent}
+            handleOnchangeLimit={handleOnchangeLimit}
+            rows={checkSearch === true ? (dataSearch?.length > 0 ? dataSearch : []) : workers} 
             checkData={checkData}
             prevPage={prevPage}
             nextPage={nextPage}

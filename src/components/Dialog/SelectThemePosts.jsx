@@ -52,7 +52,7 @@ const SelectThemePostsDialog = ({
 
     if (postIdsSelections.length > 0) {
       try {
-        await axios.post("/themes/add-posts", data);
+        await axios.post("/v1/themes/add-posts", data);
         setPostsOfTheme(
           allPosts.filter((post) => postIdsSelections.includes(post.id))
         );

@@ -5,12 +5,23 @@ import {
   ImageListItem,
   ImageListItemBar,
   IconButton,
-  useMediaQuery,
   Button,
 } from "@mui/material";
 import { useTheme, styled } from "@mui/material/styles";
 import { EditBannerDialog } from "components";
 import { CloseIcon, EditIcon } from "components/Icons";
+import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { axios } from "configs";
+import { toast } from "react-toastify";
+import {
+  ConfirmDialog
+} from "components";
 
 const CssImageListItem = styled(ImageListItem)(({ theme }) => ({
   "&:hover > .MuiBox-root": {
@@ -46,11 +57,14 @@ const Overlay = styled(Box)({
   transition: "all ease-in-out 0.24s",
 });
 
-const BannerList = ({ banners, setBanners }) => {
+const BannerList = ({ banners, setBanners, handleRemoveBanner }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [openDetailDialog, setOpenDetailDialog] = useState(false);
   const [bannerSelected, setBannerSelected] = useState();
+  const [open, setOpen] = React.useState(false);
+  const [banner, setBanner] = React.useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   // HANDLE OPEN BANNER DETAIL DIALOG
   const handleOpenEditBannerDialog = (banner) => {
@@ -60,13 +74,54 @@ const BannerList = ({ banners, setBanners }) => {
 
   // HANDLE ON CLICK CLOSE BUTTON
   const handleOnClickCloseButton = (banner) => {
-    setBanners((prevState) => {
-      const newState = [...prevState];
-      const index = newState.findIndex((item) => item.id === banner.id);
-      newState[index].status = newState[index].status === 1 ? 0 : 1;
-      return newState;
-    });
+
+    setBanner(banner)
+
+    if (banner.status === 1){
+      setBanners((prevState) => {
+        const newState = [...prevState];
+        const index = newState.findIndex((item) => item.id === banner.id);
+        newState[index].status = newState[index].status === 1 ? 0 : 1;
+        return newState;
+      });
+    }
+
+    else {
+      setShowConfirmModal(true)
+      handleClickOpen()
+    }
+
   };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleAgree = async () => {
+  
+    var pattern = /\images\/banners\/([^/]+\.(?:jpg|png|gif))/;
+    const match = pattern.exec(banner?.image);
+
+    if (match) {
+
+      toast.success('Chức năng đang được phát triển')
+
+      // const imageName = match[0];
+      // const res = await axios.post("v3/banners/delete", {imageName, id: banner.id});
+
+      // console.log(res);
+      // if (res && res.status === 200) {
+      //   toast.success('Delete banner successfully')
+      //   setShowConfirmModal()
+      //   handleRemoveBanner()
+      // }
+
+    } else {
+      console.log("Không tìm thấy tên ảnh.");
+    }
+    setOpen(false);
+  }
+
 
   return (
     <>
@@ -138,6 +193,14 @@ const BannerList = ({ banners, setBanners }) => {
           setBanners={setBanners}
         />
       )}
+
+        <ConfirmDialog
+            isOpen={showConfirmModal}
+            onClose={() => setShowConfirmModal(false)}
+            onClickConfirm={handleAgree}
+            title="Xóa banner"
+            text="Bạn đã chắc chắn xóa"
+        />
     </>
   );
 };

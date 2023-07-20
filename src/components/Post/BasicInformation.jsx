@@ -128,8 +128,25 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
   return (
     
       basicInformation && 
+      
       <Grid container spacing={4}>
       {/* Id */}
+
+      <Grid item xs={12} lg={6}>
+        <Item>
+          <TextField
+            label="Account_id"
+            variant="outlined"
+            value={basicInformation.account_id || "1"}
+            InputProps={{
+              readOnly: true,
+            }}
+            onChange={(e) => {}}
+            fullWidth
+          />
+        </Item>
+      </Grid>
+
       <Grid item xs={12} lg={6}>
         <Item>
           <TextField
