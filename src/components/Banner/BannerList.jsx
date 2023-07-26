@@ -104,14 +104,13 @@ const BannerList = ({ banners, setBanners, handleRemoveBanner }) => {
 
     if (match) {
       const imageName = match[0];
-      const res = await axios.post("http://localhost:8000/api/v3/banners/delete", {imageName, id: banner.id});
+      const res = await axios.post("/v3/banners/delete", {imageName, id: banner.id});
 
-      console.log(res);
-      // if (res && res.status === 200) {
-      //   toast.success('Delete banner successfully')
-      //   setShowConfirmModal()
-      //   handleRemoveBanner()
-      // }
+      if (res && res.status === 200) {
+        toast.success('Delete banner successfully')
+        setShowConfirmModal()
+        handleRemoveBanner()
+      }
 
     } else {
       console.log("Không tìm thấy tên ảnh.");

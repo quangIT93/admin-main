@@ -92,7 +92,7 @@ const WorkerDetail = () => {
         setDataSearch(resSearch?.data)
       }
       else {
-        setCheckData(false);
+        setCheckData(true);
         setCheckSearch(true)
         setDataSearch([])
       }

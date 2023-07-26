@@ -18,6 +18,12 @@ import {
   NotPermissionPage,
   WorkerManagerPage,
   WorkerDetailPage,
+  CategoryPage,
+  CategoryDetailPage,
+  AllChildCategoryPage,
+  ChildCategoryDetailPage,
+  CreateChildCategoryPage,
+  CreateParentCategoryPage
 } from "pages";
 
 const publicRoutes = [
@@ -91,6 +97,36 @@ const publicRoutes = [
     component: AuthPage,
     layout: AuthLayout,
   },
+  {
+    path: routes.category,
+    component: CategoryPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.categoryDetail,
+    component: CategoryDetailPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.seeAllChildCategory,
+    component: AllChildCategoryPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.childCategoryDetail,
+    component: ChildCategoryDetailPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.createChildCategory,
+    component: CreateChildCategoryPage,
+    layout: MainLayout
+  }, 
+  {
+    path: routes.createParentCategory,
+    component: CreateParentCategoryPage,
+    layout: MainLayout
+  }
 ];
 
 export { publicRoutes };

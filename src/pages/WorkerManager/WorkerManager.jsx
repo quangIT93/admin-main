@@ -55,7 +55,7 @@ const WorkerManager = () => {
         setDataSearch(resSearch?.data)
       }
       else {
-        setCheckData(false);
+        setCheckData(true);
         setDataSearch([])
         setCheckSearch(true)
       }

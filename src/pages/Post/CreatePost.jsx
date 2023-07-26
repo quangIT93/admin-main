@@ -238,9 +238,9 @@ const CreatePostPage = () => {
       return toast.warn(createPostValidationReply.message);
     }
 
-    if (images.length === 0) {
-      return toast.warn("Vui lòng chọn ít nhất 1 ảnh");
-    }
+    // if (images.length === 0) {
+    //   return toast.warn("Vui lòng chọn ít nhất 1 ảnh");
+    // }
 
     const postSubmit = new FormData();
     postSubmit.append("title", post.title.trim());

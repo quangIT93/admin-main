@@ -79,7 +79,7 @@ const AccountPage = () => {
         setCheckSearch(true)
       }
       else {
-        setCheckData(false);
+        setCheckData(true);
         setCheckSearch(true)
         setDataSearch([])
       }
