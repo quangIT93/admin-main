@@ -147,11 +147,10 @@ const WorkerDetail = () => {
           </Box>
 
           <Table 
-            checkAutoFocus={true}
-            checkSearch={checkSearch}
-            handleOnchangeLimit={handleOnchangeLimit}
             handleSearchFilterParent={handleSearchFilterParent}
             rows={checkSearch === true ? (dataSearch?.length > 0 ? dataSearch : []) : posts} 
+            checkAutoFocus={true}
+            checkSearch={checkSearch}
             columns={wokerDetailColumns} 
             showCheckbox={false} 
             checkData={checkData}

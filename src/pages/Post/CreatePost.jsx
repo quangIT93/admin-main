@@ -252,25 +252,14 @@ const CreatePostPage = () => {
     postSubmit.append("isDatePeriod", post.isDatePeriod);
     post.startDate && postSubmit.append("startDate", post.startDate);
     post.endDate && postSubmit.append("endDate", post.endDate);
+
     postSubmit.append(
       "startTime",
-      new Date(
-        1970,
-        0,
-        2,
-        new Date(post.startTime).getHours(),
-        new Date(post.startTime).getMinutes()
-      ).getTime()
+      post.startTime,
     );
     postSubmit.append(
       "endTime",
-      new Date(
-        1970,
-        0,
-        2,
-        new Date(post.endTime).getHours(),
-        new Date(post.endTime).getMinutes()
-      ).getTime()
+      post.endTime
     );
     postSubmit.append("isWorkingWeekend", post.isWorkingWeekend);
     postSubmit.append("isRemotely", post.isRemotely);
@@ -293,6 +282,20 @@ const CreatePostPage = () => {
 
     post.expiredDate && postSubmit.append("expiredDate", post.expiredDate);
     let toastId = toast.loading("Please wait...");
+
+    // console.log("Post submit ::: ", post.startTime,  new Date(post.startTime).getHours(),);
+    // console.log("Post submit ::: ", postSubmit.get("startTime"));
+    // console.log("Post submit ::: ", post.endTime,  new Date(post.endTime).getHours(),);
+    // console.log("Post submit ::: ", postSubmit.get("endTime"));
+
+    // return toast.update(toastId, {
+    //   render: "Tạo bài đăng thất bại",
+    //   type: toast.TYPE.ERROR,
+    //   closeButton: true,
+    //   closeOnClick: true,
+    //   autoClose: 4000,
+    //   isLoading: false,
+    // });
 
     // Fetch api
     try {

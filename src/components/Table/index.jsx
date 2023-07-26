@@ -22,7 +22,6 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import { debounce } from "lodash";
-
 // Custom display when empty row
 function CustomNoRowsOverlay() {
   return (
@@ -304,7 +303,7 @@ const Table = forwardRef((props, ref) => {
               variant="outlined"
               style={{borderRadius: '10%'}}
               onClick={() => handleNextPage()}
-              disabled={checkData === false || rows.length < limit}
+              disabled={checkData === false || rows.length === 0}
             >
               {">"}
             </Button>

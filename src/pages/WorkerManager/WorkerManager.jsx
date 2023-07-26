@@ -32,7 +32,7 @@ const WorkerManager = () => {
 
   useEffect(() => {
     fetchWorkers();
-  }, [currentPage, modifyLimit]);
+  }, [currentPage]);
 
 
   const prevPage = () => {
