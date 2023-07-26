@@ -147,6 +147,7 @@ const WorkerDetail = () => {
           </Box>
 
           <Table 
+            handleOnchangeLimit={handleOnchangeLimit}
             handleSearchFilterParent={handleSearchFilterParent}
             rows={checkSearch === true ? (dataSearch?.length > 0 ? dataSearch : []) : posts} 
             checkAutoFocus={true}
