@@ -21,6 +21,9 @@ const routes = {
   childCategoryDetail: "/admin/child-category/:id",
   createChildCategory: "/admin/:id/create-child-category",
   createParentCategory: "/admin/create-parent-category",
+  adminSuggestManager: "/admin/search-suggest",
+  suggestDetail:"/admin/search-suggest/:id",
+  createSearchSuggest: "/admin/create-search-suggest"
 };
 
 export default routes;

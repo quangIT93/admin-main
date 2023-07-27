@@ -23,7 +23,10 @@ import {
   AllChildCategoryPage,
   ChildCategoryDetailPage,
   CreateChildCategoryPage,
-  CreateParentCategoryPage
+  CreateParentCategoryPage,
+  AdminSuggestManagerPage,
+  SuggestDetailPage,
+  CreateSearchSuggestPage
 } from "pages";
 
 const publicRoutes = [
@@ -125,6 +128,21 @@ const publicRoutes = [
   {
     path: routes.createParentCategory,
     component: CreateParentCategoryPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.suggestDetail,
+    component: SuggestDetailPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.adminSuggestManager,
+    component: AdminSuggestManagerPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.createSearchSuggest,
+    component: CreateSearchSuggestPage,
     layout: MainLayout
   }
 ];

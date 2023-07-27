@@ -4,7 +4,8 @@ import { useTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import { axios } from "configs";
 import { postListColumns } from "configs/table";
-import { Table, ConfirmDialog } from "components";
+import { ConfirmDialog } from "components";
+import TablePendingPost from '../Table/TablePendingPost'
 
 const PendingPosts = ({ posts = [], setPosts }) => {
   const theme = useTheme();
@@ -89,7 +90,7 @@ const PendingPosts = ({ posts = [], setPosts }) => {
       </Box>
 
       {/* TABLE */}
-      <Table
+      <TablePendingPost
         rows={posts}
         columns={postListColumns}
         showCheckbox={true}
