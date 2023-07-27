@@ -132,13 +132,13 @@ const TableCategory = forwardRef((props, ref) => {
         let res; 
         if (params.field === 'actions') {
             if (params.row.status === 1) {
-                res = await axios.put(`http://localhost:8000/api/v3/children/update/${params.row.id}`, 
+                res = await axios.put(`/v3/children/update/${params.row.id}`, 
                 {
                     status: 0,
                 });
               }
               else {
-                res = await axios.put(`http://localhost:8000/api/v3/children/update/${params.row.id}`, 
+                res = await axios.put(`/v3/children/update/${params.row.id}`, 
                 {
                     status: 1,
                 });
