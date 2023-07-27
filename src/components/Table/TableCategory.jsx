@@ -132,12 +132,18 @@ const TableCategory = forwardRef((props, ref) => {
         let res; 
         if (params.field === 'actions') {
             if (params.row.status === 1) {
-                res = await axios.post(`/v3/children/disable/${params.row.id}`);
+                res = await axios.put(`http://localhost:8000/api/v3/children/update/${params.row.id}`, 
+                {
+                    status: 0,
+                });
               }
               else {
-                res = await axios.post(`/v3/children/enable/${params.row.id}`);
+                res = await axios.put(`http://localhost:8000/api/v3/children/update/${params.row.id}`, 
+                {
+                    status: 1,
+                });
               }
-              if (res.status === 200) {
+              if (res.statusCode === 200) {
                 handleRefreshDelete()
                 toast.success("Điều chỉnh trạng thái danh mục thành công")
               }

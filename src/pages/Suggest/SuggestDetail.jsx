@@ -80,11 +80,13 @@ const SuggestDetailPage = () => {
 
     // GET RESPONSE
     try {
-      await axios.put(`/v3/suggest_search/update/${id}`, {
-        keyword, order,
+      const res = await axios.put(`/v3/suggest_search/update/${id}`, {
+        keyword : keyword, order : order
       });
-      setCheckRefresh(!checkRefresh)
-      return toast.success("Cập nhật từ khoá thành công");
+      if (res && res.statusCode === 200) {
+        setCheckRefresh(!checkRefresh)
+        return toast.success("Cập nhật từ khoá thành công");
+      }
     } catch (error) {
       return toast.error("Cập nhật từ khoá thất bại");
     }
@@ -94,10 +96,12 @@ const SuggestDetailPage = () => {
     setShowConfirmApprovalModal(false);
 
     // UPDATE POST STATUS
-    const res = await axios.get(`/v3/suggest_search/disable/${id}`);
+    const res = await axios.put(`/v3/suggest_search/update/${id}`, {
+      status: 0
+    });
     if (res && res.statusCode === 200) {
       setCheckRefresh(!checkRefresh);
-      return toast.success("Ẩn từ khoá  thành công");
+      return toast.success("Ẩn từ khoá thành công");
     } else {
       return toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }
@@ -107,10 +111,12 @@ const SuggestDetailPage = () => {
     setShowEnableApprovalModal(false);
 
     // UPDATE POST STATUS
-    const res = await axios.get(`/v3/suggest_search/enable/${id}`);
+    const res = await axios.put(`/v3/suggest_search/update/${id}`, {
+      status: 1
+    });
     if (res && res.statusCode === 200) {
       setCheckRefresh(!checkRefresh);
-      return toast.success("Hiện từ khoá  thành công");
+      return toast.success("Hiện từ khoá thành công");
     } else {
       return toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }

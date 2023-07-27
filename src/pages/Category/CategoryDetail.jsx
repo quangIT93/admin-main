@@ -146,7 +146,9 @@ const CategoryDetail = () => {
     setShowConfirmApprovalModal(false);
 
     // UPDATE POST STATUS
-    const res = await axios.post(`/v3/parent/disable/${id}`);
+    const res = await axios.put(`/v3/parent/${id}`, {
+      status: 0
+    });
     if (res && res.status === 200) {
       setCheckRefresh(!checkRefresh);
       return toast.success("Ẩn danh mục thành công");
@@ -159,7 +161,9 @@ const CategoryDetail = () => {
     setShowEnableApprovalModal(false);
 
     // UPDATE POST STATUS
-    const res = await axios.post(`/v3/parent/enable/${id}`);
+    const res = await axios.put(`/v3/parent/${id}`, {
+      status: 1
+    });
     if (res && res.status === 200) {
       setCheckRefresh(!checkRefresh);
       return toast.success("Hiện danh mục thành công");
