@@ -25,7 +25,7 @@ const AdminSuggestManagerPage = () => {
   const fetchSuggests = async () => {
     let res;
 
-    res = await axios.get(`/v3/suggest_search`);
+    res = await axios.get(`/v3/suggest-search`);
  
     setSuggests(res.data);
 

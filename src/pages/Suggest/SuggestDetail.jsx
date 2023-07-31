@@ -50,7 +50,7 @@ const SuggestDetailPage = () => {
   const navigate = useNavigate();
   // GET POST DATA
   const fetchSuggestData = async (id) => {
-    const res = await axios.get(`/v3/suggest_search/${id}`);
+    const res = await axios.get(`/v3/suggest-search/${id}`);
     if (res.statusCode === 200) {
       const data  = res.data;
       setSuggestData(data);
@@ -80,7 +80,7 @@ const SuggestDetailPage = () => {
 
     // GET RESPONSE
     try {
-      const res = await axios.put(`/v3/suggest_search/update/${id}`, {
+      const res = await axios.put(`/v3/suggest-search/update/${id}`, {
         keyword : keyword, order : order
       });
       if (res && res.statusCode === 200) {
@@ -96,7 +96,7 @@ const SuggestDetailPage = () => {
     setShowConfirmApprovalModal(false);
 
     // UPDATE POST STATUS
-    const res = await axios.put(`/v3/suggest_search/update/${id}`, {
+    const res = await axios.put(`/v3/suggest-search/update/${id}`, {
       status: 0
     });
     if (res && res.statusCode === 200) {
@@ -111,7 +111,7 @@ const SuggestDetailPage = () => {
     setShowEnableApprovalModal(false);
 
     // UPDATE POST STATUS
-    const res = await axios.put(`/v3/suggest_search/update/${id}`, {
+    const res = await axios.put(`/v3/suggest-search/update/${id}`, {
       status: 1
     });
     if (res && res.statusCode === 200) {

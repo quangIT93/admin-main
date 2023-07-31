@@ -63,8 +63,8 @@ const CreateSearchSuggestPage = () => {
 
     // GET RESPONSE
     try {
-      const res = await axios.post(`/v3/suggest_search/create`, {
-        keyword, order : order === "" ? 1 : order, status
+      const res = await axios.post(`/v3/suggest-search/create`, {
+        keyword, order, status
       });
       if (res.statusCode === 200){
         setkeyword('')
