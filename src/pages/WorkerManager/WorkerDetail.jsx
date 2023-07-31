@@ -152,7 +152,7 @@ const WorkerDetail = () => {
             rows={checkSearch === true ? (dataSearch?.length > 0 ? dataSearch : []) : posts} 
             checkAutoFocus={true}
             checkSearch={checkSearch}
-            columns={wokerDetailColumns} 
+            columns={workerDetailColumns} 
             showCheckbox={false} 
             checkData={checkData}
             currentPage={currentPage}

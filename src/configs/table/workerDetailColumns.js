@@ -3,7 +3,7 @@ import moment from "moment";
 import { Chip } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const wokerDetailColumns = [
+const workerDetailColumns = [
   {
     field: "id",
     headerName: "ID",
@@ -89,4 +89,4 @@ const wokerDetailColumns = [
   },
 ];
 
-export default wokerDetailColumns;
+export default workerDetailColumns;
