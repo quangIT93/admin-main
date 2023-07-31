@@ -92,7 +92,7 @@ const WorkerDetail = () => {
         setDataSearch(resSearch?.data)
       }
       else {
-        setCheckData(false);
+        setCheckData(true);
         setCheckSearch(true)
         setDataSearch([])
       }
@@ -147,8 +147,12 @@ const WorkerDetail = () => {
           </Box>
 
           <Table 
-            rows={posts} 
-            columns={workerDetailColumns} 
+            handleOnchangeLimit={handleOnchangeLimit}
+            handleSearchFilterParent={handleSearchFilterParent}
+            rows={checkSearch === true ? (dataSearch?.length > 0 ? dataSearch : []) : posts} 
+            checkAutoFocus={true}
+            checkSearch={checkSearch}
+            columns={wokerDetailColumns} 
             showCheckbox={false} 
             checkData={checkData}
             currentPage={currentPage}

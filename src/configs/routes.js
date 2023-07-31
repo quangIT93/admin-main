@@ -15,6 +15,15 @@ const routes = {
   workerManager: "/admin/worker-manager",
   workerDetail: "/admin/worker-manager/detail",
   notPermission: "/admin/not-permission",
+  category: "/admin/category-manager",
+  categoryDetail: "/admin/category-manager/:id",
+  seeAllChildCategory: "/admin/see-all-child-category/:id",
+  childCategoryDetail: "/admin/child-category/:id",
+  createChildCategory: "/admin/:id/create-child-category",
+  createParentCategory: "/admin/create-parent-category",
+  adminSuggestManager: "/admin/search-suggest",
+  suggestDetail:"/admin/search-suggest/:id",
+  createSearchSuggest: "/admin/create-search-suggest"
 };
 
 export default routes;

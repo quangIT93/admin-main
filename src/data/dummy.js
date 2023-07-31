@@ -9,6 +9,7 @@ import {
 
 import { FiCreditCard } from "react-icons/fi";
 import { BsCurrencyDollar, BsShield } from "react-icons/bs";
+import { Category, SearchSuggestIcon } from "components/Icons";
 
 import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
@@ -87,6 +88,16 @@ export const superAdminTabs = [
         name: "Người thuê",
         icon: <MultiAccountsIcon />,
       },
+      {
+        path: "/admin/category-manager",
+        name: "Danh mục",
+        icon: <Category />,
+      },
+      {
+        path: "/admin/search-suggest",
+        name: "Từ khoá gợi ý",
+        icon: <SearchSuggestIcon />,
+      }
     ],
   },
 ];

@@ -18,6 +18,15 @@ import {
   NotPermissionPage,
   WorkerManagerPage,
   WorkerDetailPage,
+  CategoryPage,
+  CategoryDetailPage,
+  AllChildCategoryPage,
+  ChildCategoryDetailPage,
+  CreateChildCategoryPage,
+  CreateParentCategoryPage,
+  AdminSuggestManagerPage,
+  SuggestDetailPage,
+  CreateSearchSuggestPage
 } from "pages";
 
 const publicRoutes = [
@@ -91,6 +100,51 @@ const publicRoutes = [
     component: AuthPage,
     layout: AuthLayout,
   },
+  {
+    path: routes.category,
+    component: CategoryPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.categoryDetail,
+    component: CategoryDetailPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.seeAllChildCategory,
+    component: AllChildCategoryPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.childCategoryDetail,
+    component: ChildCategoryDetailPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.createChildCategory,
+    component: CreateChildCategoryPage,
+    layout: MainLayout
+  }, 
+  {
+    path: routes.createParentCategory,
+    component: CreateParentCategoryPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.suggestDetail,
+    component: SuggestDetailPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.adminSuggestManager,
+    component: AdminSuggestManagerPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.createSearchSuggest,
+    component: CreateSearchSuggestPage,
+    layout: MainLayout
+  }
 ];
 
 export { publicRoutes };

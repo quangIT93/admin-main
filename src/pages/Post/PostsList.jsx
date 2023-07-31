@@ -109,7 +109,7 @@ const PostsListPage = () => {
       else {
         setCheckSearch(true)
         setDataSearch([])
-        setCheckData(false);
+        setCheckData(true);
      }
     }
 

@@ -32,7 +32,7 @@ const WorkerManager = () => {
 
   useEffect(() => {
     fetchWorkers();
-  }, [currentPage]);
+  }, [currentPage, modifyLimit]);
 
 
   const prevPage = () => {
@@ -55,7 +55,7 @@ const WorkerManager = () => {
         setDataSearch(resSearch?.data)
       }
       else {
-        setCheckData(false);
+        setCheckData(true);
         setDataSearch([])
         setCheckSearch(true)
       }
