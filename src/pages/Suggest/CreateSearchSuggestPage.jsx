@@ -63,8 +63,8 @@ const CreateSearchSuggestPage = () => {
 
     // GET RESPONSE
     try {
-      const res = await axios.post(`/v3/suggest_search/create`, {
-        keyword, order : order === "" ? 1 : order, status
+      const res = await axios.post(`/v3/suggest-search/create`, {
+        keyword, order, status
       });
       if (res.statusCode === 200){
         setkeyword('')
@@ -81,6 +81,9 @@ const CreateSearchSuggestPage = () => {
     setStatus(e.target.value);
   };
 
+  const handleOnchangeOrder = (e) => {
+    setOrder(e.target.value);
+  }
   return (
     <Box sx={{ padding: "1rem" }}>
 
@@ -108,16 +111,16 @@ const CreateSearchSuggestPage = () => {
       </Grid>
       <Grid item xs={12} lg={6}>
         <Item>
-          <TextField
-            label="Order"
-            variant="outlined"
-            multiline
-            placeholder="Nhập số thứ tự...(VD: 0,1,2....)"
-            value={order || ""}
-            onChange={(e) => {
-              setOrder(e.target.value);
+        <TextField
+            label="inputProps"
+            inputProps={{
+              name: 'inputProps',
+              type: 'number',
+              min: 1,
+              placeholder: 'Nhập số thứ tự...(VD: 0,1,2....)',
+              value: order,
+              onChange: handleOnchangeOrder,
             }}
-            fullWidth
           />
         </Item>
       </Grid>
