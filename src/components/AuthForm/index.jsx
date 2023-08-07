@@ -90,7 +90,7 @@ const AuthForm = () => {
     };
 
     // Call API
-    const url = "/admin/signup";
+    const url = "/v1/admin/signup";
     try {
       await axios.post(url, data);
       setItemActived(0);
