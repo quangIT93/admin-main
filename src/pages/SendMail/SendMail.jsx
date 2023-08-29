@@ -34,7 +34,7 @@ const SendMailPage = () => {
     // HIDE MODAL
     setShowConfirmModal(false);
 
-    toast.info("Đang gửi mail...");
+    const toastId = toast.loading("Đang gửi mail...");
 
     // GET RESPONSE
     try {
@@ -42,11 +42,23 @@ const SendMailPage = () => {
         [{to: email}]
       );
       if (res.statusCode === 200){
-        return toast.success("Gửi mail thành công");
+        return toast.update(toastId, {
+          render: "Gửi mail thành công",
+          type: toast.TYPE.SUCCESS,
+          isLoading: false,
+          autoClose: 2000,
+        });
       }
     } catch (error) {
-        return toast.error("Gửi mail thất bại");
+        return toast.update(toastId, {
+          render: "Gửi mail thất bại",
+          type: toast.TYPE.ERROR,
+          isLoading: false,
+          autoClose: 2000,
+        });
     }
+
+    toast.dismiss();
   };
 
   return (
