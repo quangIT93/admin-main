@@ -27,10 +27,8 @@ const initPost = {
   isDatePeriod: 0,
   startDate: null,
   endDate: null,
-  // startTime: new Date(1970, 0, 2, 0, 0).getTime(),
-  // endTime: new Date(1970, 0, 2, 0, 0).getTime(),
-  newStartTime: "00:00",
-  newEndTime: "00:00",
+  startTime: new Date(1970, 0, 2, 0, 0).getTime(),
+  endTime: new Date(1970, 0, 2, 0, 0).getTime(),
   isWorkingWeekend: 0,
   isRemotely: 0,
   salaryMin: 0,
@@ -255,9 +253,14 @@ const CreatePostPage = () => {
     post.startDate && postSubmit.append("startDate", post.startDate);
     post.endDate && postSubmit.append("endDate", post.endDate);
 
-    postSubmit.append("newStartTime",post.newStartTime);
-    postSubmit.append("newEndTime",post.newEndTime);
-
+    postSubmit.append(
+      "startTime",
+      post.startTime,
+    );
+    postSubmit.append(
+      "endTime",
+      post.endTime
+    );
     postSubmit.append("isWorkingWeekend", post.isWorkingWeekend);
     postSubmit.append("isRemotely", post.isRemotely);
     postSubmit.append("salaryMin", post.salaryMin);
