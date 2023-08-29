@@ -5,12 +5,14 @@ import {
   ThemeIcon,
   BannerIcon,
   MultiAccountsIcon,
+  Category,
+  SearchSuggestIcon,
+  Languages,
+  Communities,
 } from "components/Icons";
 
 import { FiCreditCard } from "react-icons/fi";
 import { BsCurrencyDollar, BsShield } from "react-icons/bs";
-import { Category, SearchSuggestIcon } from "components/Icons";
-
 import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
@@ -61,8 +63,8 @@ export const superAdminTabs = [
           {
             path: "/admin/posts/create",
             name: "Tạo mới",
-          }
-        ]
+          },
+        ],
       },
       {
         path: "/admin/accounts",
@@ -95,10 +97,15 @@ export const superAdminTabs = [
         icon: <SearchSuggestIcon />,
       },
       {
-        path: "/admin/send-mail",
-        name: "Gửi mail",
-        icon: <EmailOutlined />,
-      }     
+        path: "/admin/language-manager",
+        name: "Ngôn ngữ",
+        icon: <Languages />,
+      },
+      {
+        path: "/admin/community-manager",
+        name: "Communities",
+        icon: <Communities />,
+      },
     ],
   },
 ];

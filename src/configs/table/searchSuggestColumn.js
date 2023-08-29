@@ -26,17 +26,39 @@ const searchSuggestColumn = [
     field: "keyword",
     headerName: "KEYWORD",
     type: "string",
+    editable: true,
     flex: 1,
-    minWidth: 100,
+    minWidth: 200,
     filterable: true,
   },
   {
     field: "order",
-    headerName: "ORDER",
-    type: "int",
+    headerName:"ORDER",
+    type: "number",
+    align: 'left',
+    editable: true,
     flex: 1,
-    minWidth: 100,
+    minWidth: 200,
+    headerAlign: 'left',
     filterable: true,
+  },
+  {
+    field: "createdAt",
+    headerName: "CREATED_AT",
+    type: "string",
+    flex: 1,
+    minWidth: 200,
+    renderCell: (params) =>
+      moment(params.row.createdAt).format("DD/MM/YYYY HH:mm:ss"),
+  },
+  {
+    field: "updatedAt",
+    headerName: "UPDATED_AT",
+    type: "string",
+    flex: 1,
+    minWidth: 200,
+    renderCell: (params) =>
+      moment(params.row.updatedAt).format("DD/MM/YYYY HH:mm:ss"),
   },
   {
     field: "status",
@@ -55,26 +77,6 @@ const searchSuggestColumn = [
       }
     },
   },
-
-  {
-    field: "createdAt",
-    headerName: "CREATED_AT",
-    type: "string",
-    flex: 1,
-    minWidth: 150,
-    renderCell: (params) =>
-      moment(params.row.createdAt).format("DD/MM/YYYY HH:mm:ss"),
-  },
-
-  {
-    field: "updatedAt",
-    headerName: "UPDATED_AT",
-    type: "string",
-    flex: 1,
-    minWidth: 150,
-    renderCell: (params) =>
-      moment(params.row.updatedAt).format("DD/MM/YYYY HH:mm:ss"),
-    },
 ];
 
 export default searchSuggestColumn;

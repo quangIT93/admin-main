@@ -87,18 +87,18 @@ const updatePostValidation = (post) => {
       field: "isDatePeriod",
     };
   }
-  if (
-    !post.startTime ||
-    !post.endTime ||
-    new Date(post.startTime).toString() === "Invalid Date" ||
-    new Date(post.endTime).toString() === "Invalid Date"
-  ) {
-    return {
-      isError: true,
-      message: "Thời gian làm việc không hợp lệ",
-      field: "startTime | endTime",
-    };
-  }
+  // if (
+  //   !post.startTime ||
+  //   !post.endTime ||
+  //   new Date(post.startTime).toString() === "Invalid Date" ||
+  //   new Date(post.endTime).toString() === "Invalid Date"
+  // ) {
+  //   return {
+  //     isError: true,
+  //     message: "Thời gian làm việc không hợp lệ",
+  //     field: "startTime | endTime",
+  //   };
+  // }
   if (!Number.isInteger(post.salaryMin)) {
     return {
       isError: true,

@@ -39,7 +39,7 @@ const HomePage = () => {
   const theme = useTheme();
   const [cardsData, setCardsData] = useState([...cards]);
   const [statisticData, setStatisticData] = useState();
-
+  
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get("/v1/home-admin/count");
