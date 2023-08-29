@@ -28,6 +28,7 @@ import {
   SuggestDetailPage,
   CreateSearchSuggestPage
 } from "pages";
+import SendMailPage from "pages/SendMail/SendMail";
 
 const publicRoutes = [
   {
@@ -143,6 +144,11 @@ const publicRoutes = [
   {
     path: routes.createSearchSuggest,
     component: CreateSearchSuggestPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.sendMail,
+    component: SendMailPage,
     layout: MainLayout
   }
 ];

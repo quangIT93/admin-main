@@ -27,7 +27,7 @@ const MainLayout = ({ children }) => {
     <Box>
       <Box>
         {/* SIDEBAR */}
-        {localStorage.getItem("role") === "1" && <Sidebar />}
+        {localStorage.getItem("role") && <Sidebar />}
 
         {/* CONTENT */}
         <Box
@@ -37,7 +37,7 @@ const MainLayout = ({ children }) => {
             minHeight: "100vh",
             width: "100%",
             padding:
-              localStorage.getItem("role") === "1"
+              localStorage.getItem("role")
                 ? {
                     xs: `calc(${theme.height.navbar} + 1rem) 1rem 1rem 0`,
                     lg: `calc(${theme.height.navbar} + 1rem) 1rem 1rem calc(${theme.width.sidebar})`,

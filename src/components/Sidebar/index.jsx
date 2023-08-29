@@ -5,7 +5,7 @@ import { Box, Collapse, List, ListItemButton, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { useAppStateContext } from "contexts/AppContext";
-import { superAdminTabs } from "data/dummy";
+import { superAdminTabs, normalAdminTabs } from "data/dummy";
 import styles from "./Sidebar.module.scss";
 import { Logo } from "components/Icons";
 
@@ -14,24 +14,17 @@ const cx = classNames.bind(styles);
 const Sidebar = () => {
   const theme = useTheme();
 
+  const [tabs, setTabs] = useState([]);
   const { sidebarRef, overlayRef } = useAppStateContext();
   const [navLinkActived, setNavLinkActived] = useState("home");
 
-  // CHECK ROLE
-  // useEffect(() => {
-  //     const sessionRole = sessionStorage.getItem("role");
-  //     if (
-  //         !sessionRole ||
-  //         Number(sessionRole) < 0 ||
-  //         Number(sessionRole) > 1
-  //     ) {
-  //         navigate("/auth");
-  //     }
-  //     setRole(Number(sessionRole));
-  // }, []);
-
   // USE EFFECT TO CHECK SHOW SIDEBAR WHEN RESIZE SCREEN WIDTH
   useEffect(() => {
+    if (localStorage.getItem("role") === "1") {
+      setTabs(superAdminTabs);
+    } else {
+      setTabs(normalAdminTabs);
+    }
     const resizeEventId = window.addEventListener("resize", () => {
       if (sidebarRef.current) {
         if (window.innerWidth >= 1200) {
@@ -42,6 +35,7 @@ const Sidebar = () => {
           sidebarRef.current.style.opacity = 0;
         }
       }
+
     });
     return () => window.removeEventListener("resize", resizeEventId);
   }, []);
@@ -120,7 +114,7 @@ const Sidebar = () => {
       </Box>
       
       <Box className={cx("links")}>
-        {superAdminTabs.map((link) => (
+        {tabs && tabs.map((link) => (
           <Box className={cx("link-item")} key={link.title}>
             <Typography>{link.title}</Typography>
             {link.links.map((link) => (

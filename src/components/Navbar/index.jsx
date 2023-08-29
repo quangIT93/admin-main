@@ -71,7 +71,7 @@ const Navbar = () => {
       className={cx("wrapper")}
     >
       {/* Menu icon */}
-      {sessionStorage.getItem("role") === "1" ? (
+      {localStorage.getItem("role") &&
         <Box>
           <Tooltip title="Menu">
             <Box onClick={handleOpenSidebar}>
@@ -81,9 +81,7 @@ const Navbar = () => {
             </Box>
           </Tooltip>
         </Box>
-      ) : (
-        <Box></Box>
-      )}
+      }
 
       {/* Right icons */}
       <Box className={cx("right-icons")}>

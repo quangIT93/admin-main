@@ -15,26 +15,22 @@ import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
 import avatar4 from "./avatar4.jpg";
+import { EmailOutlined } from "@mui/icons-material";
 
 export const normalAdminTabs = [
-  {
-    title: "Dashboard",
-    links: [
-      {
-        path: "/",
-        name: "home",
-        icon: <HomeIcon />,
-      },
-    ],
-  },
   {
     title: "pages",
     links: [
       {
-        path: "/posts",
+        path: "/admin/posts/create",
         name: "post",
         icon: <PostIcon />,
       },
+      {
+        path: "/admin/send-mail",
+        name: "Gửi mail",
+        icon: <EmailOutlined />,
+      }     
     ],
   },
 ];
@@ -97,12 +93,31 @@ export const superAdminTabs = [
         path: "/admin/search-suggest",
         name: "Từ khoá gợi ý",
         icon: <SearchSuggestIcon />,
-      }
+      },
+      {
+        path: "/admin/send-mail",
+        name: "Gửi mail",
+        icon: <EmailOutlined />,
+      }     
     ],
   },
 ];
 
+export const workerTabs = [
+  {
+    path: "/posts",
+    name: "post",
+    icon: <PostIcon />,
+  },
+  {
+    path: "/admin/send-mail",
+    name: "Gửi mail",
+    icon: <EmailOutlined />,
+  } 
+]
+
 export const chatData = [
+  
   {
     image: avatar2,
     message: "Roman Joined the Team!",

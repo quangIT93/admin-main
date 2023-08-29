@@ -10,7 +10,7 @@ const CustomSnackbar = ({ open, onClose, severity, message }) => (
     autoHideDuration={4000}
     onClose={onClose}
     TransitionComponent={SlideTransition}
-  >
+  > 
     <Alert
       variant="filled"
       severity={severity}
