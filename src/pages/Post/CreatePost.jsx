@@ -297,7 +297,7 @@ const CreatePostPage = () => {
     // Fetch api
     try {
       // await axios.post("/v3/posts/by-worker", postSubmit, {
-      await axios.post("https://aiworks.vn/api/v3/posts/by-worker", postSubmit, {
+      await axios.post("/v3/posts/by-worker", postSubmit, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

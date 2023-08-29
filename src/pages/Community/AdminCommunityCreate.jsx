@@ -107,7 +107,7 @@ const AdminCommunityCreatePage = () => {
     // Fetch api
     try {
       await axios.post(
-        "https://aiworks.vn/api/v3/communications/by-admin",
+        "/v3/communications/by-admin",
         communitySubmit,
         {
           headers: {
