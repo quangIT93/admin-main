@@ -10,8 +10,7 @@ import { createPostValidation, validatePostImages } from "validations";
 import { usePermission } from "hooks";
 import { Table, LineChart } from "components";
 import searchSuggestColumn from "configs/table/searchSuggestColumn";
-import TableCategory from "../../components/Table/TableCategory"
-
+import TableSuggestSearch from "components/Table/TableSuggestSearch";
 
 const AdminSuggestManagerPage = () => {
   usePermission();
@@ -38,8 +37,12 @@ const AdminSuggestManagerPage = () => {
 
   useEffect(() => {
     fetchSuggests();
-  }, []);
+  }, [checkData]);
 
+
+  const handleCheckData = () => {
+    setCheckData(!checkData);
+  }
   return (
     <>
       {isLoadingCategories ? (
@@ -87,7 +90,8 @@ const AdminSuggestManagerPage = () => {
 
           </Box>
           
-          <TableCategory 
+          <TableSuggestSearch 
+            handleCheckData={handleCheckData}
             rows={suggests} 
             columns={searchSuggestColumn} 
             showCheckbox={false} 

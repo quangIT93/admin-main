@@ -27,8 +27,10 @@ const initPost = {
   isDatePeriod: 0,
   startDate: null,
   endDate: null,
-  startTime: new Date(1970, 0, 2, 0, 0).getTime(),
-  endTime: new Date(1970, 0, 2, 0, 0).getTime(),
+  // startTime: new Date(1970, 0, 2, 0, 0).getTime(),
+  // endTime: new Date(1970, 0, 2, 0, 0).getTime(),
+  newStartTime: "00:00",
+  newEndTime: "00:00",
   isWorkingWeekend: 0,
   isRemotely: 0,
   salaryMin: 0,
@@ -253,14 +255,9 @@ const CreatePostPage = () => {
     post.startDate && postSubmit.append("startDate", post.startDate);
     post.endDate && postSubmit.append("endDate", post.endDate);
 
-    postSubmit.append(
-      "startTime",
-      post.startTime,
-    );
-    postSubmit.append(
-      "endTime",
-      post.endTime
-    );
+    postSubmit.append("newStartTime",post.newStartTime);
+    postSubmit.append("newEndTime",post.newEndTime);
+
     postSubmit.append("isWorkingWeekend", post.isWorkingWeekend);
     postSubmit.append("isRemotely", post.isRemotely);
     postSubmit.append("salaryMin", post.salaryMin);
@@ -300,7 +297,7 @@ const CreatePostPage = () => {
     // Fetch api
     try {
       // await axios.post("/v3/posts/by-worker", postSubmit, {
-      await axios.post("/v3/posts/by-worker", postSubmit, {
+      await axios.post("https://aiworks.vn/api/v3/posts/by-worker", postSubmit, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

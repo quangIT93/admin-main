@@ -128,7 +128,7 @@ const TableCategory = forwardRef((props, ref) => {
         handleRefreshDelete
     } = props;
 
-    const handleCellClick = async (params) => {
+    const handleModifyStatus = async (params) => {
         let res; 
         if (params.field === 'actions') {
             if (params.row.status === 1) {
@@ -154,6 +154,32 @@ const TableCategory = forwardRef((props, ref) => {
         } 
     };
 
+    const handleCellClick = async (params) => {
+        if (params.field === 'name' || params.field === 'nameEn' || params.field === 'nameKor') {
+            document.addEventListener('keydown', handleKeyDown);
+            async function handleKeyDown(e) {
+            if (e.keyCode === 13) {
+                const { id, value, field } = params;
+                try {
+                    const res = await axios.put(`/v3/children/update/${id}`, {
+                      [field]: value,
+                    });
+                if (res && res.statusCode === 200) {
+                    handleRefreshDelete()
+                    toast.success('Updated successfully')
+                }
+                else {
+                    toast.error('Update failed')
+                }
+                } catch (error) {
+                    console.error(error);
+                }
+                document.removeEventListener('keydown', handleKeyDown);
+                }
+            }
+        }
+    }
+
     return (
         <CssDataGrid
             sx={{ padding: "0.5rem"}}
@@ -163,8 +189,9 @@ const TableCategory = forwardRef((props, ref) => {
             autoPageSize
             checkboxSelection={showCheckbox}
             rowHeight={46}
-            onCellClick={handleCellClick}
+            onCellClick={handleModifyStatus}
             disableSelectionOnClick={true}
+            onCellEditCommit={handleCellClick}
             // disableColumnMenu={true}
             components={{
                 // Toolbar: GridToolbar,

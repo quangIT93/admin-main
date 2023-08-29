@@ -7,6 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import moment from "moment";
 import { DateTimePicker } from "@mui/x-date-pickers";
+import { HideImage} from "@mui/icons-material";
 
 const Item = styled(Box)(({ theme }) => ({
   textarea: {
@@ -361,21 +362,30 @@ const CreatePostInformations = ({
       <Grid item xs={12} lg={3}>
         <Item>
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <TimePicker
+            {/* <TimePicker
               label="Thời gian bắt đầu"
-              
-              // disabled={true}
-              // ampm={false}
               value={moment(post.startTime)}
               onChange={(e) =>
                 {
                   console.log(e._d)
                 setPost((prevState) => ({
                   ...prevState,
-                  startTime: new Date(`Fri Jan 02 1970 ${e._d.getHours()}:${e._d.getMinutes()}:00 GMT+0700 (Indochina Time)`).getTime(),
+                  startTime: new Date(e._d).getTime(),
                 }))}
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
+            />  */}
+            <TextField
+              label="Thời gian bắt đầu"
+              type={"time"}
+              value={post.newStartTime || "00:00"}
+              defaultValue={"00:00"}
+              onChange={(e) => {
+                setPost((prevState) => ({
+                  ...prevState,
+                  newStartTime: e.target.value,
+                }))
+              }}
             />
           </LocalizationProvider>
         </Item>
@@ -384,17 +394,29 @@ const CreatePostInformations = ({
       <Grid item xs={12} lg={3}>
         <Item>
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <TimePicker
+            {/* <TimePicker
               label="Thời gian kết thúc"
-              // ampm={false}
               value={moment(post.endTime)}
               onChange={(e) =>
                 setPost((prevState) => ({
                   ...prevState,
-                  endTime: new Date(`Fri Jan 02 1970 ${e._d.getHours()}:${e._d.getMinutes()}:00 GMT+0700 (Indochina Time)`).getTime(),
+                  endTime: new Date(e._d).getTime(),
                 }))
               }
               renderInput={(params) => <TextField {...params} fullWidth />}
+            />  */}
+
+            <TextField
+              label="Thời gian kết thúc"
+              type={"time"}
+              value={post.newEndTime}
+              defaultValue={"00:00"}
+              onChange={(e) => {
+                setPost((prevState) => ({
+                  ...prevState,
+                  newEndTime: e.target.value,
+                }))
+              }}
             />
           </LocalizationProvider>
         </Item>

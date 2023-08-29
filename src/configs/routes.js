@@ -23,7 +23,11 @@ const routes = {
   createParentCategory: "/admin/create-parent-category",
   adminSuggestManager: "/admin/search-suggest",
   suggestDetail:"/admin/search-suggest/:id",
-  createSearchSuggest: "/admin/create-search-suggest"
+  createSearchSuggest: "/admin/create-search-suggest",
+  language: "/admin/language-manager",
+  createCommunity: "/admin/community-create",
+  communityManager: "/admin/community-manager",
+  communityDetail: "/admin/community-detail/:id",
 };
 
 export default routes;

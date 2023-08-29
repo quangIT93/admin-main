@@ -112,7 +112,7 @@ const CreateSearchSuggestPage = () => {
       <Grid item xs={12} lg={6}>
         <Item>
         <TextField
-            label="inputProps"
+            label="Order"
             inputProps={{
               name: 'inputProps',
               type: 'number',

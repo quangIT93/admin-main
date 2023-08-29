@@ -26,7 +26,11 @@ import {
   CreateParentCategoryPage,
   AdminSuggestManagerPage,
   SuggestDetailPage,
-  CreateSearchSuggestPage
+  CreateSearchSuggestPage,
+  AdminLanguageManagerPage,
+  AdminCommunityManagerPage,
+  AdminCommunityCreatePage,
+  AdminCommunityDetailPage
 } from "pages";
 
 const publicRoutes = [
@@ -143,6 +147,26 @@ const publicRoutes = [
   {
     path: routes.createSearchSuggest,
     component: CreateSearchSuggestPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.language,
+    component: AdminLanguageManagerPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.communityManager,
+    component: AdminCommunityManagerPage,
+    layout: MainLayout
+  },
+  {
+    path: routes.createCommunity,
+    component: AdminCommunityCreatePage,
+    layout: MainLayout
+  },
+  {
+    path: routes.communityDetail,
+    component: AdminCommunityDetailPage,
     layout: MainLayout
   }
 ];

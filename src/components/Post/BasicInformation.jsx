@@ -4,8 +4,8 @@ import { styled } from "@mui/material/styles";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import moment from "moment";
+import { HideImage} from "@mui/icons-material";
 
 import { TextField } from "components";
 import { axios } from "configs";
@@ -504,16 +504,17 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
       <Grid item xs={12} lg={3}>
         <Item>
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <TimePicker
+            <TextField
               label="Thời gian bắt đầu"
-              value={moment(basicInformation.start_time) || null}
-              onChange={(e) =>
+              type={"time"}
+              value={basicInformation.newStartTime}
+              defaultValue={"00:00"}
+              onChange={(e) => {
                 setBasicInformation((prevState) => ({
                   ...prevState,
-                  start_time: new Date(e._d).getTime(),
+                  newStartTime: e.target.value,
                 }))
-              }
-              renderInput={(params) => <TextField {...params} fullWidth />}
+              }}
             />
           </LocalizationProvider>
         </Item>
@@ -522,16 +523,17 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
       <Grid item xs={12} lg={3}>
         <Item>
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <TimePicker
+            <TextField
               label="Thời gian kết thúc"
-              value={moment(basicInformation.end_time) || null}
-              onChange={(e) =>
+              type={"time"}
+              value={basicInformation.newEndTime}
+              defaultValue={"00:00"}
+              onChange={(e) => {
                 setBasicInformation((prevState) => ({
                   ...prevState,
-                  end_time: new Date(e._d).getTime(),
+                  newEndTime: e.target.value,
                 }))
-              }
-              renderInput={(params) => <TextField {...params} fullWidth />}
+              }}
             />
           </LocalizationProvider>
         </Item>
