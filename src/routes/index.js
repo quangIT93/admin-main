@@ -153,6 +153,9 @@ const publicRoutes = [
   {
     path: routes.sendMail,
     component: SendMailPage,
+    layout: MainLayout
+  },
+  {
     path: routes.language,
     component: AdminLanguageManagerPage,
     layout: MainLayout

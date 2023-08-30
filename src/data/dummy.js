@@ -106,6 +106,11 @@ export const superAdminTabs = [
         name: "Communities",
         icon: <Communities />,
       },
+      {
+        path: "/admin/send-mail",
+        name: "Gửi mail",
+        icon: <EmailOutlined />,
+      }     
     ],
   },
 ];

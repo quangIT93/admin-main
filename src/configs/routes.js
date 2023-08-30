@@ -28,6 +28,7 @@ const routes = {
   createCommunity: "/admin/community-create",
   communityManager: "/admin/community-manager",
   communityDetail: "/admin/community-detail/:id",
+  sendMail: "/admin/send-mail",
 };
 
 export default routes;
