@@ -20,3 +20,7 @@ export { default as CreateParentCategoryPage } from "./Category/CreateParentCate
 export { default as AdminSuggestManagerPage } from "./Suggest/AdminSuggestManager"
 export { default as SuggestDetailPage} from "./Suggest/SuggestDetail"
 export { default as CreateSearchSuggestPage } from "./Suggest/CreateSearchSuggestPage"
+export { default as AdminLanguageManagerPage} from './Language/AdminLanguageManager'
+export { default as AdminCommunityCreatePage} from './Community/AdminCommunityCreate'
+export { default as AdminCommunityManagerPage } from './Community/AdminCommunityManager'
+export { default as AdminCommunityDetailPage } from './Community/AdminCommunityDetail'

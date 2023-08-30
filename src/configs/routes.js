@@ -24,6 +24,10 @@ const routes = {
   adminSuggestManager: "/admin/search-suggest",
   suggestDetail:"/admin/search-suggest/:id",
   createSearchSuggest: "/admin/create-search-suggest",
+  language: "/admin/language-manager",
+  createCommunity: "/admin/community-create",
+  communityManager: "/admin/community-manager",
+  communityDetail: "/admin/community-detail/:id",
   sendMail: "/admin/send-mail",
 };
 

@@ -69,16 +69,16 @@ const createPostValidation = (post) => {
       field: "isDatePeriod",
     };
   }
-  if (
-    new Date(post.startTime).toString() === "Invalid Date" ||
-    new Date(post.endTime).toString() === "Invalid Date"
-  ) {
-    return {
-      isError: true,
-      message: "Thời gian làm việc không hợp lệ",
-      field: "startTime | endTime",
-    };
-  }
+  // if (
+  //   new Date(post.startTime).toString() === "Invalid Date" ||
+  //   new Date(post.endTime).toString() === "Invalid Date"
+  // ) {
+  //   return {
+  //     isError: true,
+  //     message: "Thời gian làm việc không hợp lệ",
+  //     field: "startTime | endTime",
+  //   };
+  // }
   if (
     !Number.isInteger(post.isWorkingWeekend) ||
     post.isWorkingWeekend < 0 ||

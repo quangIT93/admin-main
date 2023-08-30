@@ -118,54 +118,28 @@ const CssDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 
-const TableCategory = forwardRef((props, ref) => {
+const TableSuggestSearch = forwardRef((props, ref) => {
     const {
         rows,
         columns,
         showCheckbox = true,
         selectionModel,
         onSelectionModelChange,
-        handleRefreshDelete
+        handleCheckData
     } = props;
 
-    const handleModifyStatus = async (params) => {
-        let res; 
-        if (params.field === 'actions') {
-            if (params.row.status === 1) {
-                res = await axios.put(`/v3/children/update/${params.row.id}`, 
-                {
-                    status: 0,
-                });
-              }
-              else {
-                res = await axios.put(`/v3/children/update/${params.row.id}`, 
-                {
-                    status: 1,
-                });
-              }
-              if (res.statusCode === 200) {
-                handleRefreshDelete()
-                toast.success("Điều chỉnh trạng thái danh mục thành công")
-              }
-              else
-              {
-                toast.error("Điều chỉnh trạng thái danh mục thất bại")
-              }
-        } 
-    };
-
     const handleCellClick = async (params) => {
-        if (params.field === 'name' || params.field === 'nameEn' || params.field === 'nameKor') {
+        if (params.field === 'order' || params.field === 'keyword') {
             document.addEventListener('keydown', handleKeyDown);
             async function handleKeyDown(e) {
             if (e.keyCode === 13) {
                 const { id, value, field } = params;
                 try {
-                    const res = await axios.put(`/v3/children/update/${id}`, {
+                    const res = await axios.put(`/v3/suggest-search/update/${id}`, {
                       [field]: value,
                     });
                 if (res && res.statusCode === 200) {
-                    handleRefreshDelete()
+                    handleCheckData()
                     toast.success('Updated successfully')
                 }
                 else {
@@ -180,6 +154,39 @@ const TableCategory = forwardRef((props, ref) => {
         }
     }
 
+    const handleModifyStatus = async (params) => {
+        if (params.field === 'status') {
+            const {id, status} = params.row;
+    
+            if (status === 1) {
+                const res = await axios.put(`/v3/suggest-search/update/${id}`, {
+                    status: 0
+                })
+                if (res && res.statusCode === 200) {
+                    handleCheckData()
+                    toast.success('Updated status successfully')
+                }
+    
+                else {
+                    toast.error('Update status failed')
+                }
+            }
+            else {
+                const res = await axios.put(`/v3/suggest-search/update/${id}`, {
+                    status: 1
+                })
+    
+                if (res && res.statusCode === 200) {
+                    handleCheckData()
+                    toast.success('Updated status successfully')
+                }
+    
+                else {
+                    toast.error('Update status failed')
+                } 
+            }
+        }
+    }
     return (
         <CssDataGrid
             sx={{ padding: "0.5rem"}}
@@ -189,9 +196,9 @@ const TableCategory = forwardRef((props, ref) => {
             autoPageSize
             checkboxSelection={showCheckbox}
             rowHeight={46}
+            onCellEditCommit={handleCellClick}
             onCellClick={handleModifyStatus}
             disableSelectionOnClick={true}
-            onCellEditCommit={handleCellClick}
             // disableColumnMenu={true}
             components={{
                 // Toolbar: GridToolbar,
@@ -211,4 +218,4 @@ const TableCategory = forwardRef((props, ref) => {
     );
 });
 
-export default TableCategory;
+export default TableSuggestSearch;

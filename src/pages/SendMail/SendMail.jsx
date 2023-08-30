@@ -27,7 +27,7 @@ const SendMailPage = () => {
     // HIDE MODAL
     setShowConfirmModal(false);
 
-    toast.info("Đang gửi mail...");
+    const toastId = toast.loading("Đang gửi mail...");
 
     // GET RESPONSE
     try {
@@ -43,6 +43,8 @@ const SendMailPage = () => {
     } catch (error) {
       return toast.error("Gửi mail thất bại");
     }
+
+    toast.dismiss();
   };
 
   return (

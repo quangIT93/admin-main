@@ -10,19 +10,17 @@ import { createPostValidation, validatePostImages } from "validations";
 import { usePermission } from "hooks";
 import { Table, LineChart } from "components";
 import categoryColumns from "configs/table/categoryColumns";
-import TableCategory from "../../components/Table/TableCategory"
-
+import TableCategoryParent from "components/Table/TableCategoryParent";
 
 const CategoryPage = () => {
   usePermission();
 
   const navigate = useNavigate();
   const theme = useTheme();
-  const [modifyLimit, setModifyLimit] = useState(10)
   const [checkData, setCheckData] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [categories, setCategories] = useState([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [checkRefresh, setCheckRefresh] = useState(false);
 
   const fetchCategories = async () => {
     let res;
@@ -40,7 +38,11 @@ const CategoryPage = () => {
 
   useEffect(() => {
     fetchCategories();
-  }, [currentPage, modifyLimit]);
+  }, [checkRefresh]);
+
+  const handleCheck = () => {
+    setCheckRefresh(!checkRefresh);
+  }
 
   return (
     <>
@@ -89,7 +91,8 @@ const CategoryPage = () => {
 
           </Box>
           
-          <TableCategory 
+          <TableCategoryParent 
+            handleCheck={handleCheck}
             rows={categories} 
             columns={categoryColumns} 
             showCheckbox={false} 

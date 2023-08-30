@@ -118,33 +118,34 @@ const CssDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 
-const TableCategory = forwardRef((props, ref) => {
+const TableCategoryParent = forwardRef((props, ref) => {
     const {
         rows,
         columns,
         showCheckbox = true,
         selectionModel,
         onSelectionModelChange,
-        handleRefreshDelete
+        handleRefreshDelete,
+        handleCheck
     } = props;
 
     const handleModifyStatus = async (params) => {
         let res; 
-        if (params.field === 'actions') {
+        if (params.field === 'status') {
             if (params.row.status === 1) {
-                res = await axios.put(`/v3/children/update/${params.row.id}`, 
+                res = await axios.put(`/v3/parent/${params.row.id}`, 
                 {
                     status: 0,
                 });
               }
               else {
-                res = await axios.put(`/v3/children/update/${params.row.id}`, 
+                res = await axios.put(`/v3/parent/${params.row.id}`, 
                 {
                     status: 1,
                 });
               }
-              if (res.statusCode === 200) {
-                handleRefreshDelete()
+              if (res.status === 200) {
+                handleCheck()
                 toast.success("Điều chỉnh trạng thái danh mục thành công")
               }
               else
@@ -161,11 +162,11 @@ const TableCategory = forwardRef((props, ref) => {
             if (e.keyCode === 13) {
                 const { id, value, field } = params;
                 try {
-                    const res = await axios.put(`/v3/children/update/${id}`, {
+                    const res = await axios.put(`/v3/parent/${id}`, {
                       [field]: value,
                     });
-                if (res && res.statusCode === 200) {
-                    handleRefreshDelete()
+                if (res && res.status === 200) {
+                    handleCheck()
                     toast.success('Updated successfully')
                 }
                 else {
@@ -211,4 +212,4 @@ const TableCategory = forwardRef((props, ref) => {
     );
 });
 
-export default TableCategory;
+export default TableCategoryParent;

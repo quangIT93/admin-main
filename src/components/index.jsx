@@ -59,3 +59,6 @@ export { default as AddBannerDialog } from "./Banner/AddBannerDialog";
 // THEME
 export { default as EditThemeDialog } from "./Theme/EditThemeDialog";
 export { default as AddThemeDialog } from "./Theme/AddThemeDialog";
+
+// Community
+export { default as CommunityBasicInformation } from "./Community/BasicInformation";
