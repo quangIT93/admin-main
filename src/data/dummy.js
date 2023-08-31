@@ -7,8 +7,6 @@ import {
   MultiAccountsIcon,
   Category,
   SearchSuggestIcon,
-  Languages,
-  Communities,
 } from "components/Icons";
 
 import { FiCreditCard } from "react-icons/fi";
@@ -17,7 +15,7 @@ import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
 import avatar4 from "./avatar4.jpg";
-import { EmailOutlined } from "@mui/icons-material";
+import { EmailOutlined, LanguageOutlined, PeopleOutline } from "@mui/icons-material";
 
 export const normalAdminTabs = [
   {
@@ -99,12 +97,12 @@ export const superAdminTabs = [
       {
         path: "/admin/language-manager",
         name: "Ngôn ngữ",
-        icon: <Languages />,
+        icon: <LanguageOutlined />,
       },
       {
         path: "/admin/community-manager",
         name: "Communities",
-        icon: <Communities />,
+        icon: <PeopleOutline />,
       },
       {
         path: "/admin/send-mail",
