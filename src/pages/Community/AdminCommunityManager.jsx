@@ -14,6 +14,7 @@ import { axios } from "configs";
 import { communityListColumns } from "configs/table";
 import { usePermission } from "hooks";
 import TableCommunity from "components/Table/TableCommunity";
+import { convert } from "html-to-text";
 
 // PAGE
 const AdminCommunityManagerPage = () => {
@@ -43,6 +44,15 @@ const AdminCommunityManagerPage = () => {
         if (res?.data?.communications.lenght > 0) {
           setCheckData(true);
         }
+        res.data.communications.map((item) => {
+          if (item.content.includes('<p>')) {
+            item.content = convert(item.content, {
+              wordwrap: 130,
+            });
+          }
+          return item;
+        });
+      
         setPosts(res.data.communications);
         setIsLoading(false);
       } else {

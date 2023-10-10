@@ -1,15 +1,12 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import imageCompression from "browser-image-compression";
 
 import { axios } from "configs";
-import {
-  ConfirmDialog,
-  CreatePostImages,
-} from "components";
+import { ConfirmDialog, CreatePostImages } from "components";
 import { validatePostImages } from "validations";
 import { usePermission } from "hooks";
 import CreateCommunityInformations from "components/Community/Create/information";
@@ -96,25 +93,19 @@ const AdminCommunityCreatePage = () => {
 
     const communitySubmit = new FormData();
     communitySubmit.append("title", community.title.trim());
-    communitySubmit.append("content", community.content.trim());
-
+    communitySubmit.append("content", community.content);
 
     images.forEach((image) => communitySubmit.append("images", image.image));
 
     let toastId = toast.loading("Please wait...");
 
-
     // Fetch api
     try {
-      await axios.post(
-        "/v3/communications/by-admin",
-        communitySubmit,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.post("/v3/communications/by-admin", communitySubmit, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       setCommunity(initCommunity);
       images.forEach((image) => window.URL.revokeObjectURL(image));

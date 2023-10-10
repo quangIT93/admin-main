@@ -10,13 +10,6 @@ const createCommunityValidation = (post) => {
       field: "title",
     };
   }
-  if (post.content.trim() === "") { 
-    return { 
-      isError: true,
-      message: "Content không được để trống",
-      field: "content",
-    }
-  }
   return {
     isError: false,
   };
