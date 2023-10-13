@@ -22,13 +22,15 @@ const routes = {
   createChildCategory: "/admin/:id/create-child-category",
   createParentCategory: "/admin/create-parent-category",
   adminSuggestManager: "/admin/search-suggest",
-  suggestDetail:"/admin/search-suggest/:id",
+  suggestDetail: "/admin/search-suggest/:id",
   createSearchSuggest: "/admin/create-search-suggest",
   language: "/admin/language-manager",
   createCommunity: "/admin/community-create",
   communityManager: "/admin/community-manager",
   communityDetail: "/admin/community-detail/:id",
   sendMail: "/admin/send-mail",
+  point: "/admin/point",
+  pointDetail: "/admin/point/:id",
 };
 
 export default routes;

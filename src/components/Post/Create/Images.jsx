@@ -9,7 +9,7 @@ import { useTheme } from "@mui/material/styles";
 
 import { CloseIcon } from "components/Icons";
 
-const CreatePostImages = ({ images, handleRemoveImage }) => {
+const CreatePostImages = ({ images, handleRemoveImage, onClickImage }) => {
   const theme = useTheme();
   const ixsobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -21,9 +21,14 @@ const CreatePostImages = ({ images, handleRemoveImage }) => {
       rowHeight={200}
       gap={16}
     >
-      {images.map((image) => (
+      {images.map((image, index) => (
         <ImageListItem key={image.preview}>
-          <img src={image.preview} alt="" loading="lazy" />
+          <img
+            src={image.preview}
+            alt=""
+            loading="lazy"
+            onClick={() => onClickImage(image, index)}
+          />
           <ImageListItemBar
             sx={{ background: "transparent" }}
             position="top"

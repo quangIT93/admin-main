@@ -30,9 +30,11 @@ import {
   AdminLanguageManagerPage,
   AdminCommunityManagerPage,
   AdminCommunityCreatePage,
-  AdminCommunityDetailPage
+  AdminCommunityDetailPage,
 } from "pages";
 import SendMailPage from "pages/SendMail/SendMail";
+import UserPoint from "pages/UserPoint";
+import UserPointDetail from "pages/UserPoint/UserPointDetail";
 
 const publicRoutes = [
   {
@@ -128,53 +130,63 @@ const publicRoutes = [
   {
     path: routes.createChildCategory,
     component: CreateChildCategoryPage,
-    layout: MainLayout
-  }, 
+    layout: MainLayout,
+  },
   {
     path: routes.createParentCategory,
     component: CreateParentCategoryPage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.suggestDetail,
     component: SuggestDetailPage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.adminSuggestManager,
     component: AdminSuggestManagerPage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.createSearchSuggest,
     component: CreateSearchSuggestPage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.sendMail,
     component: SendMailPage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.language,
     component: AdminLanguageManagerPage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.communityManager,
     component: AdminCommunityManagerPage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.createCommunity,
     component: AdminCommunityCreatePage,
-    layout: MainLayout
+    layout: MainLayout,
   },
   {
     path: routes.communityDetail,
     component: AdminCommunityDetailPage,
-    layout: MainLayout
-  }
+    layout: MainLayout,
+  },
+  {
+    path: routes.point,
+    component: UserPoint,
+    layout: MainLayout,
+  },
+  {
+    path: routes.pointDetail,
+    component: UserPointDetail,
+    layout: MainLayout,
+  },
 ];
 
 export { publicRoutes };

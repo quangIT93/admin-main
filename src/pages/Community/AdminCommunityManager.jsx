@@ -36,23 +36,21 @@ const AdminCommunityManagerPage = () => {
     const getCommunitiesData = async () => {
       let res;
 
-      res = await axios.get(
-        `/v3/communications/news?type=${selectedType}`
-      );
+      res = await axios.get(`/v3/communications/news?type=${selectedType}`);
 
       if (res && res.status === 200) {
         if (res?.data?.communications.lenght > 0) {
           setCheckData(true);
         }
         res.data.communications.map((item) => {
-          if (item.content.includes('<p>')) {
+          if (item.content.includes("<p>")) {
             item.content = convert(item.content, {
               wordwrap: 130,
             });
           }
           return item;
         });
-      
+
         setPosts(res.data.communications);
         setIsLoading(false);
       } else {
@@ -68,7 +66,7 @@ const AdminCommunityManagerPage = () => {
     { label: "HijobNews", value: 0 },
     { label: "WorkingStory", value: 1 },
   ];
-
+  console.log(posts);
   return (
     <>
       {isLoading ? (

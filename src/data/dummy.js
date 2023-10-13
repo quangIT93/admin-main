@@ -11,11 +11,17 @@ import {
 
 import { FiCreditCard } from "react-icons/fi";
 import { BsCurrencyDollar, BsShield } from "react-icons/bs";
+import { GiSevenPointedStar } from "react-icons/gi";
 import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
 import avatar4 from "./avatar4.jpg";
-import { EmailOutlined, LanguageOutlined, PeopleOutline } from "@mui/icons-material";
+import {
+  EmailOutlined,
+  LanguageOutlined,
+  PeopleOutline,
+} from "@mui/icons-material";
+import { routes } from "configs";
 
 export const normalAdminTabs = [
   {
@@ -30,7 +36,7 @@ export const normalAdminTabs = [
         path: "/admin/send-mail",
         name: "Gửi mail",
         icon: <EmailOutlined />,
-      }     
+      },
     ],
   },
 ];
@@ -105,10 +111,17 @@ export const superAdminTabs = [
         icon: <PeopleOutline />,
       },
       {
+        path: routes.point,
+        name: "Point",
+        icon: (
+          <GiSevenPointedStar style={{ width: "1.7em", height: "1.7em" }} />
+        ),
+      },
+      {
         path: "/admin/send-mail",
         name: "Gửi mail",
         icon: <EmailOutlined />,
-      }     
+      },
     ],
   },
 ];
@@ -123,11 +136,10 @@ export const workerTabs = [
     path: "/admin/send-mail",
     name: "Gửi mail",
     icon: <EmailOutlined />,
-  } 
-]
+  },
+];
 
 export const chatData = [
-  
   {
     image: avatar2,
     message: "Roman Joined the Team!",

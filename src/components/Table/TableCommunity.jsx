@@ -123,7 +123,7 @@ const Table = forwardRef((props, ref) => {
 
   return (
     <CssDataGrid
-      sx={{ padding: "0.5rem", height: "90%"}}
+      sx={{ padding: "0.5rem", height: "90%" }}
       ref={ref}
       rows={rows}
       columns={columns}

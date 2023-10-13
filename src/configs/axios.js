@@ -2,12 +2,12 @@ import axios from "axios";
 
 // Create instance
 const instance = axios.create({
-  // baseURL: "https://aiworks.vn/api",
+  baseURL: "https://aiworks.vn/api",
   // baseURL: "http://localhost:5000/api",
-  baseURL: "https://neoworks.vn/api",
+  // baseURL: "https://neoworks.vn/api",
   timeout: 10000,
   headers: {
-      "Content-Type": "application/json",
+    "Content-Type": "application/json",
   },
 });
 
@@ -16,7 +16,10 @@ instance.interceptors.request.use(
   (config) => {
     // Do something before request is sent
     const url = config.url;
-    if (url.includes("/v1/sign-in/admin") || url.includes("/v1/reset-access-token")) {
+    if (
+      url.includes("/v1/sign-in/admin") ||
+      url.includes("/v1/reset-access-token")
+    ) {
       return config;
     }
 
