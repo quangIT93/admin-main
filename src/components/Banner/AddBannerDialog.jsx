@@ -69,6 +69,7 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
   const [bannerRedirectUrl, setBannerRedirectUrl] = useState("");
   const [bannerType, setBannerType] = useState(1);
   const [version, setVersion] = useState(1);
+  const [order, setOrder] = useState(1);
 
   // HANDLE CHANGE PHOTO URL SELECTED
   const handleChangePhotoUrlSelected = (e) => {
@@ -126,6 +127,7 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
           redirectUrl: bannerRedirectUrl.trim(),
           type: bannerType,
           version,
+          order,
         };
       } else {
         return toast.warn("Please enter valid url");
@@ -147,6 +149,7 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
         data.append("redirectUrl", bannerRedirectUrl.trim());
         data.append("type", bannerType);
         data.append("version", version);
+        data.append("order", order);
       } else {
         return toast.warn("Please upload photo from your device");
       }
@@ -304,6 +307,22 @@ const AddBannerDialog = ({ open, setOpen, setBanners }) => {
               />
               <FormControlLabel value={2} control={<Radio />} label="Website" />
             </RadioGroup>
+          </CssFormControl>
+
+          <CssFormControl>
+            <TextField
+              select
+              label="Order"
+              value={order}
+              onChange={(e) => setOrder(e.target.value)}
+            >
+              <MenuItem key={1} value={1}>
+                Order 1
+              </MenuItem>
+              <MenuItem key={2} value={2}>
+                Order 2
+              </MenuItem>
+            </TextField>
           </CssFormControl>
 
           {/* PHOTO PREVIEW */}

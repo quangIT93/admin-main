@@ -145,6 +145,10 @@ const EditBannerDialog = ({
       return toast.warn("Invalid banner version");
     }
 
+    if (!Number.isInteger(bannerSelected.order)) {
+      return toast.warn("Invalid banner order");
+    }
+
     //  DEFINE BODY DATA
     let data = null;
     if (addPhotoTypeId === 0) {
@@ -162,6 +166,7 @@ const EditBannerDialog = ({
           imageUrl: bannerSelected.image.trim(),
           type: bannerSelected.type,
           version: bannerSelected.version,
+          order: bannerSelected.order,
         };
       } else {
         return toast.warn("Please enter valid url");
@@ -182,6 +187,7 @@ const EditBannerDialog = ({
         data.append("images", photoUploadSelected);
         data.append("type", bannerSelected.type);
         data.append("version", bannerSelected.version);
+        data.append("order", bannerSelected.order);
       } else {
         return toast.warn("Please upload photo from your device");
       }
@@ -204,6 +210,7 @@ const EditBannerDialog = ({
           newState[index].type = bannerSelected.type;
           newState[index].redirect_url = bannerSelected.redirect_url;
           newState[index].version = bannerSelected.version;
+          newState[index].order = bannerSelected.order;
           return newState;
         });
 
@@ -330,6 +337,27 @@ const EditBannerDialog = ({
                 }))
               }
             />
+          </CssFormControl>
+
+          <CssFormControl>
+            <TextField
+              select
+              label="Order"
+              value={bannerSelected.order}
+              onChange={(e) =>
+                setBannerSelected((prevState) => ({
+                  ...prevState,
+                  order: Number(e.target.value),
+                }))
+              }
+            >
+              <MenuItem key={1} value={1}>
+                Order 1
+              </MenuItem>
+              <MenuItem key={2} value={2}>
+                Order 2
+              </MenuItem>
+            </TextField>
           </CssFormControl>
 
           {/* BANNER VERSION */}
