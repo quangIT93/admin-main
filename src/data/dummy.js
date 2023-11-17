@@ -21,6 +21,7 @@ import {
   LanguageOutlined,
   PeopleOutline,
 } from "@mui/icons-material";
+import DomainIcon from "@mui/icons-material/Domain";
 import { routes } from "configs";
 
 export const normalAdminTabs = [
@@ -111,11 +112,9 @@ export const superAdminTabs = [
         icon: <PeopleOutline />,
       },
       {
-        path: routes.point,
-        name: "Point",
-        icon: (
-          <GiSevenPointedStar style={{ width: "1.7em", height: "1.7em" }} />
-        ),
+        path: routes.company,
+        name: "Company",
+        icon: <DomainIcon />,
       },
       {
         path: "/admin/send-mail",

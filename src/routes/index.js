@@ -32,9 +32,11 @@ import {
   AdminCommunityCreatePage,
   AdminCommunityDetailPage,
 } from "pages";
+import Company from "pages/Company";
+import CompanyDetail from "pages/Company/CompanyDetail";
 import SendMailPage from "pages/SendMail/SendMail";
-import UserPoint from "pages/UserPoint";
-import UserPointDetail from "pages/UserPoint/UserPointDetail";
+// import UserPoint from "pages/UserPoint";
+// import UserPointDetail from "pages/UserPoint/UserPointDetail";
 
 const publicRoutes = [
   {
@@ -178,15 +180,25 @@ const publicRoutes = [
     layout: MainLayout,
   },
   {
-    path: routes.point,
-    component: UserPoint,
+    path: routes.company,
+    component: Company,
     layout: MainLayout,
   },
   {
-    path: routes.pointDetail,
-    component: UserPointDetail,
+    path: routes.companyDetail,
+    component: CompanyDetail,
     layout: MainLayout,
   },
+  // {
+  //   path: routes.point,
+  //   component: UserPoint,
+  //   layout: MainLayout,
+  // },
+  // {
+  //   path: routes.pointDetail,
+  //   component: UserPointDetail,
+  //   layout: MainLayout,
+  // },
 ];
 
 export { publicRoutes };
