@@ -45,7 +45,11 @@ const SendMailPage = () => {
         []
       );
 
-      const res = await axios.post(`/v3/admin/send-mail`, uniqueEmailArray);
+      let data = uniqueEmailArray.map((email) => {
+        return { to: email };
+      });
+
+      const res = await axios.post(`/v3/admin/send-mail`, data);
       if (res.statusCode === 200) {
         return toast.update(toastId, {
           render: "Gửi mail thành công",
