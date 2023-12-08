@@ -149,7 +149,7 @@ const AdminCommunityCreatePage = () => {
     if (createCommunityValidationReply.isError) {
       return toast.warn(createCommunityValidationReply.message);
     }
-
+    console.log(community);
     const communitySubmit = new FormData();
     communitySubmit.append("title", community.title.trim());
     communitySubmit.append("content", community.content);
@@ -169,11 +169,11 @@ const AdminCommunityCreatePage = () => {
 
     // Fetch api
     try {
-      await axios.post("/v3/communications/by-admin", communitySubmit, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // await axios.post("/v3/communications/by-admin", communitySubmit, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
 
       setCommunity(initCommunity);
       images.forEach((image) => window.URL.revokeObjectURL(image));

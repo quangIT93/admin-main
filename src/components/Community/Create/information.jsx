@@ -51,6 +51,50 @@ const CreateCommunityInformations = ({ community, setCommunity }) => {
         color: "#ffff",
       },
       theme: "dark",
+      uploader: {
+        insertImageAsBase64URI: false,
+        imagesExtensions: ["jpg", "png", "jpeg", "gif"],
+        withCredentials: false,
+        format: "json",
+        method: "POST",
+        url: "http://localhost:8000/api/v3/communication-images/image",
+        // headers: {
+        //   "Content-Type": `multipart/form-data`,
+        // },
+        prepareData: function (formData) {
+          // console.log(formData.getAll());
+          console.log(formData.get("file[0]"));
+          const file = formData.getAll("files[0]")[0];
+          formData.append("image", file);
+          return formData;
+        },
+        isSuccess: function (resp) {
+          console.log("isSuccess", resp);
+          return !resp.error;
+        },
+        getMsg: function (resp) {
+          return resp.msg.join !== undefined ? resp.msg.join(" ") : resp.msg;
+        },
+        process: function (resp) {
+          console.log("process", resp);
+          return {
+            files: [resp.data],
+            path: "",
+            baseurl: "",
+            error: resp.error ? 1 : 0,
+            msg: resp.msg,
+          };
+        },
+        defaultHandlerSuccess: function (data, resp) {
+          const files = data.files || [];
+          if (files.length) {
+            this.selection.insertImage(files[0], null, 250);
+          }
+        },
+        defaultHandlerError: function (resp) {
+          this.events.fire("errorPopap", this.i18n(resp.msg));
+        },
+      },
     }),
     []
   );
