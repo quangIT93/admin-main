@@ -58,25 +58,18 @@ const CreateCommunityInformations = ({ community, setCommunity }) => {
         format: "json",
         method: "POST",
         url: "http://localhost:8000/api/v3/communication-images/image",
-        // headers: {
-        //   "Content-Type": `multipart/form-data`,
+        // prepareData: function (formData) {
+        //   return formData;
         // },
-        prepareData: function (formData) {
-          // console.log(formData.getAll());
-          console.log(formData.get("file[0]"));
-          const file = formData.getAll("files[0]")[0];
-          formData.append("image", file);
-          return formData;
-        },
         isSuccess: function (resp) {
-          console.log("isSuccess", resp);
-          return !resp.error;
+          return resp;
         },
         getMsg: function (resp) {
-          return resp.msg.join !== undefined ? resp.msg.join(" ") : resp.msg;
+          return resp.message.join !== undefined
+            ? resp.message.join(" ")
+            : resp.message;
         },
         process: function (resp) {
-          console.log("process", resp);
           return {
             files: [resp.data],
             path: "",
@@ -92,7 +85,7 @@ const CreateCommunityInformations = ({ community, setCommunity }) => {
           }
         },
         defaultHandlerError: function (resp) {
-          this.events.fire("errorPopap", this.i18n(resp.msg));
+          this.events.fire("error", this.i18n(resp.message));
         },
       },
     }),

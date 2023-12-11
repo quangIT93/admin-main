@@ -42,10 +42,10 @@ const AdminCommunityCreatePage = () => {
   const [images, setImages] = useState([]);
 
   // add description image
-  const [arrDescriptions, setArrDescriptions] = useState([]);
-  const [description, setDescription] = useState();
-  const [indexImage, setIndexImage] = useState();
-  const [openModelDescription, setOpenModelDescription] = useState(false);
+  // const [arrDescriptions, setArrDescriptions] = useState([]);
+  // const [description, setDescription] = useState();
+  // const [indexImage, setIndexImage] = useState();
+  // const [openModelDescription, setOpenModelDescription] = useState(false);
 
   // Handle on change images
   const handleOnChangeImages = async (e) => {
@@ -93,53 +93,53 @@ const AdminCommunityCreatePage = () => {
       }
     }
   };
-  console.log(arrDescriptions);
+  // console.log(arrDescriptions);
   // Handle remove image
   const handleRemoveImage = (image) => {
-    handleIndexImage(images.indexOf(image));
+    // handleIndexImage(images.indexOf(image));
     setImages((prevState) =>
       prevState.filter((prevImage) => prevImage.preview !== image.preview)
     );
   };
 
-  const OnShowModelImage = (_, index) => {
-    setOpenModelDescription(!openModelDescription);
-    const findDescription = arrDescriptions.find(
-      (item) => item.indexImage === index
-    );
-    if (findDescription) {
-      setDescription(findDescription.description);
-    } else {
-      setDescription(null);
-    }
-    index && setIndexImage(null);
-    // setDescription(description.description)
-    if (!isNaN(index)) {
-      setIndexImage(index);
-    }
-  };
-  // Handle add description
-  const handleAddDescription = () => {
-    const objDescription = {
-      indexImage,
-      description,
-    };
-    setArrDescriptions([...arrDescriptions, objDescription]);
-    setOpenModelDescription(!openModelDescription);
-  };
+  // const OnShowModelImage = (_, index) => {
+  //   setOpenModelDescription(!openModelDescription);
+  //   const findDescription = arrDescriptions.find(
+  //     (item) => item.indexImage === index
+  //   );
+  //   if (findDescription) {
+  //     setDescription(findDescription.description);
+  //   } else {
+  //     setDescription(null);
+  //   }
+  //   index && setIndexImage(null);
+  //   // setDescription(description.description)
+  //   if (!isNaN(index)) {
+  //     setIndexImage(index);
+  //   }
+  // };
+  // // Handle add description
+  // const handleAddDescription = () => {
+  //   const objDescription = {
+  //     indexImage,
+  //     description,
+  //   };
+  //   setArrDescriptions([...arrDescriptions, objDescription]);
+  //   setOpenModelDescription(!openModelDescription);
+  // };
 
-  const handleIndexImage = (indexImage) => {
-    const deleteDescription = arrDescriptions.filter(
-      (item) => item.indexImage !== indexImage
-    );
-    const newArrDescription = deleteDescription.map((item) => {
-      if (item.indexImage > indexImage) {
-        return { ...item, indexImage: item.indexImage - 1 };
-      }
-      return item;
-    });
-    setArrDescriptions(newArrDescription);
-  };
+  // const handleIndexImage = (indexImage) => {
+  //   const deleteDescription = arrDescriptions.filter(
+  //     (item) => item.indexImage !== indexImage
+  //   );
+  //   const newArrDescription = deleteDescription.map((item) => {
+  //     if (item.indexImage > indexImage) {
+  //       return { ...item, indexImage: item.indexImage - 1 };
+  //     }
+  //     return item;
+  //   });
+  //   setArrDescriptions(newArrDescription);
+  // };
 
   // Handle submit create post
   const handleOnCreateCommunity = async () => {
@@ -149,7 +149,7 @@ const AdminCommunityCreatePage = () => {
     if (createCommunityValidationReply.isError) {
       return toast.warn(createCommunityValidationReply.message);
     }
-    console.log(community);
+
     const communitySubmit = new FormData();
     communitySubmit.append("title", community.title.trim());
     communitySubmit.append("content", community.content);
@@ -157,14 +157,14 @@ const AdminCommunityCreatePage = () => {
     images.forEach((image) => communitySubmit.append("images", image.image));
 
     // add description image
-    const descriptions = images.map((_, index) => {
-      const i = arrDescriptions.findIndex((item) => item.indexImage === index);
-      if (i !== -1) {
-        return arrDescriptions[i].description;
-      }
-      return null;
-    });
-    console.log(descriptions);
+    // const descriptions = images.map((_, index) => {
+    //   const i = arrDescriptions.findIndex((item) => item.indexImage === index);
+    //   if (i !== -1) {
+    //     return arrDescriptions[i].description;
+    //   }
+    //   return null;
+    // });
+    // console.log(descriptions);
     let toastId = toast.loading("Please wait...");
 
     // Fetch api
@@ -179,9 +179,9 @@ const AdminCommunityCreatePage = () => {
       images.forEach((image) => window.URL.revokeObjectURL(image));
       setImages([]);
 
-      setDescription(null);
-      setIndexImage(null);
-      setArrDescriptions([]);
+      // setDescription(null);
+      // setIndexImage(null);
+      // setArrDescriptions([]);
 
       return toast.update(toastId, {
         render: "Tạo bài đăng thành công",
@@ -254,7 +254,7 @@ const AdminCommunityCreatePage = () => {
             </Button>
           </Box>
           {/* Modal Image */}
-          <Box>
+          {/* <Box>
             <Modal
               open={openModelDescription}
               onClose={OnShowModelImage}
@@ -282,12 +282,12 @@ const AdminCommunityCreatePage = () => {
               </Box>
             </Modal>
           </Box>
-          ;
+          ; */}
           <Box>
             <CreatePostImages
               images={images}
               handleRemoveImage={handleRemoveImage}
-              onClickImage={OnShowModelImage}
+              // onClickImage={OnShowModelImage}
             />
           </Box>
         </Box>
