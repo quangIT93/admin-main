@@ -58,6 +58,9 @@ const CreateCommunityInformations = ({ community, setCommunity }) => {
         format: "json",
         method: "POST",
         url: "http://localhost:8000/api/v3/communication-images/image",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+        },
         // prepareData: function (formData) {
         //   return formData;
         // },
