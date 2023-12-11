@@ -58,7 +58,7 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
         withCredentials: false,
         format: "json",
         method: "POST",
-        url: "https://aiworks.vn/api/v3/communication-images/image",
+        url: "https://neoworks.vn/api/v3/communication-images/image",
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
         },
