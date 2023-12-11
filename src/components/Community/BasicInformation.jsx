@@ -47,8 +47,8 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
       showTooltipDelay: 0,
       showTooltipOnSelection: false,
       style: {
-        background: "#0a1929",
-        color: "#ffff",
+        background: "#fff",
+        color: "#000",
         padding: "20px",
       },
       theme: "dark",
