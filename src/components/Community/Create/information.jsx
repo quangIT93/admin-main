@@ -49,6 +49,7 @@ const CreateCommunityInformations = ({ community, setCommunity }) => {
       style: {
         background: "#0a1929",
         color: "#ffff",
+        padding: "20px",
       },
       theme: "dark",
       uploader: {
@@ -57,7 +58,7 @@ const CreateCommunityInformations = ({ community, setCommunity }) => {
         withCredentials: false,
         format: "json",
         method: "POST",
-        url: "http://localhost:8000/api/v3/communication-images/image",
+        url: "https://aiworks.vn/api/v3/communication-images/image",
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
         },
