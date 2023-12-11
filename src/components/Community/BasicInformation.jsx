@@ -49,8 +49,49 @@ const BasicInformation = ({ basicInformation, setBasicInformation }) => {
       style: {
         background: "#0a1929",
         color: "#ffff",
+        padding: "20px",
       },
       theme: "dark",
+      uploader: {
+        insertImageAsBase64URI: false,
+        imagesExtensions: ["jpg", "png", "jpeg", "gif"],
+        withCredentials: false,
+        format: "json",
+        method: "POST",
+        url: "https://aiworks.vn/api/v3/communication-images/image",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+        },
+        // prepareData: function (formData) {
+        //   return formData;
+        // },
+        isSuccess: function (resp) {
+          return resp;
+        },
+        getMsg: function (resp) {
+          return resp.message.join !== undefined
+            ? resp.message.join(" ")
+            : resp.message;
+        },
+        process: function (resp) {
+          return {
+            files: [resp.data],
+            path: "",
+            baseurl: "",
+            error: resp.error ? 1 : 0,
+            msg: resp.msg,
+          };
+        },
+        defaultHandlerSuccess: function (data, resp) {
+          const files = data.files || [];
+          if (files.length) {
+            this.selection.insertImage(files[0], null, 250);
+          }
+        },
+        defaultHandlerError: function (resp) {
+          this.events.fire("error", this.i18n(resp.message));
+        },
+      },
     }),
     []
   );
