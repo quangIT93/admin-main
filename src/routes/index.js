@@ -35,6 +35,12 @@ import {
 import Company from "pages/Company";
 import CompanyDetail from "pages/Company/CompanyDetail";
 import SendMailPage from "pages/SendMail/SendMail";
+import CompanyDescription from "pages/Template/CompanyDescription";
+import CompanyDescriptionDetail from "pages/Template/CompanyDescription/CompanyDescriptionDetail";
+import CreateCompanyDescription from "pages/Template/CompanyDescription/CreateCompanyDescription";
+import JobDescription from "pages/Template/JobDescription";
+import CreateJobDescription from "pages/Template/JobDescription/CreateJobDescription";
+import JobDescriptionDetail from "pages/Template/JobDescription/JobDescriptionDetail";
 // import UserPoint from "pages/UserPoint";
 // import UserPointDetail from "pages/UserPoint/UserPointDetail";
 
@@ -199,6 +205,36 @@ const publicRoutes = [
   //   component: UserPointDetail,
   //   layout: MainLayout,
   // },
+  {
+    path: routes.jobDescriptionTemplate,
+    component: JobDescription,
+    layout: MainLayout,
+  },
+  {
+    path: routes.jobDescriptionTemplateDetail,
+    component: JobDescriptionDetail,
+    layout: MainLayout,
+  },
+  {
+    path: routes.jobDescriptionTemplateCreate,
+    component: CreateJobDescription,
+    layout: MainLayout,
+  },
+  {
+    path: routes.companyDescriptionTemplate,
+    component: CompanyDescription,
+    layout: MainLayout,
+  },
+  {
+    path: routes.companyDescriptionTemplateDetail,
+    component: CompanyDescriptionDetail,
+    layout: MainLayout,
+  },
+  {
+    path: routes.companyDescriptionTemplateCreate,
+    component: CreateCompanyDescription,
+    layout: MainLayout,
+  },
 ];
 
 export { publicRoutes };

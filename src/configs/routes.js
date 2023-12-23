@@ -33,6 +33,13 @@ const routes = {
   companyDetail: "admin/company/:id",
   // point: "/admin/point",
   // pointDetail: "/admin/point/:id",
+  jobDescriptionTemplate: "/admin/template/job-description",
+  jobDescriptionTemplateDetail: "admin/template/job-description/:id",
+  jobDescriptionTemplateCreate: "/admin/template/job-description/create",
+  companyDescriptionTemplate: "/admin/template/company-description",
+  companyDescriptionTemplateDetail: "/admin/template/company-description/:id",
+  companyDescriptionTemplateCreate:
+    "/admin/template/company-description/create",
 };
 
 export default routes;

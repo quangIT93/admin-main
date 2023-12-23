@@ -11,7 +11,7 @@ import {
 
 import { FiCreditCard } from "react-icons/fi";
 import { BsCurrencyDollar, BsShield } from "react-icons/bs";
-import { GiSevenPointedStar } from "react-icons/gi";
+import { TbTemplate } from "react-icons/tb";
 import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
@@ -120,6 +120,21 @@ export const superAdminTabs = [
         path: "/admin/send-mail",
         name: "Gửi mail",
         icon: <EmailOutlined />,
+      },
+      {
+        path: "/admin",
+        name: "Template",
+        icon: <TbTemplate style={{ width: "27px", height: "27px" }} />,
+        subLinks: [
+          {
+            path: routes.jobDescriptionTemplate,
+            name: "Job description",
+          },
+          {
+            path: routes.companyDescriptionTemplate,
+            name: "Company description",
+          },
+        ],
       },
     ],
   },
