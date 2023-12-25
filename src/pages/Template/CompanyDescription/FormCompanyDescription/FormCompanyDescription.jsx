@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import { TextField } from "components";
 import { useTheme } from "@mui/material/styles";
+import Skeleton from "@mui/material/Skeleton";
 
 import { useForm } from "react-hook-form";
 import { axios } from "configs";
@@ -82,7 +83,7 @@ const FormCompanyDescription = ({
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
-          {parentCategory.length > 0 && (
+          {parentCategory.length > 0 ? (
             <TextField
               select
               fullWidth
@@ -112,6 +113,8 @@ const FormCompanyDescription = ({
                 </MenuItem>
               ))}
             </TextField>
+          ) : (
+            <Skeleton variant="rounded" width="100%" height={60} />
           )}
 
           <TextField

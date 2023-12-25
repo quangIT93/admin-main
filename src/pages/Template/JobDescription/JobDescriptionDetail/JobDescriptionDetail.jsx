@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
-import { TextField } from "components";
+import { TextField, ConfirmDialog } from "components";
 
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ import moment from "moment";
 import FormJobDescription from "../FormJobDescription";
 import { toast } from "react-toastify";
 import { routes } from "configs";
+import jobDescriptionApi from "api/JobDescriptionApi";
 
 const Item = styled(Box)(({ theme }) => ({
   textarea: {
@@ -32,19 +33,12 @@ const JobDescriptionDetail = () => {
 
   const [template, setTemplate] = useState(null);
   const [isNotEdit, setIsNotEdit] = useState(true);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        const data = await axios.get(
-          `http://localhost:8000/api/v3/category-description-templates/${id}`,
-          {
-            headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMzE1MTQxNiwiZXhwIjoxNzA2NzUxNDE2fQ.5NDg2F_NzK6qHvwRhg4Ag5GGzCpucb9C6vqHksn4Akk",
-            },
-          }
-        );
+        const data = await jobDescriptionApi.getJobDescriptionDetail(id);
         setTemplate(data.data);
       } catch (error) {
         throw error;
@@ -54,16 +48,7 @@ const JobDescriptionDetail = () => {
 
   const onSubmit = async (data) => {
     try {
-      await axios.put(
-        `http://localhost:8000/api/v3/category-description-templates/${id}/by-admin`,
-        data,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMzE1MTQxNiwiZXhwIjoxNzA2NzUxNDE2fQ.5NDg2F_NzK6qHvwRhg4Ag5GGzCpucb9C6vqHksn4Akk",
-          },
-        }
-      );
+      await jobDescriptionApi.updateJobDescription(id, data);
       toast.success("Update successful");
       setIsNotEdit(true);
     } catch (error) {
@@ -73,15 +58,8 @@ const JobDescriptionDetail = () => {
 
   const handleRemoveTemplate = async () => {
     try {
-      await axios.delete(
-        `http://localhost:8000/api/v3/category-description-templates/${id}/by-admin`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMzE1MTQxNiwiZXhwIjoxNzA2NzUxNDE2fQ.5NDg2F_NzK6qHvwRhg4Ag5GGzCpucb9C6vqHksn4Akk",
-          },
-        }
-      );
+      await jobDescriptionApi.deleteJobDescription(id);
+      setIsNotEdit(true);
       toast.success("Delete successful");
       navigate(routes.jobDescriptionTemplate);
     } catch (error) {
@@ -142,7 +120,7 @@ const JobDescriptionDetail = () => {
             variant="outlined"
             color="error"
             size="medium"
-            onClick={handleRemoveTemplate}
+            onClick={() => setShowConfirmModal(true)}
           >
             Delete
           </Button>
@@ -169,7 +147,7 @@ const JobDescriptionDetail = () => {
             <TextField
               label="Creation date"
               variant="outlined"
-              value={moment(template.createAt).format("DD/MM/YYYY HH:mm:ss")}
+              value={moment(template.createdAt).format("DD/MM/YYYY HH:mm:ss")}
               InputProps={{
                 readOnly: true,
               }}
@@ -184,6 +162,17 @@ const JobDescriptionDetail = () => {
         value={template}
         onSubmitProp={onSubmit}
       />
+
+      <Box sx={{ maxWidth: "600px" }}>
+        <ConfirmDialog
+          isOpen={showConfirmModal}
+          onClose={() => setShowConfirmModal(false)}
+          onClickConfirm={handleRemoveTemplate}
+          title="Xóa mẫu mô tả công việc"
+          text="
+            Bạn có chắc chắn xóa mẫu mô tả công việc"
+        />
+      </Box>
     </Box>
   );
 };

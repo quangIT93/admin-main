@@ -9,6 +9,7 @@ import TableCustom from "components/Table/TableCustom";
 import jobDescriptionTemplateColumns from "configs/table/jobDescritionTemplateCoumn";
 import { Link } from "react-router-dom";
 import { routes } from "configs";
+import jobDescriptionApi from "api/JobDescriptionApi";
 
 const JobDescription = () => {
   const [templates, setTemplates] = useState([]);
@@ -17,15 +18,8 @@ const JobDescription = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await axios.get(
-        "http://localhost:8000/api/v3/category-description-templates/by-admin",
-        {
-          headers: {
-            Authorization: ` Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMjk1MTE0NSwiZXhwIjoxNzA2NTUxMTQ1fQ.Uy9BaY2jRON13C81DZOTrkxtbcFYJWO3tdCAcwNUTrM`,
-          },
-        }
-      );
-      setTemplates(data.data);
+      const data = await jobDescriptionApi.getListJobDescription();
+      setTemplates(data);
     })();
   }, []);
 

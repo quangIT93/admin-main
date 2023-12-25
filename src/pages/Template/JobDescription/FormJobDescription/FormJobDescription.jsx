@@ -6,7 +6,7 @@ import { TextField } from "components";
 import MenuItem from "@mui/material/MenuItem";
 import ListSubheader from "@mui/material/ListSubheader";
 import { useTheme } from "@mui/material/styles";
-
+import Skeleton from "@mui/material/Skeleton";
 import { useForm } from "react-hook-form";
 import { axios } from "configs";
 
@@ -96,7 +96,7 @@ const FormJobDescription = ({
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
-          {categories.length > 0 && (
+          {categories.length > 0 ? (
             <TextField
               select
               fullWidth
@@ -124,6 +124,8 @@ const FormJobDescription = ({
             >
               {categories.map((category) => renderSelectGroup(category))}
             </TextField>
+          ) : (
+            <Skeleton variant="rounded" width="100%" height={60} />
           )}
           <TextField
             label="Title"

@@ -10,13 +10,13 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 
 // import { useForm } from "react-hook-form";
-import { TextField } from "components";
+import { ConfirmDialog, TextField } from "components";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 import FormCompanyDescription from "../FormCompanyDescription";
-import axios from "axios";
 import { routes } from "configs";
+import companyDescriptionApi from "api/companyDescriptionApi";
 
 const Item = styled(Box)(({ theme }) => ({
   textarea: {
@@ -32,34 +32,18 @@ const CompanyDescriptionDetail = () => {
 
   const [template, setTemplate] = useState(null);
   const [isNotEdit, setIsNotEdit] = useState(true);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const data = await axios.get(
-        `http://localhost:8000/api/v3/company-description-templates/${id}`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMzE1MTQxNiwiZXhwIjoxNzA2NzUxNDE2fQ.5NDg2F_NzK6qHvwRhg4Ag5GGzCpucb9C6vqHksn4Akk",
-          },
-        }
-      );
+      const data = await companyDescriptionApi.getCompanyDescriptionDetail(id);
       setTemplate(data.data);
     })();
   }, [id]);
 
   const onSubmit = async (data) => {
     try {
-      await axios.put(
-        `http://localhost:8000/api/v3/company-description-templates/${id}/by-admin`,
-        data,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMzE1MTQxNiwiZXhwIjoxNzA2NzUxNDE2fQ.5NDg2F_NzK6qHvwRhg4Ag5GGzCpucb9C6vqHksn4Akk",
-          },
-        }
-      );
+      await companyDescriptionApi.updateCompanyDescription(id, data);
       toast.success("Update successful");
       setIsNotEdit(true);
     } catch (error) {
@@ -69,16 +53,8 @@ const CompanyDescriptionDetail = () => {
 
   const handleRemoveTemplate = async () => {
     try {
-      await axios.delete(
-        `http://localhost:8000/api/v3/company-description-templates/${id}/by-admin`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMzE1MTQxNiwiZXhwIjoxNzA2NzUxNDE2fQ.5NDg2F_NzK6qHvwRhg4Ag5GGzCpucb9C6vqHksn4Akk",
-          },
-        }
-      );
-
+      await companyDescriptionApi.deleteCompanyDescription(id);
+      setIsNotEdit(true);
       toast.success("Delete successful");
       navigate(routes.companyDescriptionTemplate);
     } catch (error) {
@@ -149,7 +125,7 @@ const CompanyDescriptionDetail = () => {
               variant="outlined"
               color="error"
               size="medium"
-              onClick={handleRemoveTemplate}
+              onClick={() => setShowConfirmModal(true)}
             >
               Delete
             </Button>
@@ -176,7 +152,7 @@ const CompanyDescriptionDetail = () => {
               <TextField
                 label="Creation date"
                 variant="outlined"
-                value={moment(template.createAt).format("DD/MM/YYYY HH:mm:ss")}
+                value={moment(template.createdAt).format("DD/MM/YYYY HH:mm:ss")}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -191,6 +167,17 @@ const CompanyDescriptionDetail = () => {
           isNotEdit={isNotEdit}
           value={template}
         />
+
+        <Box sx={{ maxWidth: "600px" }}>
+          <ConfirmDialog
+            isOpen={showConfirmModal}
+            onClose={() => setShowConfirmModal(false)}
+            onClickConfirm={handleRemoveTemplate}
+            title="Xóa mẫu mô tả công việc"
+            text="
+            Bạn có chắc chắn xóa mẫu mô tả công việc"
+          />
+        </Box>
       </Box>
     </Box>
   );

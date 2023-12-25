@@ -7,9 +7,10 @@ import Button from "@mui/material/Button";
 
 import companyDescriptionTemplateColumns from "configs/table/companyDescriptionTemplate";
 import TableCustom from "components/Table/TableCustom";
-import axios from "axios";
+
 import { Link } from "react-router-dom";
 import { routes } from "configs";
+import companyDescriptionApi from "api/companyDescriptionApi";
 
 const CompanyDescription = () => {
   const [templates, setTemplates] = useState([]);
@@ -18,15 +19,8 @@ const CompanyDescription = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await axios.get(
-        "http://localhost:8000/api/v3/company-description-templates/by-admin",
-        {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMThhOGJiLWUyMWUtNDBhMC05ZjQxLTQ5ZDY3NmRiOWY0YSIsInJvbGUiOjEsImlhdCI6MTcwMjk1MTE0NSwiZXhwIjoxNzA2NTUxMTQ1fQ.Uy9BaY2jRON13C81DZOTrkxtbcFYJWO3tdCAcwNUTrM`,
-          },
-        }
-      );
-      setTemplates(data.data);
+      const data = await companyDescriptionApi.getListCompanyDescription();
+      setTemplates(data);
     })();
   }, []);
   return (
