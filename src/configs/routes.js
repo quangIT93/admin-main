@@ -33,6 +33,7 @@ const routes = {
   companyDetail: "admin/company/:id",
   // point: "/admin/point",
   // pointDetail: "/admin/point/:id",
+  templateMain: "/admin/template",
   jobDescriptionTemplate: "/admin/template/job-description",
   jobDescriptionTemplateDetail: "admin/template/job-description/:id",
   jobDescriptionTemplateCreate: "/admin/template/job-description/create",

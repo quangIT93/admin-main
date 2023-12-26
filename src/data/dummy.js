@@ -122,7 +122,7 @@ export const superAdminTabs = [
         icon: <EmailOutlined />,
       },
       {
-        path: "/admin",
+        path: routes.templateMain,
         name: "Template",
         icon: <TbTemplate style={{ width: "27px", height: "27px" }} />,
         subLinks: [

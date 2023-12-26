@@ -35,6 +35,7 @@ import {
 import Company from "pages/Company";
 import CompanyDetail from "pages/Company/CompanyDetail";
 import SendMailPage from "pages/SendMail/SendMail";
+import TemplateMain from "pages/Template";
 import CompanyDescription from "pages/Template/CompanyDescription";
 import CompanyDescriptionDetail from "pages/Template/CompanyDescription/CompanyDescriptionDetail";
 import CreateCompanyDescription from "pages/Template/CompanyDescription/CreateCompanyDescription";
@@ -205,6 +206,11 @@ const publicRoutes = [
   //   component: UserPointDetail,
   //   layout: MainLayout,
   // },
+  {
+    path: routes.templateMain,
+    component: TemplateMain,
+    layout: MainLayout,
+  },
   {
     path: routes.jobDescriptionTemplate,
     component: JobDescription,
