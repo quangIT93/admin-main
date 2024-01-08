@@ -18,6 +18,7 @@ const CreateCompanyDescription = () => {
       throw error;
     }
   };
+
   return (
     <>
       <Box

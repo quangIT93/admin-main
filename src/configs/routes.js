@@ -7,6 +7,8 @@ const routes = {
   postsList: "/admin/posts",
   postDetail: "/admin/posts/:id",
   createPost: "/admin/posts/create",
+  media: "/admin/posts/media",
+  mediaCreate: "/admin/posts/media/:id",
   accountList: "/admin/accounts",
   accountDetail: "/admin/accounts/:id",
   banner: "/admin/banners",

@@ -20,6 +20,7 @@ import {
   PostCategories,
   ImageList,
 } from "components";
+
 import { applicationsOfPostColumns } from "configs/table";
 import { ArrowLeft } from "components/Icons";
 import updatePostValidation from "validations/post/update";
@@ -34,7 +35,7 @@ const PostDetail = () => {
   const role = localStorage.getItem("role");
   const [currentPage, setCurrentPage] = useState(1);
   const [postData, setPostData] = useState();
-  const [modifyLimit, setModifyLimit] = useState(10)
+  const [modifyLimit, setModifyLimit] = useState(10);
   const [checkData, setCheckData] = useState(false);
   const [basicInformation, setBasicInformation] = useState(null);
   const [postCategories, setPostCategories] = useState([]);
@@ -119,8 +120,7 @@ const PostDetail = () => {
 
   // GET APPLICATIONS
   const fetchApplicationsOfPostData = async (id) => {
-
-    let limitNumber = +modifyLimit ? +modifyLimit : 10
+    let limitNumber = +modifyLimit ? +modifyLimit : 10;
 
     const res = await axios.get(`/v1/history/recruiter/${id}/applications`);
 
@@ -197,7 +197,7 @@ const PostDetail = () => {
 
     // VALIDATION
     const validationRes = updatePostValidation(data);
-    
+
     if (validationRes.isError) {
       return toast.warn(validationRes.message);
     }
@@ -240,19 +240,19 @@ const PostDetail = () => {
 
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
-  }
+  };
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
-  }
+  };
 
   const handleOnchangeLimit = (limit) => {
     setModifyLimit(limit);
-  }
+  };
 
   const handleSearchFilterParent = (search) => {
     console.log(search);
-  }
+  };
 
   return (
     <Box sx={{ padding: "1rem" }}>

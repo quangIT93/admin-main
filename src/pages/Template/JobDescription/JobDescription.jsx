@@ -38,7 +38,7 @@ const JobDescription = () => {
         alignItems="center"
         mb={2}
       >
-        <Typography variant="h2">Company Description Template</Typography>
+        <Typography variant="h2">Category Description Template</Typography>
 
         <Box>
           <Link to={routes.jobDescriptionTemplateCreate}>

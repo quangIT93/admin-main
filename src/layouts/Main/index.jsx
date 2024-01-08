@@ -36,13 +36,12 @@ const MainLayout = ({ children }) => {
             backgroundColor: theme.palette.background.main,
             minHeight: "100vh",
             width: "100%",
-            padding:
-              localStorage.getItem("role")
-                ? {
-                    xs: `calc(${theme.height.navbar} + 1rem) 1rem 1rem 0`,
-                    lg: `calc(${theme.height.navbar} + 1rem) 1rem 1rem calc(${theme.width.sidebar})`,
-                  }
-                : `calc(${theme.height.navbar} + 1rem) 1rem 1rem 1rem`,
+            padding: localStorage.getItem("role")
+              ? {
+                  xs: `calc(${theme.height.navbar} + 1rem) 1rem 1rem 0`,
+                  lg: `calc(${theme.height.navbar} + 1rem) 1rem 1rem calc(${theme.width.sidebar})`,
+                }
+              : `calc(${theme.height.navbar} + 1rem) 1rem 1rem 1rem`,
             transition: "all ease-in-out 0.3s",
           }}
         >

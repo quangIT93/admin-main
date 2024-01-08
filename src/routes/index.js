@@ -34,6 +34,8 @@ import {
 } from "pages";
 import Company from "pages/Company";
 import CompanyDetail from "pages/Company/CompanyDetail";
+import CreateMedia from "pages/Post/CreateMedia";
+import Media from "pages/Post/Media";
 import SendMailPage from "pages/SendMail/SendMail";
 import TemplateMain from "pages/Template";
 import CompanyDescription from "pages/Template/CompanyDescription";
@@ -42,6 +44,7 @@ import CreateCompanyDescription from "pages/Template/CompanyDescription/CreateCo
 import JobDescription from "pages/Template/JobDescription";
 import CreateJobDescription from "pages/Template/JobDescription/CreateJobDescription";
 import JobDescriptionDetail from "pages/Template/JobDescription/JobDescriptionDetail";
+
 // import UserPoint from "pages/UserPoint";
 // import UserPointDetail from "pages/UserPoint/UserPointDetail";
 
@@ -59,6 +62,16 @@ const publicRoutes = [
   {
     path: routes.postsList,
     component: PostsListPage,
+    layout: MainLayout,
+  },
+  {
+    path: routes.media,
+    component: Media,
+    layout: MainLayout,
+  },
+  {
+    path: routes.mediaCreate,
+    component: CreateMedia,
     layout: MainLayout,
   },
   {

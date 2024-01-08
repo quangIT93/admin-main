@@ -66,6 +66,10 @@ export const superAdminTabs = [
             name: "Tất cả",
           },
           {
+            path: "/admin/posts/media",
+            name: "Media",
+          },
+          {
             path: "/admin/posts/create",
             name: "Tạo mới",
           },
@@ -119,6 +123,11 @@ export const superAdminTabs = [
       {
         path: "/admin/send-mail",
         name: "Gửi mail",
+        icon: <EmailOutlined />,
+      },
+      {
+        path: "/admin/video",
+        name: "Video",
         icon: <EmailOutlined />,
       },
       {
