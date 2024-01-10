@@ -34,8 +34,9 @@ import {
 } from "pages";
 import Company from "pages/Company";
 import CompanyDetail from "pages/Company/CompanyDetail";
-import CreateMedia from "pages/Post/CreateMedia";
-import Media from "pages/Post/Media";
+import EditMedia from "pages/Post/Media/EditMedia";
+import CreateMedia from "pages/Post/Media/CreateMedia";
+import Media from "pages/Post/Media/Media";
 import SendMailPage from "pages/SendMail/SendMail";
 import TemplateMain from "pages/Template";
 import CompanyDescription from "pages/Template/CompanyDescription";
@@ -67,6 +68,11 @@ const publicRoutes = [
   {
     path: routes.media,
     component: Media,
+    layout: MainLayout,
+  },
+  {
+    path: routes.mediaEdit,
+    component: EditMedia,
     layout: MainLayout,
   },
   {

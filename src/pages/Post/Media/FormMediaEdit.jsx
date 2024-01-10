@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Box, Stack, Typography, Grid, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
@@ -6,63 +6,114 @@ import { useForm } from "react-hook-form";
 import { TextField } from "components";
 import { Input, Label } from "@mui/icons-material";
 import moment from "moment";
-const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
+
+const FormMediaCreate = ({
+  onSubmitProp,
+  onReset,
+  setOnReset,
+  isNotEdit = false,
+  setIsNotEdit,
+  value,
+}) => {
+  const [videoUrl, setVideoUrl] = useState(value?.video);
+  const [imageUrl, setImageUrl] = useState(value?.imageThumb);
   const theme = useTheme();
-  const [source, setSource] = useState();
-  const [imageState, setImageState] = useState({
-    mainState: "initial", // initial
-    imageUploaded: 0,
-    selectedFile: "",
-  });
+  // const [source, setSource] = useState();
+  // const [imageState, setImageState] = useState({
+  //   mainState: "initial", // initial
+  //   imageUploaded: 0,
+  //   selectedFile: "",
+  // });
 
   const defaultValues = {
+    companyId: "",
+    postId: "",
+    companyName: "",
     title: "",
-    content: "",
-    parentCategoryId: 0,
+    linkTiktok: "",
+    linkYoutube: "",
+    createdAt: "",
+    updatedAt: "",
+    image: "",
+    video: "",
   };
 
   const { handleSubmit, reset, setValue, register, formState } = useForm({
-    defaultValues,
+    defaultValues: defaultValues,
     mode: "onTouched",
   });
+
   const { errors } = formState;
 
+  useEffect(() => {
+    if (value) {
+      setValue("companyId", value.companyId);
+      setValue("postId", value.postId);
+      setValue("companyName", value.company.name);
+      setValue("title", value.post.title);
+      setValue("linkTiktok", value.linkTiktok);
+      setValue("linkYoutube", value.linkYoutube);
+      setValue(
+        "createdAt",
+        moment(value.createdAt).format("DD/MM/YYYY HH:mm:ss")
+      );
+      setValue(
+        "updatedAt",
+        moment(value.updatedAt).format("DD/MM/YYYY HH:mm:ss")
+      );
+      setValue("image", "");
+      setValue("video", "");
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (onReset) {
+      reset({
+        linkTiktok: "",
+        linkYoutube: "",
+      });
+
+      setOnReset(false);
+    }
+  }, [onReset]);
+
   const onSubmit = (data) => {
-    console.log("data");
     try {
       onSubmitProp(data);
-
-      // onReset && resetForm();
     } catch (error) {
       throw error;
     }
   };
 
-  const handleFileChange = (event) => {
-    console.log("event");
-    const file = event.target.files[0];
-    const url = URL.createObjectURL(file);
-    setSource(url);
+  const handleVideoChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file instanceof File) {
+      // setValue("video", file);
+
+      try {
+        const videoUrl = URL.createObjectURL(file);
+        setValue("video", file);
+        setVideoUrl(videoUrl);
+      } catch (error) {
+        console.error("Error creating video URL:", error);
+      }
+    }
   };
 
-  const handleUploadClick = (event) => {
-    console.log("event");
-    var file = event.target.files[0];
-    const reader = new FileReader();
-    var url = reader.readAsDataURL(file);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
-    reader.onloadend = function (e) {
-      setImageState({
-        selectedFile: [reader.result],
-      });
-    }.bind(this);
-    console.log(url); // Would see a path?
+    if (file instanceof File) {
+      try {
+        const imageUrl = URL.createObjectURL(file);
 
-    setImageState({
-      mainState: "uploaded",
-      selectedFile: event.target.files[0],
-      imageUploaded: 1,
-    });
+        setValue("image", file);
+        setImageUrl(imageUrl);
+      } catch (error) {
+        console.error("Error creating image URL:", error);
+      }
+    }
   };
 
   return (
@@ -77,28 +128,29 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
           <Grid container spacing={4}>
             <Grid item xs={12} lg={6}>
               <TextField
-                label="CompanyId"
+                label="company id"
                 type="text"
+                fullWidth
                 InputProps={{
-                  readOnly: !isNotEdit ? false : true,
+                  readOnly: true,
                 }}
-                {...register("CompanyId", {
+                {...register("companyId", {
                   required: {
                     value: true,
                     message: "companyId is require",
                   },
                 })}
-                error={!!errors.CompanyId}
-                helperText={errors.CompanyId?.message}
+                error={!!errors.companyId}
+                helperText={errors.companyId?.message}
               />
             </Grid>
 
             <Grid item xs={12} lg={6}>
               <TextField
-                label="PostId"
+                label="postId"
                 type="text"
                 InputProps={{
-                  readOnly: !isNotEdit ? false : true,
+                  readOnly: true,
                 }}
                 {...register("postId", {
                   required: {
@@ -115,7 +167,7 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
                 label="Company Name"
                 type="text"
                 InputProps={{
-                  readOnly: !isNotEdit ? false : true,
+                  readOnly: true,
                 }}
                 {...register("companyName", {
                   required: {
@@ -132,7 +184,7 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
                 label="Title post"
                 type="text"
                 InputProps={{
-                  readOnly: !isNotEdit ? false : true,
+                  readOnly: true,
                 }}
                 {...register("title", {
                   required: {
@@ -184,7 +236,7 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
               <TextField
                 label="Created at"
                 variant="outlined"
-                value={moment(213213213123).format("DD/MM/YYYY HH:mm:ss") || ""}
+                // value={moment(213213213123).format("DD/MM/YYYY HH:mm:ss") || ""}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -205,7 +257,6 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
               <TextField
                 label="Updated Date"
                 variant="outlined"
-                value={moment(213213213123).format("DD/MM/YYYY HH:mm:ss") || ""}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -215,14 +266,13 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
                     message: "Updated at is require",
                   },
                 })}
-                onChange={(e) => {}}
                 fullWidth
                 error={!!errors.updatedAt}
                 helperText={errors.updatedAt?.message}
               />
             </Grid>
 
-            <Grid item xs={12} lg={12}>
+            {/* <Grid item xs={12} lg={12}>
               <label htmlFor="file-video">
                 <Button variant="contained" component="span">
                   Chọn file video (mp4)
@@ -230,30 +280,27 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
                     id="file-video"
                     label="Video"
                     type="file"
-                    {...register("video", {
-                      required: "File video is require",
-                    })}
-                    onChange={handleFileChange}
-                    error={!!errors.video}
-                    helperText={errors.video?.message}
-                    accept=".mov,.mp4"
+                    {...register("video")}
+                    // onChange={handleVideoChange}
+                    accept="video/*"
                     style={{ display: "none" }}
+                    disabled
                   />
                 </Button>
                 <Typography variant="h6" ml={2} mt={0.5} color={"#f44336"}>
                   {errors.video?.message}
                 </Typography>
               </label>
-              {source && (
+              {videoUrl && (
                 <video
                   className="VideoInput_video"
                   width="100%"
-                  height={300}
+                  height={400}
                   controls
-                  src={source}
+                  src={videoUrl}
                 />
               )}
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={12} lg={6}>
               <label htmlFor="file-image">
@@ -263,28 +310,28 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
                     id="file-image"
                     label="image"
                     type="file"
-                    {...register("image", {
-                      required: "File picture is required",
-                    })}
-                    onChange={handleUploadClick}
-                    error={!!errors.image}
-                    helperText={errors.image?.message}
-                    multiple
                     accept="image/*"
+                    onChange={handleImageChange}
                     style={{ display: "none" }}
                   />
                 </Button>
-                <Typography variant="h6" ml={2} mt={0.5} color={"#f44336"}>
-                  {errors.image?.message}
-                </Typography>
+                {imageUrl ? (
+                  <Typography variant="h6" ml={2} my={1} color={"#f44336"}>
+                    {errors.image?.message}
+                  </Typography>
+                ) : (
+                  <></>
+                )}
               </label>
 
-              {imageState.selectedFile ? (
+              {imageUrl ? (
                 <Box sx={{ marginTop: "1rem" }}>
                   <img
-                    width="150px"
-                    height="200px"
-                    src={imageState.selectedFile}
+                    width="300px"
+                    height="420px"
+                    src={imageUrl}
+                    alt="Selected Image"
+                    style={{ objectFit: "cover", border: "1px solid #ccc" }}
                   />
                 </Box>
               ) : (
@@ -293,14 +340,18 @@ const FormMediaCreate = ({ onSubmitProp, onReset, isNotEdit }) => {
             </Grid>
           </Grid>
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="success"
-            size="large"
-          >
-            Submit
-          </Button>
+          {!isNotEdit ? (
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              size="large"
+            >
+              Submit
+            </Button>
+          ) : (
+            <></>
+          )}
         </Stack>
       </form>
     </Box>

@@ -19,6 +19,7 @@ const JobDescription = () => {
   useEffect(() => {
     (async () => {
       const data = await jobDescriptionApi.getListJobDescription();
+      console.log("Data", data);
       setTemplates(data);
     })();
   }, []);

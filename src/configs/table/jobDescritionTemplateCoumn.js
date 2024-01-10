@@ -51,7 +51,7 @@ const jobDescriptionTemplateColumns = [
     minWidth: 100,
     filterable: true,
     renderCell: (params) =>
-      moment(params.row.createAt).format("DD/MM/YYYY HH:mm"),
+      moment(params.row.createdAt).format("DD/MM/YYYY HH:mm"),
   },
 ];
 

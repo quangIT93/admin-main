@@ -12,7 +12,7 @@ const MediaListColumns = [
     filterable: true,
     renderCell: (params) => (
       <Link
-        target="_blank"
+        target="_parent"
         to={`/admin/posts/media/${params.row.id}`}
         style={{
           padding: "0.5rem 4rem 0.5rem 0",
@@ -24,12 +24,13 @@ const MediaListColumns = [
     ),
   },
   {
-    field: "company_name",
+    field: "company",
     headerName: "Công ty",
     type: "string",
     flex: 1,
     minWidth: 150,
     filterable: true,
+    renderCell: (params) => params.row.company.name,
   },
   {
     field: "title",
@@ -38,31 +39,19 @@ const MediaListColumns = [
     flex: 1,
     minWidth: 150,
     filterable: true,
+    renderCell: (params) => params.row.post.title,
   },
-  // {
-  //   field: "province",
-  //   headerName: "Thành phố",
-  //   type: "string",
-  //   flex: 1,
-  //   minWidth: 150,
-  //   // renderCell: (params) =>
-  //   //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
-  // },
   {
-    field: "link_tiktok",
+    field: "linkTiktok",
     headerName: "Url Tiktok",
     flex: 0.75,
     minWidth: 100,
-    // renderCell: (params) =>
-    //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
   },
   {
-    field: "link_youtube",
+    field: "linkYoutube",
     headerName: "Url Youtube",
     flex: 1,
     minWidth: 100,
-    // renderCell: (params) =>
-    //   moment(params.row.created_at).format("DD/MM/YYYY HH:mm:ss"),
   },
   {
     field: "status",
@@ -81,15 +70,6 @@ const MediaListColumns = [
       }
     },
   },
-  // {
-  //   field: "created_at",
-  //   headerName: "Ngày tạo",
-  //   type: "string",
-  //   flex: 1,
-  //   minWidth: 150,
-  //   renderCell: (params) =>
-  //     moment(params.row.created_at).format("DD/MM/YYYY HH:mm"),
-  // },
 ];
 
 export default MediaListColumns;

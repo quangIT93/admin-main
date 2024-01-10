@@ -126,11 +126,6 @@ export const superAdminTabs = [
         icon: <EmailOutlined />,
       },
       {
-        path: "/admin/video",
-        name: "Video",
-        icon: <EmailOutlined />,
-      },
-      {
         path: routes.templateMain,
         name: "Template",
         icon: <TbTemplate style={{ width: "27px", height: "27px" }} />,
