@@ -28,7 +28,7 @@ const FormMediaCreate = ({
   const defaultValues = {
     companyId: value.companyId,
     postId: value.postId,
-    companyName: value.company.nam,
+    companyName: value.company.name,
     title: value.post.title,
     linkTiktok: value.linkTiktok,
     linkYoutube: value.linkYoutube,
