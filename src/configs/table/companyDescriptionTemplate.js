@@ -48,7 +48,7 @@ const companyDescriptionTemplateColumns = [
     minWidth: 150,
     filterable: true,
     renderCell: (params) =>
-      moment(params.row.createAt).format("DD/MM/YYYY HH:mm"),
+      moment(params.row.createdAt).format("DD/MM/YYYY HH:mm"),
   },
 ];
 

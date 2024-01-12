@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import { Box, Collapse, List, ListItemButton, Typography } from "@mui/material";
@@ -35,7 +35,6 @@ const Sidebar = () => {
           sidebarRef.current.style.opacity = 0;
         }
       }
-
     });
     return () => window.removeEventListener("resize", resizeEventId);
   }, []);
@@ -112,76 +111,76 @@ const Sidebar = () => {
           </Box>
         </Box>
       </Box>
-      
+
       <Box className={cx("links")}>
-        {tabs && tabs.map((link) => (
-          <Box className={cx("link-item")} key={link.title}>
-            <Typography>{link.title}</Typography>
-            {link.links.map((link) => (
-              <>
-                <ListItemButton
-                  sx={{
-                    "&.Mui-selected": {
-                      backgroundColor: theme.palette.background.active,
-                    },
-                  }}
-                >
-                  <Link
-                    to={`${link.path}`}
-                    key={link.name}
-                    onClick={() => handleOnClickLink(link.name)}
-                    style={{ width: "100%" }}
+        {tabs &&
+          tabs.map((link) => (
+            <Box className={cx("link-item")} key={link.title}>
+              <Typography>{link.title}</Typography>
+              {link.links.map((link, index) => (
+                <React.Fragment key={index}>
+                  <ListItemButton
+                    sx={{
+                      "&.Mui-selected": {
+                        backgroundColor: theme.palette.background.active,
+                      },
+                    }}
                   >
-                    <Box
-                      sx={[
-                        {
-                          color:
-                            navLinkActived === link.name
-                              ? theme.palette.color.active
-                              : theme.palette.color.main,
-                          backgroundColor:
-                            navLinkActived === link.name
-                              ? theme.palette.background.active
-                              : theme.palette.background.main,
-                        },
-                        (theme) => ({
-                          "&:hover": {
-                            backgroundColor: theme.palette.background.hover,
-                          },
-                        }),
-                      ]}
-                      className={cx("nav-link")}
+                    <Link
+                      to={`${link.path}`}
+                      key={link.name}
+                      onClick={() => handleOnClickLink(link.name)}
+                      style={{ width: "100%" }}
                     >
-                      {link.icon}
-                      <span>{link.name}</span>
-                    </Box>
-                  </Link>
-                </ListItemButton>
-                {
-                  link.subLinks && (
+                      <Box
+                        sx={[
+                          {
+                            color:
+                              navLinkActived === link.name
+                                ? theme.palette.color.active
+                                : theme.palette.color.main,
+                            backgroundColor:
+                              navLinkActived === link.name
+                                ? theme.palette.background.active
+                                : theme.palette.background.main,
+                          },
+                          (theme) => ({
+                            "&:hover": {
+                              backgroundColor: theme.palette.background.hover,
+                            },
+                          }),
+                        ]}
+                        className={cx("nav-link")}
+                      >
+                        {link.icon}
+                        <span>{link.name}</span>
+                      </Box>
+                    </Link>
+                  </ListItemButton>
+                  {link.subLinks && (
                     <Collapse in={true} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
-                        {link.subLinks.map((subLink) => (
+                        {link.subLinks.map((subLink, index) => (
                           <ListItemButton
                             sx={{
                               "&.Mui-selected": {
-                                backgroundColor: theme.palette.background.active,
+                                backgroundColor:
+                                  theme.palette.background.active,
                               },
                             }}
+                            key={index}
                           >
                             <Link
-
                               to={`${subLink.path}`}
                               key={subLink.name}
                               onClick={() => handleOnClickLink(subLink.name)}
                               style={{ width: "100%" }}
                             >
                               <Box
-
                                 sx={[
                                   {
                                     color:
-                                      navLinkActived === subLink.name 
+                                      navLinkActived === subLink.name
                                         ? theme.palette.color.active
                                         : theme.palette.color.main,
                                     backgroundColor:
@@ -191,7 +190,8 @@ const Sidebar = () => {
                                   },
                                   (theme) => ({
                                     "&:hover": {
-                                      backgroundColor: theme.palette.background.hover,
+                                      backgroundColor:
+                                        theme.palette.background.hover,
                                     },
                                   }),
                                 ]}
@@ -205,12 +205,11 @@ const Sidebar = () => {
                         ))}
                       </List>
                     </Collapse>
-                  )
-                }
-              </>
-            ))}
-          </Box>
-        ))}
+                  )}
+                </React.Fragment>
+              ))}
+            </Box>
+          ))}
       </Box>
     </Box>
   );

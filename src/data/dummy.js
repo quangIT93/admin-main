@@ -66,6 +66,10 @@ export const superAdminTabs = [
             name: "Tất cả",
           },
           {
+            path: "/admin/posts/media",
+            name: "Media",
+          },
+          {
             path: "/admin/posts/create",
             name: "Tạo mới",
           },

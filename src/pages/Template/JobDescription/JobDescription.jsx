@@ -19,6 +19,7 @@ const JobDescription = () => {
   useEffect(() => {
     (async () => {
       const data = await jobDescriptionApi.getListJobDescription();
+      console.log("Data", data);
       setTemplates(data);
     })();
   }, []);
@@ -38,7 +39,7 @@ const JobDescription = () => {
         alignItems="center"
         mb={2}
       >
-        <Typography variant="h2">Company Description Template</Typography>
+        <Typography variant="h2">Category Description Template</Typography>
 
         <Box>
           <Link to={routes.jobDescriptionTemplateCreate}>
