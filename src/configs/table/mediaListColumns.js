@@ -84,9 +84,9 @@ const MediaListColumns = [
         case 2:
           return <Chip variant="outlined" color="secondary" label="Reject" />;
         case 3:
-          return <Chip variant="outlined" color="success" label="Close" />;
+          return <Chip variant="outlined" color="error" label="Close" />;
         default:
-          return <Chip variant="outlined" color="error" label="Pending" />;
+          return <Chip variant="outlined" color="warning" label="Pending" />;
       }
     },
   },
