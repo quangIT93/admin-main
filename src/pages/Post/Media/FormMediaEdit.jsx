@@ -302,42 +302,46 @@ const FormMediaCreate = ({
               )}
             </Grid> */}
 
-            <Grid item xs={12} lg={6}>
-              <label htmlFor="file-image">
-                <Button variant="contained" component="span">
-                  Chọn file image
-                  <input
-                    id="file-image"
-                    label="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    style={{ display: "none" }}
-                  />
-                </Button>
+            {!isNotEdit ? (
+              <Grid item xs={12} lg={6}>
+                <label htmlFor="file-image">
+                  <Button variant="contained" component="span">
+                    Chọn file image
+                    <input
+                      id="file-image"
+                      label="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      style={{ display: "none" }}
+                    />
+                  </Button>
+                  {imageUrl ? (
+                    <Typography variant="h6" ml={2} my={1} color={"#f44336"}>
+                      {errors.image?.message}
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                </label>
+
                 {imageUrl ? (
-                  <Typography variant="h6" ml={2} my={1} color={"#f44336"}>
-                    {errors.image?.message}
-                  </Typography>
+                  <Box sx={{ marginTop: "1rem" }}>
+                    <img
+                      width="300px"
+                      height="420px"
+                      src={imageUrl}
+                      alt="Selected Image"
+                      style={{ objectFit: "cover", border: "1px solid #ccc" }}
+                    />
+                  </Box>
                 ) : (
                   <></>
                 )}
-              </label>
-
-              {imageUrl ? (
-                <Box sx={{ marginTop: "1rem" }}>
-                  <img
-                    width="300px"
-                    height="420px"
-                    src={imageUrl}
-                    alt="Selected Image"
-                    style={{ objectFit: "cover", border: "1px solid #ccc" }}
-                  />
-                </Box>
-              ) : (
-                <></>
-              )}
-            </Grid>
+              </Grid>
+            ) : (
+              <></>
+            )}
           </Grid>
 
           {!isNotEdit ? (

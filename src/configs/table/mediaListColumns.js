@@ -70,6 +70,26 @@ const MediaListColumns = [
       }
     },
   },
+  {
+    field: "statusPost",
+    headerName: "Trạng thái bài đăng",
+    type: "string",
+    flex: 0.5,
+    minWidth: 100,
+    filterable: true,
+    renderCell: (params) => {
+      switch (params.row.statusPost) {
+        case 1:
+          return <Chip variant="outlined" color="success" label="Open" />;
+        case 2:
+          return <Chip variant="outlined" color="secondary" label="Reject" />;
+        case 3:
+          return <Chip variant="outlined" color="success" label="Close" />;
+        default:
+          return <Chip variant="outlined" color="error" label="Pending" />;
+      }
+    },
+  },
 ];
 
 export default MediaListColumns;
