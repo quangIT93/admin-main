@@ -26,14 +26,14 @@ const FormMediaCreate = ({
   // });
 
   const defaultValues = {
-    companyId: "",
-    postId: "",
-    companyName: "",
-    title: "",
-    linkTiktok: "",
-    linkYoutube: "",
-    createdAt: "",
-    updatedAt: "",
+    companyId: value.companyId,
+    postId: value.postId,
+    companyName: value.company.nam,
+    title: value.post.title,
+    linkTiktok: value.linkTiktok,
+    linkYoutube: value.linkYoutube,
+    createdAt: moment(value.createdAt).format("DD/MM/YYYY HH:mm:ss"),
+    updatedAt: moment(value.updatedAt).format("DD/MM/YYYY HH:mm:ss"),
     image: "",
     video: "",
   };
@@ -47,12 +47,12 @@ const FormMediaCreate = ({
 
   useEffect(() => {
     if (value) {
-      setValue("companyId", value.companyId);
-      setValue("postId", value.postId);
-      setValue("companyName", value.company.name);
-      setValue("title", value.post.title);
-      setValue("linkTiktok", value.linkTiktok);
-      setValue("linkYoutube", value.linkYoutube);
+      // setValue("companyId", value.companyId);
+      // setValue("postId", value.postId);
+      // setValue("companyName", value.company.name);
+      // setValue("title", value.post.title);
+      // setValue("linkTiktok", value.linkTiktok);
+      // setValue("linkYoutube", value.linkYoutube);
       setValue(
         "createdAt",
         moment(value.createdAt).format("DD/MM/YYYY HH:mm:ss")
@@ -115,6 +115,8 @@ const FormMediaCreate = ({
       }
     }
   };
+
+  console.log("imageUrl", imageUrl);
 
   return (
     <Box
@@ -324,25 +326,24 @@ const FormMediaCreate = ({
                     <></>
                   )}
                 </label>
-
-                {imageUrl ? (
-                  <Box sx={{ marginTop: "1rem" }}>
-                    <img
-                      width="300px"
-                      height="420px"
-                      src={imageUrl}
-                      alt="Selected Image"
-                      style={{ objectFit: "cover", border: "1px solid #ccc" }}
-                    />
-                  </Box>
-                ) : (
-                  <></>
-                )}
               </Grid>
             ) : (
               <></>
             )}
           </Grid>
+          {imageUrl ? (
+            <Box sx={{ marginTop: "1rem" }}>
+              <img
+                width="300px"
+                height="420px"
+                src={imageUrl}
+                alt="Selected Image"
+                style={{ objectFit: "cover", border: "1px solid #ccc" }}
+              />
+            </Box>
+          ) : (
+            <></>
+          )}
 
           {!isNotEdit ? (
             <Button
