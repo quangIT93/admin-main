@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { Box, Stack, Typography, Grid, Button } from "@mui/material";
+import { Box, Stack, Typography, Grid, Button, MenuItem } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 
@@ -32,11 +33,27 @@ const FormMediaCreate = ({
     title: value.post.title,
     linkTiktok: value.linkTiktok,
     linkYoutube: value.linkYoutube,
+    status: value.status,
     createdAt: moment(value.createdAt).format("DD/MM/YYYY HH:mm:ss"),
     updatedAt: moment(value.updatedAt).format("DD/MM/YYYY HH:mm:ss"),
     image: "",
     video: "",
   };
+
+  const dataStatus = [
+    {
+      id: 0,
+      name: "Pending",
+    },
+    {
+      id: 1,
+      name: "Success",
+    },
+    {
+      id: 2,
+      name: "Closed",
+    },
+  ];
 
   const { handleSubmit, reset, setValue, register, formState } = useForm({
     defaultValues: defaultValues,
@@ -74,10 +91,12 @@ const FormMediaCreate = ({
       });
 
       setOnReset(false);
+      setImageUrl(null);
     }
   }, [onReset]);
 
   const onSubmit = (data) => {
+    console.log("Data", data);
     try {
       onSubmitProp(data);
     } catch (error) {
@@ -115,8 +134,6 @@ const FormMediaCreate = ({
       }
     }
   };
-
-  console.log("imageUrl", imageUrl);
 
   return (
     <Box
@@ -236,6 +253,39 @@ const FormMediaCreate = ({
 
             <Grid item xs={12} lg={6}>
               <TextField
+                label="Status"
+                select
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+                {...register("status", {
+                  required: {
+                    value: true,
+                    message: "status is require",
+                  },
+                })}
+                defaultValue={value.status}
+                error={!!errors.status}
+                helperText={errors.status?.message}
+                SelectProps={{
+                  MenuProps: {
+                    sx: {
+                      maxHeight: "50%",
+                    },
+                  },
+                }}
+              >
+                {dataStatus.map((status) => (
+                  <MenuItem key={status.id} value={status.id}>
+                    {status.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            <Grid item xs={12} lg={6}>
+              <TextField
                 label="Created at"
                 variant="outlined"
                 // value={moment(213213213123).format("DD/MM/YYYY HH:mm:ss") || ""}
@@ -305,7 +355,7 @@ const FormMediaCreate = ({
             </Grid> */}
 
             {!isNotEdit ? (
-              <Grid item xs={12} lg={6}>
+              <Grid item xs={12} lg={12}>
                 <label htmlFor="file-image">
                   <Button variant="contained" component="span">
                     Chọn file image
