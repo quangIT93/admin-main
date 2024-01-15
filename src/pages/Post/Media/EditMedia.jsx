@@ -43,6 +43,7 @@ const CreateMedia = () => {
 
       const data = await mediaApi.putPostMedia(id, dataForm);
       if (data) {
+        navigate(routes.media);
         return toast.success("Create successful");
       }
     } catch (error) {
@@ -70,6 +71,24 @@ const CreateMedia = () => {
     setOnReset(true);
   };
 
+  const handleClose = async (id, status) => {
+    try {
+      const data = await mediaApi.closePostMedia(id, { status });
+      if (data.statusCode === 200 && status === 2) {
+        setIsNotEdit(true);
+        navigate(routes.media);
+        toast.success("Closed successful");
+      } else if (data.statusCode === 200 && status === 1) {
+        setIsNotEdit(true);
+        navigate(routes.media);
+        toast.success("Open successful");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      throw error;
+    }
+  };
+  console.log("media", medias);
   return (
     <Box
       sx={{
@@ -114,6 +133,17 @@ const CreateMedia = () => {
               Edit
             </Button>
           )}
+
+          <Button
+            variant="outlined"
+            color="primary"
+            size="medium"
+            onClick={() => {
+              handleClose(id, medias.status === 1 ? 2 : 1);
+            }}
+          >
+            {medias.status === 1 ? "Close" : "Open"}
+          </Button>
           <Button
             variant="outlined"
             color="error"

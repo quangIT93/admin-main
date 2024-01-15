@@ -20,6 +20,10 @@ const mediaApi = {
   deletePostMedia: (id) => {
     return axios.delete(`/v3/post-medias/${id}`);
   },
+
+  closePostMedia: (id, body) => {
+    return axios.put(`/v3/post-medias/${id}`, body);
+  },
 };
 
 export default mediaApi;

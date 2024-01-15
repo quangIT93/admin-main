@@ -8,14 +8,14 @@ const CreateMedia = () => {
   const [isNotEdit, setIsNotEdit] = useState(true);
   const theme = useTheme();
   const onSubmit = async (data) => {
-    const { postId, linkTiktok, linkYoutube, image, video } = data;
+    const { postId, linkTiktok, linkYoutube, image, video, status } = data;
+    console.log("status", status);
     try {
       const dataForm = new FormData();
       dataForm.append("postId", postId);
       dataForm.append("linkTiktok", linkTiktok);
       dataForm.append("linkYoutube", linkYoutube);
       if (image) {
-        dataForm.append("image", image);
       }
       const data = await mediaApi.postPostMedias(dataForm);
       if (data) {

@@ -363,18 +363,16 @@ const CreatePostInformations = ({
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <TimePicker
               label="Thời gian bắt đầu"
-              
               // disabled={true}
               // ampm={false}
               value={moment(post.startTime)}
-              onChange={(e) =>
-                {
-                  console.log(e._d)
+              onChange={(e) => {
+                console.log(e._d);
                 setPost((prevState) => ({
                   ...prevState,
                   startTime: new Date(e._d).getTime(),
-                }))}
-              }
+                }));
+              }}
               renderInput={(params) => <TextField {...params} fullWidth />}
             />
           </LocalizationProvider>
@@ -536,7 +534,6 @@ const CreatePostInformations = ({
           />
         </Item>
       </Grid>
-      
 
       {/* Description */}
       <Grid item xs={12} lg={6}>
