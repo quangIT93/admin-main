@@ -23,13 +23,13 @@ const companyListColumn = [
       </Link>
     ),
   },
-  {
-    field: "accountId",
-    headerName: "Account Id",
-    flex: 1,
-    minWidth: 350,
-    filterable: true,
-  },
+  // {
+  //   field: "accountId",
+  //   headerName: "Account Id",
+  //   flex: 1,
+  //   minWidth: 350,
+  //   filterable: true,
+  // },
   {
     field: "logoPath",
     headerName: "Logo",
@@ -71,17 +71,40 @@ const companyListColumn = [
       }
     },
   },
+  // {
+  //   field: "companyLocation",
+  //   headerName: "Location",
+  //   flex: 1,
+  //   minWidth: 100,
+  //   filterable: true,
+  //   renderCell: (params) => {
+  //     if (!params.row.companyLocation) {
+  //       return "Location not updated yet";
+  //     }
+  //     return params.row.companyLocation.district.province.fullName;
+  //   },
+  // },
   {
-    field: "companyLocation",
-    headerName: "Location",
+    field: "amountPost",
+    headerName: "number of posts",
     flex: 1,
-    minWidth: 100,
+    minWidth: 150,
     filterable: true,
     renderCell: (params) => {
-      if (!params.row.companyLocation) {
+      return params.row.amountPost;
+    },
+  },
+  {
+    field: "email",
+    headerName: "email",
+    flex: 1,
+    minWidth: 300,
+    filterable: true,
+    renderCell: (params) => {
+      if (!params.row.email) {
         return "Location not updated yet";
       }
-      return params.row.companyLocation.district.province.fullName;
+      return params.row.email;
     },
   },
 ];
